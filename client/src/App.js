@@ -4,6 +4,7 @@ import Footer from './components/Footer.jsx';
 import './styles/main.scss';
 import React from 'react';
 import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
 
 const Layout = ({ children }) => {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <Layout>
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="/login" element={<Login />} />
                             {/* <Route
                                 path="/components"
                                 element={<Components />}
