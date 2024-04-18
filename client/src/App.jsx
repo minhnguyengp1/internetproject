@@ -3,7 +3,7 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import './styles/main.scss'
 import React from 'react'
-import Home from './pages/Home.jsx'
+import Home from './pages/home/Home.jsx'
 import Login from './pages/login/Login.jsx'
 import Register from './pages/register/Register.jsx'
 
