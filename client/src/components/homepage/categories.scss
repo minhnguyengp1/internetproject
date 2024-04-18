@@ -1,27 +1,12 @@
 .categories {
-    background: #f4f4f4;
-    min-width: 300px;
+    width: 400px;
     height: 1000px;
-    padding: 20px;
 }
 
-.categories h2 {
-    margin-bottom: 10px;
-}
-
-.categories ul {
-list-style-type: none;
-padding: 0;
+.categories span {
+    font-size: x-large;
 }
 
 .categories li {
-padding: 8px;
-background: white;
-margin-bottom: 5px;
-cursor: pointer;
-border: 1px solid #ccc;
-}
-
-.categories li:hover {
-background-color: #e9e9e9;
+    padding-bottom: 5px;
 }

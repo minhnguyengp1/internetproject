@@ -1,41 +1,20 @@
-.slideshow {
-    display: flex;
-    align-items: center;
+
+.slides {
+    display: flex !important;
     justify-content: center;
-    width: 100%;
-    padding-bottom: 10px;
-  }
-  
-  .slides {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .slide {
-    width: 30%;
-    margin: 0 5px;
-    text-align: center;
-  }
-  
-  .slide img {
-    width: 100%;  /* oder jede andere Breite */
-    height: 200px; /* oder jede andere Höhe */
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.slideshow img{
+    width: 300px;
+    height: 300px;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;
+}
 
-  }
-  
-  button {
-    border: none;
-    background: #ddd;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
-  
-  button:hover {
-    background: #ccc;
-  }
-  
+.slideshow button{
+    background-color: black !important;
+    height: 6px !important;
+}  

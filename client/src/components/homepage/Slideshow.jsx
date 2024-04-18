@@ -1,66 +1,28 @@
-import { useState } from 'react'
+import { Carousel } from 'antd'
 import './slideshow.scss'
 
+import bike1 from '../../assets/articlePhotos/bike1.jpg'
+import bike2 from '../../assets/articlePhotos/bike2.jpg'
+import bike3 from '../../assets/articlePhotos/bike3.jpg'
+import bike4 from '../../assets/articlePhotos/bike4.jpg'
+import bike5 from '../../assets/articlePhotos/bike5.jpg'
+import bike6 from '../../assets/articlePhotos/bike6.jpg'
+
 const Slideshow = () => {
-    const articles = [
-        {
-            id: 1,
-            title: 'Fahrrad 1',
-            image: require('../../assets/articlePhotos/bike1.jpg'),
-        },
-        {
-            id: 2,
-            title: 'Fahrrad 2',
-            image: require('../../assets/articlePhotos/bike2.jpg'),
-        },
-        {
-            id: 3,
-            title: 'Fahrrad 3',
-            image: require('../../assets/articlePhotos/bike3.jpg'),
-        },
-        {
-            id: 4,
-            title: 'Fahrrad 4',
-            image: require('../../assets/articlePhotos/bike4.jpg'),
-        },
-        {
-            id: 5,
-            title: 'Fahrrad 5',
-            image: require('../../assets/articlePhotos/bike5.jpg'),
-        },
-        {
-            id: 6,
-            title: 'Fahrrad 6',
-            image: require('../../assets/articlePhotos/bike6.jpg'),
-        },
-    ]
-
-    const groupedArticles = []
-    for (let i = 0; i < articles.length; i += 3) {
-        groupedArticles.push(articles.slice(i, i + 3))
-    }
-
-    const [current, setCurrent] = useState(0)
-
-    const nextSlide = () => {
-        setCurrent(current === groupedArticles.length - 1 ? 0 : current + 1)
-    }
-
-    const prevSlide = () => {
-        setCurrent(current === 0 ? groupedArticles.length - 1 : current - 1)
-    }
-
     return (
         <div className="slideshow">
-            <button onClick={prevSlide}>&lt;</button>
-            <div className="slides">
-                {groupedArticles[current].map((article) => (
-                    <div className="slide" key={article.id}>
-                        <img src={article.image} alt={article.title} />
-                    </div>
-                ))}
-            </div>
-            <button onClick={nextSlide}>&gt;</button>
+            <Carousel autoplay speed={1000} autoplaySpeed={5000}>
+                <div className="slides">
+                    <img src={bike1} alt="bike1" />
+                    <img src={bike6} alt="bike6" />
+                    <img src={bike5} alt="bike5" />
+                </div>
+                <div className="slides">
+                    <img src={bike2} alt="bike2" />
+                    <img src={bike4} alt="bike4" />
+                    <img src={bike3} alt="bike3" />
+                </div>
+            </Carousel>
         </div>
     )
 }
