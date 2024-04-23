@@ -38,7 +38,7 @@ const AllComp = () => {
 
 
 
-    name="createArticle"
+    name="basic"
     labelCol={{
       span: 8,
     }}
