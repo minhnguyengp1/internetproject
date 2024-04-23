@@ -1,0 +1,26 @@
+.newestArticle {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.card {
+    width: 450px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: rgb(250, 250, 250);
+    
+}
+
+
+.card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}

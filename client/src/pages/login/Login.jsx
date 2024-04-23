@@ -30,7 +30,7 @@ const Login = () => {
             await login(inputs)
             navigate('/')
         } catch (err) {
-            console.log(err.response.data)
+            console.log('err.response.data ' + err.response.data)
             setErr(err.response.data)
         }
     }

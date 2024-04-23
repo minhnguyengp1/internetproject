@@ -1,0 +1,31 @@
+.slideshow {
+    width: 1350px;
+    height: 450px;
+    border-radius: 20px;
+    background-color: rgb(235, 235, 235);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+.slides {
+    display: flex !important;
+    justify-content: center;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.slideshow img{
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.slideshow button{
+    background-color: black !important;
+    height: 6px !important;
+}  
