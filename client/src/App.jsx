@@ -6,6 +6,11 @@ import React from 'react'
 import Home from './pages/home/Home.jsx'
 import Login from './pages/login/Login.jsx'
 import Register from './pages/register/Register.jsx'
+import Article from './pages/article/Article.jsx'
+import Create from './pages/articleCreate/Create.jsx'
+
+
+
 
 const Layout = () => {
     return (
@@ -26,6 +31,18 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Home />,
             },
+
+            {
+                path: '/article',
+                element: <Article />
+
+
+            },
+
+            {
+                path: '/article/create',
+                element: <Create></Create>
+            }
             // {
             //     path: '/article/:id',
             //     element: <Article />,
@@ -44,6 +61,7 @@ const router = createBrowserRouter([
         path: '/login',
         element: <Login />,
     },
+   
 ])
 
 function App() {
