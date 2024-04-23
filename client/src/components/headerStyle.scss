@@ -1,29 +1,102 @@
 .top {
-
   width: 1400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.buttons {
+.buttonsTop {
   display: flex;
   flex-direction: row;
   width: 200px;
-  gap: 5px;
-  margin-right: 48px; //margin ist von der ganzen Webseite während padding von der ganzen Container
+  gap: 7px;
+  margin-right: 48px;
+  align-items: center;
+
+
+  span {
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: green;
+      //  color: var(--kds-sema-color-interactive);
+    }
+
+  }
 }
 
 .imageLogo {
   width: 300px;
-  margin-left: 10 px;
+  margin-left: 85px;
 }
 
 .buttonRegister {
   background-color: white;
+  cursor: pointer;
+  border: 2px solid rgb(128, 128, 128);
+  border-radius: 50px;
+  padding: 5px;
+
+  &:hover {
+    background-color: rgb(176, 250, 29);
+  }
 }
 
 .buttonEinloggen {
   border: none;
-  background-color: rgb(44, 254, 69);
+  background-color: rgb(176, 250, 29);
+  cursor: pointer;
+  border-radius: 50px;
+  padding: 5px 12px;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.down {
+  width: 98.9vw;
+  height: 50px;
+  background-color: rgb(176, 250, 29);
+}
+
+//-------------------------------------------------------------------------------------------
+
+.buttonsDown {
+  padding-top: 8px;
+  display: felx;
+  flex-direction: column;
+  margin-left: 100px;
+
+  input {
+    border: none;
+    width: 200px;
+    height: 30px;
+    margin-bottom: 15px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  input:first-child {
+    margin-right: 140px; // Hier wird ein Abstand zwischen den Inputsfelder einggefügt.
+  }
+
+  //Button-Finden
+  button {
+    margin-top: 2px;
+    margin-left: 100px; // Hier wird ein Abstand zwischen dem zweiten Inputsfeld und das Button Finden einggefügt.
+    border: none;
+    background-color: rgba(0, 128, 0, 0.836);
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 5px 12px;
+    font-weight: 700;
+    color: white;
+
+    &:hover {
+      background-color: white;
+      color: rgba(0, 128, 0, 0.836);
+    }
+  }
+
 }
