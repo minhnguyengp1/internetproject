@@ -1,7 +1,10 @@
 import React from 'react';
+import "./headerStyle.scss"
+import AppLogo from '../assets/app-logo.png'
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+    /*
     return (
         <div className="navbar">
             <div className="container">
@@ -45,6 +48,21 @@ const Header = () => {
             </div>
         </div>
     );
+    */
+
+    return(
+        <div className="top">
+            <img className="imageLogo" src={AppLogo} alt=""/>
+    
+            <form className="buttons">
+                <button className="buttonRegister"> <span><Link to="/register"> Regestrieren </Link> </span></button>
+                <span>oder</span>
+                <button className="buttonEinloggen"><Link to="/login">Einloggen</Link></button>
+            </form>
+    
+        </div>
+    
+       );
 };
 
 export default Header;
