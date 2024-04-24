@@ -1,8 +1,9 @@
 .slideshow {
-    width: 1350px;
-    height: 450px;
-    border-radius: 20px;
-    background-color: rgb(235, 235, 235);
+    width: 80%;
+    height: 350px;
+    border-top: 5px solid;
+    border-bottom: 5px solid;
+    border-color: rgb(235, 235, 235);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,16 +17,16 @@
     padding-bottom: 20px;
 }
 
-.slideshow img{
-    width: 400px;
-    height: 400px;
+.slideshow img {
+    width: 300px;
+    height: 300px;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;
     cursor: pointer;
 }
 
-.slideshow button{
+.slideshow button {
     background-color: black !important;
     height: 6px !important;
-}  
+}

@@ -1,37 +1,27 @@
 .whole {
     /* Deine anderen Stile hier */
-    
-    
     height: 700px;
     margin-left: 270px;
     margin-right: 270px;
     width: 900px;
-    
+    display: flex;
+    justify-content: center;
+}
 
-  }
-
-  a {
-
+a {
     border-bottom: 1px solid black;
     width: 100%;
     display: block;
     color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  }
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
-  
-  
-  
-  .preis {
-   
-   
-  }
-  
-  .preisEingabe {
-    
-  }
-  
-  .preisArt {
-   
-  }
+.preis {
+}
 
+.preisEingabe {
+}
+
+.preisArt {
+}
