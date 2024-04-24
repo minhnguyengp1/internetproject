@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import authRoute from './routes/auth.js';
+import authRoute from './routes/auth.route.js';
 import cors from 'cors';
-import db from './dbs/init.mongodb.js';
+import db from './dbs/init.mysql.js';
 
 dotenv.config();
 
