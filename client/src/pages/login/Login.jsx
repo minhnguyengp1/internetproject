@@ -1,38 +1,30 @@
-import { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Form, Button } from 'antd'
 import AppLogo from '../../assets/app-logo.png'
 import './login.scss'
-import { AuthContext } from '../../context/AuthContext.jsx'
+import LoginForm from '../../forms/LoginForm.jsx'
+import { loginThunk } from '../../redux/actions/authActions.js'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {
-    const [inputs, setInputs] = useState({
-        username: '',
-        password: '',
-    })
-    const [err, setErr] = useState(null)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { login } = useContext(AuthContext)
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const user = useSelector((state) => state.auth.user)
 
-    const handleChange = (e) => {
-        setInputs((prev) => {
-            return {
-                ...prev,
-                [e.target.name]: e.target.value,
-            }
-        })
-        console.log('inputs: ' + JSON.stringify(inputs))
-    }
+    console.log('isAuthenticated: ' + isAuthenticated)
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            await login(inputs)
-            navigate('/')
-        } catch (err) {
-            console.log('err.response.data ' + err.response.data)
-            setErr(err.response.data)
-        }
+    const onFinish = (values) => {
+        const email = values.email
+        const password = values.password
+        dispatch(loginThunk({ email, password }))
+
+        console.log('values: ' + JSON.stringify(values))
+        console.log('email: ' + email)
+        console.log('password: ' + password)
+
+        navigate('/')
     }
 
     return (
@@ -45,7 +37,7 @@ const Login = () => {
             </div>
             <div className="container">
                 <h1>Log In</h1>
-                <form>
+                {/* <form>
                     <input
                         required
                         type="text"
@@ -72,7 +64,29 @@ const Login = () => {
                         <br />
                         <Link to="/register">Sign up now</Link>
                     </span>
-                </form>
+                </form> */}
+                <Form
+                    layout="vertical"
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                >
+                    <LoginForm />
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="login-form-button"
+                            // loading={isLoading}
+                            size="large"
+                        >
+                            'Log in'
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
         </div>
     )

@@ -1,39 +1,58 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import './register.scss'
+import RegisterForm from '../../forms/RegisterForm.jsx'
+import { Form, Button } from 'antd'
 import AppLogo from '../../assets/app-logo.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { registerThunk } from '../../redux/actions/authActions.js'
 
 const Register = () => {
-    const [inputs, setInputs] = useState({
-        username: '',
-        email: '',
-        password: '',
-    })
-    const [err, setErr] = useState(null)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const handleChange = (e) => {
-        setInputs((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }))
-    }
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const user = useSelector((state) => state.auth.user)
 
-    console.log(inputs)
+    const onFinish = (values) => {
+        const email = values.email
+        const password = values.password
+        dispatch(registerThunk({ email, password }))
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await axios.post(
-                'http://localhost:5000/api/auth/register',
-                inputs
-            )
-            navigate('/login')
-        } catch (err) {
-            setErr(err.response.data)
-        }
+        console.log('values: ' + JSON.stringify(values))
+        console.log('email: ' + email)
+        console.log('password: ' + password)
+
+        navigate('/login')
     }
+    // const [inputs, setInputs] = useState({
+    //     username: '',
+    //     email: '',
+    //     password: '',
+    // })
+    // const [err, setErr] = useState(null)
+    // const navigate = useNavigate()
+
+    // const handleChange = (e) => {
+    //     setInputs((prev) => ({
+    //         ...prev,
+    //         [e.target.name]: e.target.value,
+    //     }))
+    // }
+
+    // console.log(inputs)
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
+    //     try {
+    //         const res = await axios.post(
+    //             'http://localhost:5000/api/auth/register',
+    //             inputs
+    //         )
+    //         navigate('/login')
+    //     } catch (err) {
+    //         setErr(err.response.data)
+    //     }
+    // }
 
     return (
         <div className="register">
@@ -50,7 +69,7 @@ const Register = () => {
             </div>
             <div className="container">
                 <h1>Register</h1>
-                <form>
+                {/* <form>
                     <input
                         required
                         type="text"
@@ -79,7 +98,29 @@ const Register = () => {
                         <br />
                         <Link to="/login">Login</Link>
                     </span>
-                </form>
+                </form> */}
+                <Form
+                    layout="vertical"
+                    name="normal_register"
+                    className="register-form"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                >
+                    <RegisterForm />
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="register-form-button"
+                            // loading={isLoading}
+                            size="large"
+                        >
+                            'Log in'
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
         </div>
     )
