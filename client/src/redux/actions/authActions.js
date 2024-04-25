@@ -1,39 +1,70 @@
 import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
+    REQUEST_LOADING,
+    REQUEST_SUCCESS,
+    REQUEST_FAILED,
+    REGISTER_SUCCESS,
 } from '../constants/authActionTypes.js'
 import axios from 'axios'
 
-const loginRequest = () => ({
-    type: LOGIN_REQUEST,
+const requestLoading = () => ({
+    type: REQUEST_LOADING,
 })
 
-const loginSuccess = (payload) => ({
-    type: LOGIN_SUCCESS,
+const requestSuccess = (payload) => ({
+    type: REQUEST_SUCCESS,
     payload, // The payload object contains the data passed to the action
 })
 
-const loginFailure = (error) => ({
-    type: LOGIN_FAILURE,
+const requestFailed = (error) => ({
+    type: REQUEST_FAILED,
     error, // If there's an error, you might include it in the action
+})
+
+const registerSuccess = () => ({
+    type: REGISTER_SUCCESS,
 })
 
 export const loginThunk = (credentials) => {
     return async (dispatch) => {
-        dispatch(loginRequest()) // Dispatch the request action
+        dispatch(requestLoading()) // Dispatch the request action
 
         try {
             // const response = await someApi.login(credentials) // Assume an API call
             const response = await axios.post(
-                'http://localhost:8800/api/auth/login',
+                'http://localhost:5000/api/auth/login',
                 credentials
             )
-            const { token, user } = response.data
+            console.log('response.data: ' + JSON.stringify(response.data))
+            const { access_token, email } = response.data
 
-            dispatch(loginSuccess({ token, user })) // Dispatch success with user data
+            console.log('access_token: ' + access_token)
+            console.log('email: ' + email)
+
+            dispatch(requestSuccess({ access_token, email })) // Dispatch success with user data
         } catch (error) {
-            dispatch(loginFailure(error.message)) // Dispatch failure with error message
+            dispatch(requestFailed(error.message)) // Dispatch failure with error message
+        }
+    }
+}
+
+export const registerThunk = (registerData) => {
+    return async (dispatch) => {
+        dispatch(requestLoading()) // Dispatch the request action
+
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/api/auth/register',
+                registerData
+            )
+
+            console.log(
+                'response.data: from registerThunk ' +
+                    JSON.stringify(response.data)
+            )
+
+            dispatch(registerSuccess())
+        } catch (error) {
+            dispatch(requestFailed(error.message))
         }
     }
 }

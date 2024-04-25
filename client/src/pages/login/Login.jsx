@@ -13,6 +13,8 @@ const Login = () => {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const user = useSelector((state) => state.auth.user)
 
+    console.log('isAuthenticated: ' + isAuthenticated)
+
     const onFinish = (values) => {
         const email = values.email
         const password = values.password
