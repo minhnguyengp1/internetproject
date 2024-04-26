@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Categories from '../../components/homepage/Categories'
 import NewestArticle from '../../components/homepage/NewestArticle'
 import Slideshow from '../../components/homepage/Slideshow'
 import './home.scss'
+import SidebarMenu from '../../components/homepage/SidebarMenu'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
@@ -13,11 +13,13 @@ const Home = () => {
 
     return (
         <div className="homePage">
-            <Slideshow />
             <div className="topSplit">
-                <Categories onSelectCategory={handleCategorySelect} />
+                <div className="leftSide">
+                    <SidebarMenu />
+                </div>
                 <NewestArticle selectedCategory={selectedCategory} />
             </div>
+            <Slideshow />
         </div>
     )
 }

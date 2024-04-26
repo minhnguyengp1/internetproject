@@ -1,7 +1,7 @@
 import './newestArticle.scss'
-import { Card, ConfigProvider } from 'antd'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import ArticleCard from './ArticleCard'
 
 const NewestArticle = ({ selectedCategory }) => {
     const [articles, setArticles] = useState([])
@@ -25,38 +25,32 @@ const NewestArticle = ({ selectedCategory }) => {
         : articles
 
     return (
-        <ConfigProvider
-            theme={{
-                token: {
-                    borderRadius: 10,
-                },
-                components: {
-                    Card: {
-                        headerBg: '#585458',
-                        headerHeight: 50,
-                        headerFontSize: 20,
-                    },
-                },
-            }}
-        >
-            <div className="newestArticle">
-                {filteredArticles.map((article, index) => (
-                    <Card
-                        key={index}
-                        className="card"
-                        title={article.title}
-                        bordered={true}
-                        hoverable={true}
-                    >
-                        <img src={article.imgUrl} alt={article.title} />
-                        <p>{article.description}</p>
-                        <p>{article.price}</p>
-                        <p>{article.category}</p>
-                        <p>{article.type}</p>
-                    </Card>
-                ))}
-            </div>
-        </ConfigProvider>
+        <div className="newestArticle">
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
+                    key={index}
+                    className="card"
+                    title={article.title}
+                    img={article.imgUrl}
+                />
+            ))}
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
+                    key={index}
+                    className="card"
+                    title={article.title}
+                    img={article.imgUrl}
+                />
+            ))}
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
+                    key={index}
+                    className="card"
+                    title={article.title}
+                    img={article.imgUrl}
+                />
+            ))}
+        </div>
     )
 }
 
