@@ -15,7 +15,7 @@ const Home = () => {
         <div className="homePage">
             <div className="topSplit">
                 <div className="leftSide">
-                    <SidebarMenu />
+                    <SidebarMenu onSelectCategory={handleCategorySelect} />
                 </div>
                 <NewestArticle selectedCategory={selectedCategory} />
             </div>

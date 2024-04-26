@@ -12,6 +12,7 @@ const SidebarMenu = ({ onSelectCategory }) => {
                 setSelectedCategory(null)
                 onSelectCategory(null)
             } else {
+                console.log(selectedItem.label)
                 setSelectedCategory(selectedItem.label)
                 onSelectCategory(selectedItem.label)
             }

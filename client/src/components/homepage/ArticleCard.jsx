@@ -1,8 +1,8 @@
 import './articleCard.scss'
 const ArticleCard = ({ title, img }) => {
     return (
-        <div class="card">
-            <div class="card-img">
+        <div className="card">
+            <div className="card-img">
                 <img src={img} alt={title} />
             </div>
             <div className="cardDetails">
