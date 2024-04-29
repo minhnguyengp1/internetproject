@@ -1,20 +1,54 @@
 import './newestArticle.scss'
-import { Card } from 'antd'
-import { items } from '../../assets/articlePhotos'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import ArticleCard from './ArticleCard'
 
-const NewestArticle = () => {
+const NewestArticle = ({ selectedCategory }) => {
+    const [articles, setArticles] = useState([])
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:5000/api/allArticles/'
+                )
+                setArticles(response.data)
+            } catch (error) {
+                console.error('Error fetching data: ', error)
+            }
+        }
+        fetchArticles()
+    }, [])
+
+    const filteredArticles = selectedCategory
+        ? articles.filter((article) => article.category === selectedCategory)
+        : articles
+
     return (
         <div className="newestArticle">
-            {items.map((item, index) => (
-                <Card
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
                     key={index}
                     className="card"
-                    title={item.name}
-                    bordered={true}
-                    hoverable={true}
-                >
-                    <img src={item.img} alt={item.name} />
-                </Card>
+                    title={article.title}
+                    img={article.imgUrl}
+                />
+            ))}
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
+                    key={index}
+                    className="card"
+                    title={article.title}
+                    img={article.imgUrl}
+                />
+            ))}
+            {filteredArticles.map((article, index) => (
+                <ArticleCard
+                    key={index}
+                    className="card"
+                    title={article.title}
+                    img={article.imgUrl}
+                />
             ))}
         </div>
     )

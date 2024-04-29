@@ -1,5 +1,5 @@
 import React from 'react'
-import './AllComp.scss'
+import './allComp.scss'
 import { Button, Checkbox, Form, Input, Upload } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
 import { StarOutlined, UploadOutlined } from '@ant-design/icons'

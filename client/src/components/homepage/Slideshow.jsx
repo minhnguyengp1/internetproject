@@ -1,8 +1,25 @@
 import { Carousel } from 'antd'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './slideshow.scss'
-import { items } from '../../assets/articlePhotos'
 
 const Slideshow = () => {
+    const [items, setItems] = useState([])
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:5000/api/allArticles/'
+                )
+                setItems(response.data)
+            } catch (error) {
+                console.error('Error fetching data: ', error)
+            }
+        }
+        fetchArticles()
+    }, [])
+
     const firstThreeItems = items.slice(0, 3)
     const nextThreeItems = items.slice(3, 6)
 
