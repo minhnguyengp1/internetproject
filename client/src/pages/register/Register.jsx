@@ -3,7 +3,7 @@ import './register.scss'
 import RegisterForm from '../../forms/RegisterForm.jsx'
 import { Form, Button } from 'antd'
 import { useEffect } from 'react'
-import AppLogo from '../../assets/app-logo.png'
+import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerThunk } from '../../redux/actions/authActions.js'
 

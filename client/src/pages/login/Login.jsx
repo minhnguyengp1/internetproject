@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'antd'
-import AppLogo from '../../assets/app-logo.png'
+import AppLogo from '../../assets/logoBlack.png'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
 import { loginThunk } from '../../redux/actions/authActions.js'

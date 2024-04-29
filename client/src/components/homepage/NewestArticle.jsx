@@ -34,22 +34,6 @@ const NewestArticle = ({ selectedCategory }) => {
                     img={article.imgUrl}
                 />
             ))}
-            {filteredArticles.map((article, index) => (
-                <ArticleCard
-                    key={index}
-                    className="card"
-                    title={article.title}
-                    img={article.imgUrl}
-                />
-            ))}
-            {filteredArticles.map((article, index) => (
-                <ArticleCard
-                    key={index}
-                    className="card"
-                    title={article.title}
-                    img={article.imgUrl}
-                />
-            ))}
         </div>
     )
 }

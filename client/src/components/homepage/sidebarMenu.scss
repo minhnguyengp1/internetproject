@@ -2,7 +2,7 @@
     width: 100px;
     height: 90%;
     border-radius: 30px;
-    background: #e7e7e7;
+    background-color: #adbbda;
     margin-right: 250px;
 }
 
@@ -11,9 +11,8 @@
     height: 230px;
     border-radius: 30px;
     margin-right: 50px;
-    background: #e0e0e0;
-    box-shadow: 15px 15px 30px #bebebe,
-    -15px -15px 30px #ffffff;
+    background-color: #8697c4;
+    box-shadow: 15px 15px 30px #9898ba, -15px 15px 30px #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,10 +37,12 @@
     cursor: pointer;
     border-radius: 10px;
     width: 80%;
-
+    color: white;
+    font-weight: 600;
 }
 
 .listItem:hover {
     transform: scale(103%);
-    background-color: #d6d6d6;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
 }
