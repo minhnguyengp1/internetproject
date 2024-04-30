@@ -30,23 +30,23 @@ function SideMenu() {
                 selectedKeys={[selectedKeys]}
                 items={[
                     {
-                        label: 'Dashbaord',
+                        label: 'Dashboard',
+                        key: '/user',
                         icon: <AppstoreOutlined />,
-                        key: '/',
                     },
                     {
                         label: 'Inventory',
-                        key: '/inventory',
+                        key: '/user/inventory',
                         icon: <ShopOutlined />,
                     },
                     {
                         label: 'Orders',
-                        key: '/orders',
+                        key: '/user/orders',
                         icon: <ShoppingCartOutlined />,
                     },
                     {
                         label: 'Customers',
-                        key: '/customers',
+                        key: '/user/customers',
                         icon: <UserOutlined />,
                     },
                 ]}
