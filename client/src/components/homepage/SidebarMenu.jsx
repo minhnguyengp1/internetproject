@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { items } from '../../assets/categories'
+import { categories } from '../../assets/categories'
 import './sidebarMenu.scss'
 
 const SidebarMenu = ({ onSelectCategory }) => {
     const [selectedCategory, setSelectedCategory] = useState(null)
 
-    const handleCategorySelect = ({ key }) => {
-        const selectedItem = items.find((item) => item.key === key)
+    const handleCategorySelect = (key) => {
+        const selectedItem = categories.find(
+            (category) => category.label === key
+        )
         if (selectedItem) {
             if (selectedItem.label === 'All Categories') {
+                console.log(selectedItem.label)
                 setSelectedCategory(null)
                 onSelectCategory(null)
             } else {
@@ -23,13 +26,13 @@ const SidebarMenu = ({ onSelectCategory }) => {
         <div className="sidebar">
             <div className="sidebarSlide">
                 <ul className="list">
-                    {items.map((item, index) => (
+                    {categories.map((category, index) => (
                         <li
                             className="listItem"
                             key={index}
-                            onClick={handleCategorySelect}
+                            onClick={() => handleCategorySelect(category.label)}
                         >
-                            {item.label}
+                            {category.label}
                         </li>
                     ))}
                 </ul>

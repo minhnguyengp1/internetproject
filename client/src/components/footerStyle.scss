@@ -1,57 +1,58 @@
 .footer {
-  background-color: #f4f4f4;
-  padding: 20px 0;
-  text-align: center;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 20px 0;
+    text-align: center;
 
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
 
-    .footer-words {
-      p {
-        color: #333;
-        font-size: 16px;
-        margin-bottom: 8px;
-        font-weight: bold; // Setze die Schriftstärke auf fett für die Wörter
-      }
+        .footer-words {
+            p {
+                color: #333;
+                font-size: 16px;
+                margin-bottom: 8px;
+                font-weight: bold; // Setze die Schriftstärke auf fett für die Wörter
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column; // Ändere die flex-direction auf column
+
+            p {
+                color: #333;
+                font-size: 16px;
+                margin-bottom: 8px;
+                font-weight: bold; // Setze die Schriftstärke auf fett für die Wörter
+            }
+
+            a {
+                color: #333;
+                text-decoration: none;
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+        }
+
+        .footer-social {
+            span {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+
+            a {
+                color: #333;
+                text-decoration: none;
+                margin-right: 10px;
+                font-size: 15px;
+            }
+        }
     }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column; // Ändere die flex-direction auf column
-
-      p {
-        color: #333;
-        font-size: 16px;
-        margin-bottom: 8px;
-        font-weight: bold; // Setze die Schriftstärke auf fett für die Wörter
-      }
-
-      a {
-        color: #333;
-        text-decoration: none;
-        font-size: 14px;
-        margin-bottom: 8px;
-      }
-    }
-
-    .footer-social {
-      span {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-      }
-
-      a {
-        color: #333;
-        text-decoration: none;
-        margin-right: 10px;
-        font-size: 15px;
-      }
-    }
-  }
 }

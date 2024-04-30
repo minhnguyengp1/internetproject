@@ -3,6 +3,7 @@ import {
     REQUEST_SUCCESS,
     REQUEST_FAILED,
     REGISTER_SUCCESS,
+    LOGOUT_SUCCESS,
 } from '../constants/authActionTypes.js'
 import axios from 'axios'
 
@@ -23,6 +24,10 @@ const registerSuccess = () => ({
     type: REGISTER_SUCCESS,
 })
 
+const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS,
+})
+
 export const loginThunk = (credentials) => {
     return async (dispatch) => {
         dispatch(requestLoading())
@@ -35,6 +40,8 @@ export const loginThunk = (credentials) => {
             )
             console.log('response.data: ' + JSON.stringify(response.data))
             const { access_token, email } = response.data
+
+            localStorage.setItem('token', access_token)
 
             console.log('access_token: ' + access_token)
             console.log('email: ' + email)
@@ -68,4 +75,11 @@ export const registerThunk = (registerData) => {
             dispatch(requestFailed())
         }
     }
+}
+
+export const logoutThunk = () => (dispatch) => {
+    localStorage.removeItem('token')
+    console.log('Logged out and removed token from LocalStorage')
+
+    dispatch(logoutSuccess())
 }
