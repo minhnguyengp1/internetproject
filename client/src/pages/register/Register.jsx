@@ -11,9 +11,13 @@ const Register = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-    const currentUser = useSelector((state) => state.auth.currentUser)
-    const isScuccessful = useSelector((state) => state.auth.isSuccessful)
+    // const currentUser = useSelector((state) => state.auth.currentUser)
+    // const isScuccessful = useSelector((state) => state.auth.isSuccessful)
+
+    const userRegister = useSelector((state) => state.userRegister)
+    console.log('userRegister: ' + userRegister)
+
+    const { error, userInfo } = userRegister
 
     const onFinish = (values) => {
         const email = values.email
@@ -26,11 +30,11 @@ const Register = () => {
     }
 
     useEffect(() => {
-        console.log('isScuccessful when Register is redered: ' + isScuccessful)
-        if (isScuccessful) {
+        console.log('userInfo when Register is redered: ' + userInfo)
+        if (userInfo) {
             navigate('/login')
         }
-    }, [isScuccessful])
+    }, [userInfo])
 
     return (
         <div className="register">

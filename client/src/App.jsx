@@ -8,9 +8,8 @@ import Login from './pages/login/Login.jsx'
 import Register from './pages/register/Register.jsx'
 import Article from './pages/article/Article.jsx'
 import Create from './pages/articleCreate/Create.jsx'
-
-
-
+import Dashboard from './pages/profile/Dashboard.jsx'
+import UserLayout from './components/profilePage/UserLayout.jsx'
 
 const Layout = () => {
     return (
@@ -34,23 +33,22 @@ const router = createBrowserRouter([
 
             {
                 path: '/article',
-                element: <Article />
-
-
+                element: <Article />,
             },
 
             {
                 path: '/article/create',
-                element: <Create></Create>
-            }
-            // {
-            //     path: '/article/:id',
-            //     element: <Article />,
-            // },
-            // {
-            //     path: '/write',
-            //     element: <Write />,
-            // },
+                element: <Create></Create>,
+            },
+            {
+                path: '/user', // Base path for user-related routes
+                element: <UserLayout />, // Layout containing SideMenu and Outlet
+                children: [
+                    { path: '', element: <Dashboard /> }, // Component for /user/dashboard
+                    // { path: 'inventory', element: <Inventory /> }, // Component for /user/inventory
+                    // { path: 'settings', element: <Settings /> }, // Component for /user/settings
+                ],
+            },
         ],
     },
     {
@@ -61,7 +59,6 @@ const router = createBrowserRouter([
         path: '/login',
         element: <Login />,
     },
-   
 ])
 
 function App() {

@@ -12,8 +12,7 @@ const initialState = {
     currentUser: null,
 }
 
-// Reducer function for authentication
-const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_LOADING:
             return {
@@ -41,5 +40,3 @@ const authReducer = (state = initialState, action) => {
             return state
     }
 }
-
-export default authReducer
