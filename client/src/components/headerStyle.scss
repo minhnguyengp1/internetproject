@@ -75,6 +75,29 @@
     }
 }
 
+.buttonLogout {
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    width: 120px;
+    height: 35px;
+    border-radius: 50px;
+    color: white;
+    &:hover {
+        background-color: white;
+        border: 2px solid var(--primary-color);
+        color: black;
+    }
+}
+
+#userName {
+    font-size: large;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding-right: 20px;
+}
+
+
 .down {
     width: 100%;
     display: flex;

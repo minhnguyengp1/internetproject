@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import NewestArticle from '../../components/homepage/NewestArticle'
-import Slideshow from '../../components/homepage/Slideshow'
 import './home.scss'
 import SidebarMenu from '../../components/homepage/SidebarMenu'
 
@@ -19,7 +18,6 @@ const Home = () => {
                 </div>
                 <NewestArticle selectedCategory={selectedCategory} />
             </div>
-            <Slideshow />
         </div>
     )
 }
