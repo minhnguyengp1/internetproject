@@ -1,10 +1,10 @@
 @import 'register';
 
 :root {
-    --primary-color: #3d52a0; /* Example blue */
-    --secondary-color: #7091e6; /* Example green */
-    --accent-color: #ede8fe; /* Example red */
-    --text-color: #333; /* Dark grey for text */
+    --primary-color: #486d9e;
+    --secondary-color: #7099e6;
+    --accent-color: #e8f5fe; 
+    --text-color: #333;
 }
 
 body {
@@ -15,6 +15,7 @@ body {
     display: flex;
     justify-content: center;
     background-color: var(--accent-color);
+    background-color: white;
 
     .container {
         width: 100%;

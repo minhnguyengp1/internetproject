@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: center;
     background-color: var(--accent-color);
+    background-color: white;
 }
 
 .top {
@@ -79,8 +80,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 50px;
-    background-color: #8697c4;
+    height: 60px;
+    background-color: var(--secondary-color);
 }
 
 //-------------------------------------------------------------------------------------------

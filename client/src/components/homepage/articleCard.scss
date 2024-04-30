@@ -2,8 +2,7 @@
     width: 300px;
     height: 400px;
     border-radius: 30px;
-    //background: #e0e0e0;
-    background-color: #8697c4;
+    background-color: var(--secondary-color);
     box-shadow: 15px 15px 30px #8989b7, -15px 15px 30px #ffffff;
     cursor: pointer;
     transition: all 0.5s;
