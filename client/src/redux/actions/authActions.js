@@ -3,6 +3,7 @@ import {
     REQUEST_SUCCESS,
     REQUEST_FAILED,
     REGISTER_SUCCESS,
+    LOGOUT_SUCCESS,
 } from '../constants/authActionTypes.js'
 import axios from 'axios'
 
@@ -12,21 +13,24 @@ const requestLoading = () => ({
 
 const requestSuccess = (payload) => ({
     type: REQUEST_SUCCESS,
-    payload, // The payload object contains the data passed to the action
+    payload,
 })
 
-const requestFailed = (error) => ({
+const requestFailed = () => ({
     type: REQUEST_FAILED,
-    error, // If there's an error, you might include it in the action
 })
 
 const registerSuccess = () => ({
     type: REGISTER_SUCCESS,
 })
 
+const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS,
+})
+
 export const loginThunk = (credentials) => {
     return async (dispatch) => {
-        dispatch(requestLoading()) // Dispatch the request action
+        dispatch(requestLoading())
 
         try {
             // const response = await someApi.login(credentials) // Assume an API call
@@ -37,12 +41,15 @@ export const loginThunk = (credentials) => {
             console.log('response.data: ' + JSON.stringify(response.data))
             const { access_token, email } = response.data
 
+            localStorage.setItem('token', access_token)
+
             console.log('access_token: ' + access_token)
             console.log('email: ' + email)
 
-            dispatch(requestSuccess({ access_token, email })) // Dispatch success with user data
+            dispatch(requestSuccess({ access_token, email }))
         } catch (error) {
-            dispatch(requestFailed(error.message)) // Dispatch failure with error message
+            console.log('error by login: ' + error.message)
+            dispatch(requestFailed())
         }
     }
 }
@@ -64,7 +71,15 @@ export const registerThunk = (registerData) => {
 
             dispatch(registerSuccess())
         } catch (error) {
-            dispatch(requestFailed(error.message))
+            console.log('error by registration: ' + error.message)
+            dispatch(requestFailed())
         }
     }
+}
+
+export const logoutThunk = () => (dispatch) => {
+    localStorage.removeItem('token')
+    console.log('Logged out and removed token from LocalStorage')
+
+    dispatch(logoutSuccess())
 }

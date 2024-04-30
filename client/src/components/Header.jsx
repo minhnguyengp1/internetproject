@@ -1,29 +1,54 @@
 import React from 'react'
 import './headerStyle.scss'
-import AppLogo from '../assets/app-logo.png'
-import { Link } from 'react-router-dom'
-import { FaSearch } from 'react-icons/fa' // Importiere das Lupe-Symbol von react-icons
+import AppLogo from '../assets/logoBlack.png'
+import { Link, useNavigate } from 'react-router-dom'
+import { FaSearch, FaUser } from 'react-icons/fa'
+import { logoutThunk } from '../redux/actions/authActions'
+import { useSelector, useDispatch } from 'react-redux'
 
 const Header = () => {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const userEmail = useSelector((state) => state.auth.currentUser?.email)
+
+    const handleLogout = () => {
+        dispatch(logoutThunk())
+        navigate('/')
+    }
+
     return (
         <div className="header">
             <div className="top">
-                <img className="imageLogo" src={AppLogo} alt="" />
-
+                <Link id="homeLink" to={'/'}>
+                    <img className="imageLogo" src={AppLogo} alt="yabe" />
+                </Link>
                 <form className="buttonsTop">
-                    <button className="buttonRegister">
-                        {' '}
-                        <span>
-                            <Link to="/register"> Regestrieren </Link>
-                        </span>
-                    </button>
-                    <span>oder</span>
-                    <button className="buttonEinloggen">
-                        {' '}
-                        <span>
-                            <Link to="/login">Einloggen</Link>
-                        </span>
-                    </button>
+                    {!isAuthenticated ? (
+                        <>
+                            <button className="buttonRegister">
+                                <span>
+                                    <Link to="/register">Registrieren </Link>
+                                </span>
+                            </button>
+                            <span>oder</span>
+                            <button className="buttonEinloggen">
+                                <span>
+                                    <Link to="/login">Einloggen</Link>
+                                </span>
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <p id="userName">{userEmail}</p>
+                            <button
+                                onClick={handleLogout}
+                                className="buttonLogout"
+                            >
+                                Ausloggen
+                            </button>
+                        </>
+                    )}
                 </form>
             </div>
 
@@ -31,8 +56,11 @@ const Header = () => {
                 <form className="buttonsDown">
                     <input type="text" placeholder="was suchen Sie?" />
                     <input type="text" placeholder="PLZ oder Ort" />
-                    <button>
+                    <button id="searchBtn">
                         <FaSearch /> Finden
+                    </button>
+                    <button id="accountBtn">
+                        <FaUser /> Mein Profil
                     </button>
                 </form>
             </div>

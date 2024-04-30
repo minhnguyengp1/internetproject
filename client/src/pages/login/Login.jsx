@@ -1,17 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'antd'
-import AppLogo from '../../assets/app-logo.png'
+import AppLogo from '../../assets/logoBlack.png'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
 import { loginThunk } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    console.log('HALLO TO LOGIN PAGE')
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-    const user = useSelector((state) => state.auth.user)
+    const isSuccessful = useSelector((state) => state.auth.isSuccessful)
 
     console.log('isAuthenticated: ' + isAuthenticated)
 
@@ -23,9 +25,14 @@ const Login = () => {
         console.log('values: ' + JSON.stringify(values))
         console.log('email: ' + email)
         console.log('password: ' + password)
-
-        navigate('/')
     }
+
+    useEffect(() => {
+        console.log('isSuccessful when Login is redered: ' + isSuccessful)
+        if (isSuccessful) {
+            navigate('/')
+        }
+    }, [isSuccessful])
 
     return (
         <div className="login">
