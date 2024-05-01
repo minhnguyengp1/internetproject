@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import { Form, Button } from 'antd'
-import AppLogo from '../../assets/logoBlack.png'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
 import { loginThunk } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import Header from '../../components/Header'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -35,67 +35,34 @@ const Login = () => {
     }, [isSuccessful])
 
     return (
-        <div className="login">
-            <div className="top">
-                <div className="wrapper">
-                    <img className="logo" src={AppLogo} alt="" />
-                    {/* <button className="loginButton">Sign In</button> */}
+        <>
+            <Header />
+            <div className="login">
+                <div className="containerLogin">
+                    <h1>Login</h1>
+                    <Form
+                        name="normal_login"
+                        className="login-form"
+                        initialValues={{
+                            remember: true,
+                        }}
+                        onFinish={onFinish}
+                    >
+                        <LoginForm />
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="login-form-button"
+                                size="large"
+                            >
+                                Einloggen
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
             </div>
-            <div className="container">
-                <h1>Log In</h1>
-                {/* <form>
-                    <input
-                        required
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        onChange={handleChange}
-                    />
-                    <input
-                        required
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={handleChange}
-                    />
-                    <button className="loginButton" onClick={handleSubmit}>
-                        Sign In
-                    </button>
-                    {err && <p>{err}</p>}
-                    <span>
-                        Forgot your password? <b>Reset it here</b>
-                    </span>
-                    <span>
-                        New to Kleinanzeigen?
-                        <br />
-                        <Link to="/register">Sign up now</Link>
-                    </span>
-                </form> */}
-                <Form
-                    layout="vertical"
-                    name="normal_login"
-                    className="login-form"
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                >
-                    <LoginForm />
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="login-form-button"
-                            // loading={isLoading}
-                            size="large"
-                        >
-                            'Log in'
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
+        </>
     )
 }
 

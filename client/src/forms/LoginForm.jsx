@@ -1,19 +1,11 @@
 import React from 'react'
-import { Form, Input, Checkbox } from 'antd'
+import { Form, Input } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-// import useLanguage from '@/locale/useLanguage'
-import { useSelector } from 'react-redux'
-// import { selectLangDirection } from '@/redux/translate/selectors'
-
 export default function LoginForm() {
-    // const langDirection = useSelector(selectLangDirection)
-
-    // const translate = useLanguage()
     return (
         <div>
             <Form.Item
-                label="email"
                 name="email"
                 rules={[
                     {
@@ -21,44 +13,33 @@ export default function LoginForm() {
                     },
                     {
                         type: 'email',
+                        message: 'Bitte Email eingeben',
                     },
                 ]}
             >
                 <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="email"
-                    type="email"
-                    size="large"
+                    placeholder="Email"
                 />
             </Form.Item>
             <Form.Item
-                label="password"
                 name="password"
                 rules={[
                     {
                         required: true,
+                        message: 'Bitte Passwort eingeben',
                     },
                 ]}
             >
                 <Input.Password
                     prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="password"
-                    size="large"
+                    placeholder="Password"
                 />
             </Form.Item>
 
             <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>'Remember me'</Checkbox>
-                </Form.Item>
-                <a
-                    className="login-form-forgot"
-                    href="/forgetpassword"
-                    // style={{
-                    //     marginLeft: langDirection === 'rtl' ? '220px' : '0px',
-                    // }}
-                >
-                    'Forgot password'
+                <a className="login-form-forgot" href="/forgetpassword">
+                    Passwort vergessen
                 </a>
             </Form.Item>
         </div>

@@ -17,5 +17,6 @@ app.use('/api/user', authRoute);
 app.get('/api/allArticles', articlesRoute);
 app.get('/api/allArticles/:categorie', articlesRoute);
 app.use('/api/files', fileRouter);
+//app.use('/api/createArticle/', createArticle)
 
 export default app;
