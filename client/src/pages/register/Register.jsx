@@ -5,7 +5,7 @@ import { Form, Button } from 'antd'
 import { useEffect } from 'react'
 import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerThunk } from '../../redux/actions/authActions.js'
+import { registerThunk } from '../../redux/actions/userActions.js'
 
 const Register = () => {
     const dispatch = useDispatch()

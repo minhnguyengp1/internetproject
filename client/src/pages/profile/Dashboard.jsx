@@ -19,21 +19,31 @@ import {
     Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
+import { useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { getUserDetails } from '../../redux/actions/userActions.js'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function Dashboard() {
+    const [email, setEmail] = useState('')
+    const [name, setName] = useState('')
     const [orders, setOrders] = useState(0)
     const [inventory, setInventory] = useState(0)
 
     const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const userDetails = useSelector((state) => state.userDetails)
 
-    const user = useSelector((state) => state.auth.user)
+    const { error, user } = userDetails
+
+    const userLogin = useSelector((state) => state.userLogin)
+
+    const { userInfo } = userLogin
+
     console.log('user: ', user)
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
 
     // useEffect(() => {
     //     getOrders().then((res) => {
@@ -48,11 +58,26 @@ function Dashboard() {
     //     })
     // }, [])
 
+    useEffect(() => {
+        console.log('userInfo: ', userInfo)
+        if (!userInfo) {
+            navigate('/login', { state: { from: location }, replace: true })
+        } else {
+            if (!user.name) {
+                dispatch(getUserDetails(userInfo.id))
+                // dispatch(listMyOrders())
+            } else {
+                setName(user.name)
+                setEmail(user.email)
+            }
+        }
+    }, [dispatch, userInfo, user])
+
     return (
         <Space size={20} direction="vertical">
             <Typography.Title level={4}>Dashboard</Typography.Title>
             <Card style={{ width: '100%' }}>
-                {/* <Space direction="horizontal" size={16}>
+                <Space direction="horizontal" size={16}>
                     <img
                         src={user.profilePicture || 'default-profile.png'}
                         alt="Profile"
@@ -74,12 +99,11 @@ function Dashboard() {
                     <Button
                         type="primary"
                         icon={<EditOutlined />}
-                        onClick={() => {
-                        }}
+                        onClick={() => {}}
                     >
                         Edit Info
                     </Button>
-                </Space> */}
+                </Space>
             </Card>
             <Space direction="horizontal">
                 <DashboardCard

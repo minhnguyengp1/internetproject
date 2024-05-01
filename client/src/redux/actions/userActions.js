@@ -15,13 +15,13 @@ const loginFail = (errorMessage) => ({
     payload: errorMessage,
 })
 
-const registerRequest = (data) => ({
+const registerRequest = () => ({
     type: actionTypes.USER_REGISTER_REQUEST,
-    payload: data,
 })
 
-const registerSuccess = () => ({
+const registerSuccess = (data) => ({
     type: actionTypes.USER_REGISTER_SUCCESS,
+    payload: data,
 })
 
 const registerFail = (errorMessage) => ({
@@ -40,12 +40,8 @@ export const loginThunk = (credentials) => {
                 credentials
             )
             console.log('response.data: ' + JSON.stringify(response.data))
-            const { access_token, email } = response.data
 
-            console.log('access_token: ' + access_token)
-            console.log('email: ' + email)
-
-            dispatch(loginSuccess({ access_token, email }))
+            dispatch(loginSuccess(response.data))
         } catch (error) {
             // Determine the error message for failed login
             const errorMessage =
@@ -74,7 +70,7 @@ export const registerThunk = (registerData) => {
                     JSON.stringify(response.data)
             )
 
-            dispatch(registerSuccess())
+            dispatch(registerSuccess(response.data))
         } catch (error) {
             // Determine the error message for failed registration
             const errorMessage =
@@ -85,5 +81,46 @@ export const registerThunk = (registerData) => {
             // Dispatch the failed login action with the appropriate error message
             dispatch(registerFail(errorMessage))
         }
+    }
+}
+
+export const getUserDetails = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: actionTypes.USER_DETAILS_REQUEST,
+        })
+
+        console.log('getState: ', getState())
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        console.log('userInfo: ', userInfo)
+
+        // const { userLogin } = getState()
+        // const { userInfo } = userLogin
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        }
+
+        const { data } = await axios.get(`/api/users/${id}`, config)
+
+        dispatch({
+            type: actionTypes.USER_DETAILS_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.USER_DETAILS_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        })
     }
 }
