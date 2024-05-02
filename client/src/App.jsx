@@ -7,7 +7,7 @@ import Home from './pages/home/Home.jsx'
 import Login from './pages/login/Login.jsx'
 import Register from './pages/register/Register.jsx'
 import Article from './pages/article/Article.jsx'
-import Create from './pages/articleCreate/Create.jsx'
+import CreateArticle from './pages/articleCreate/CreateArticle.jsx'
 import Dashboard from './pages/profile/Dashboard.jsx'
 import UserLayout from './components/profilePage/UserLayout.jsx'
 
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
 
             {
                 path: '/article/create',
-                element: <Create></Create>,
+                element: <CreateArticle />,
             },
             {
                 path: '/user', // Base path for user-related routes

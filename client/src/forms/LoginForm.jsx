@@ -7,6 +7,7 @@ export default function LoginForm() {
         <div>
             <Form.Item
                 name="email"
+                label="email"
                 rules={[
                     {
                         required: true,

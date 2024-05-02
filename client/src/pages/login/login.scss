@@ -34,7 +34,12 @@
 
         button {
             border: none;
+            background-color: var(--primary-color);
             color: black;
+
+            span {
+                color: white;
+            }
         }
         span {
             font-size: 20px;
