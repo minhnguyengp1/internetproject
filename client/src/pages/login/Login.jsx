@@ -6,6 +6,7 @@ import { loginThunk } from '../../redux/actions/userActions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 const Login = () => {
     console.log('HALLO TO LOGIN PAGE')
@@ -77,6 +78,7 @@ const Login = () => {
                     </Form>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
