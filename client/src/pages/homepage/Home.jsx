@@ -1,14 +1,18 @@
 import { useState } from 'react'
-import NewestArticle from '../../components/homepage/NewestArticle'
-import Slideshow from '../../components/homepage/Slideshow'
+import NewestArticle from './NewestArticle'
 import './home.scss'
-import SidebarMenu from '../../components/homepage/SidebarMenu'
+import SidebarMenu from './SidebarMenu'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
+    const [searchTerm, setSearchTerm] = useState('')
 
     const handleCategorySelect = (category) => {
         setSelectedCategory(category)
+    }
+
+    const handleSearch = (term) => {
+        setSearchTerm(term)
     }
 
     return (
@@ -19,7 +23,6 @@ const Home = () => {
                 </div>
                 <NewestArticle selectedCategory={selectedCategory} />
             </div>
-            <Slideshow />
         </div>
     )
 }

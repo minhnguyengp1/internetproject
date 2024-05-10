@@ -42,14 +42,16 @@ export const login = (req, res) => {
             return res.status(404).json('User not found!');
         }
 
+        const user = data[0];
+
         console.log('data: ' + JSON.stringify(data));
         console.log('data[0]: ' + JSON.stringify(data[0]));
-        console.log('email: ' + JSON.stringify(data[0]));
+        console.log('user: ' + JSON.stringify(user));
 
         // CHECK PASSWORD
         const isPasswordCorrect = bcrypt.compareSync(
             req.body.password,
-            data[0].password,
+            user.password,
         );
 
         console.log(isPasswordCorrect);
@@ -58,18 +60,18 @@ export const login = (req, res) => {
             return res.status(400).json('Wrong password!');
         }
 
-        const token = jwt.sign({ id: data[0].id }, process.env.JWT_KEY);
-
-        const { password, ...other } = data[0];
-
-        other.access_token = token;
+        const token = jwt.sign({ id: user.id }, process.env.JWT_KEY);
 
         res.cookie('access_token', token, {
             httpOnly: true,
             secure: true,
         })
             .status(200)
-            .json(other);
+            .json({
+                userId: user.id,
+                email: user.email,
+                access_token: token,
+            });
     });
 };
 

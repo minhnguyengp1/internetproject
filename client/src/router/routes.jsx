@@ -32,6 +32,10 @@ let routes = {
             element: <Navigate to="/" />,
         },
         {
+            path: '/logout',
+            element: <Navigate to="/" />,
+        },
+        {
             path: '/verify/*',
             element: <Navigate to="/" />,
         },

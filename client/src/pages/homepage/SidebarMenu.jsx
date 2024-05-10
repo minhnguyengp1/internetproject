@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { items } from '../../assets/categories'
+import { categories } from '../../assets/categories'
 import './sidebarMenu.scss'
 
 const SidebarMenu = ({ onSelectCategory }) => {
-    // eslint-disable-next-line
     const [selectedCategory, setSelectedCategory] = useState(null)
 
     const handleCategorySelect = (key) => {
-        const selectedItem = items.find((item) => item.key === key)
+        const selectedItem = categories.find(
+            (category) => category.label === key
+        )
         if (selectedItem) {
             if (selectedItem.label === 'All Categories') {
                 setSelectedCategory(null)
@@ -23,14 +24,13 @@ const SidebarMenu = ({ onSelectCategory }) => {
         <div className="sidebar">
             <div className="sidebarSlide">
                 <ul className="list">
-                    {items.map((item, index) => (
-                        <li key={index} className="listItem">
-                            <button
-                                className="listItemButton"
-                                onClick={() => handleCategorySelect(item.key)}
-                            >
-                                {item.label}
-                            </button>
+                    {categories.map((category, index) => (
+                        <li
+                            className="listItem"
+                            key={index}
+                            onClick={() => handleCategorySelect(category.label)}
+                        >
+                            {category.label}
                         </li>
                     ))}
                 </ul>

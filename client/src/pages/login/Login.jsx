@@ -1,94 +1,85 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Form, Button } from 'antd'
-import AppLogo from '../../assets/app-logo.png'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
-import { loginThunk } from '../../redux/actions/authActions.js'
+import { loginThunk } from '../../redux/actions/userActions.js'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 const Login = () => {
+    console.log('HALLO TO LOGIN PAGE')
+
     const dispatch = useDispatch()
+    const location = useLocation()
     const navigate = useNavigate()
 
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
-    const user = useSelector((state) => state.auth.user)
+    const userLogin = useSelector((state) => state.userLogin)
+    console.log('userLogin: ' + JSON.stringify(userLogin))
 
-    console.log('isAuthenticated: ' + isAuthenticated)
+    const { error, userInfo } = userLogin
+
+    console.log('location.search: ' + location.search)
+
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+
+    console.log('redirect: ' + redirect)
+
+    // useEffect(() => {
+    //     console.log(
+    //         'userInfo when Login is redered: ' + JSON.stringify(userInfo)
+    //     )
+    //     if (userInfo) {
+    //         navigate(redirect)
+    //     }
+    // }, [navigate, userInfo, redirect])
+    useEffect(() => {
+        console.log()
+        if (userInfo) {
+            // If userInfo exists, navigate to the previous URL
+            if (location.state?.from) {
+                navigate(location.state.from)
+            }
+        }
+    }, [userInfo, navigate, location])
 
     const onFinish = (values) => {
         const email = values.email
         const password = values.password
         dispatch(loginThunk({ email, password }))
-
-        console.log('values: ' + JSON.stringify(values))
-        console.log('email: ' + email)
-        console.log('password: ' + password)
-
-        navigate('/')
     }
 
     return (
-        <div className="login">
-            <div className="top">
-                <div className="wrapper">
-                    <img className="logo" src={AppLogo} alt="" />
-                    {/* <button className="loginButton">Sign In</button> */}
+        <>
+            <Header />
+            <div className="login">
+                <div className="containerLogin">
+                    <h1>Login</h1>
+                    <Form
+                        name="normal_login"
+                        className="login-form"
+                        initialValues={{
+                            remember: true,
+                        }}
+                        onFinish={onFinish}
+                    >
+                        <LoginForm />
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="login-form-button"
+                                size="large"
+                            >
+                                Einloggen
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
             </div>
-            <div className="container">
-                <h1>Log In</h1>
-                {/* <form>
-                    <input
-                        required
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        onChange={handleChange}
-                    />
-                    <input
-                        required
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={handleChange}
-                    />
-                    <button className="loginButton" onClick={handleSubmit}>
-                        Sign In
-                    </button>
-                    {err && <p>{err}</p>}
-                    <span>
-                        Forgot your password? <b>Reset it here</b>
-                    </span>
-                    <span>
-                        New to Kleinanzeigen?
-                        <br />
-                        <Link to="/register">Sign up now</Link>
-                    </span>
-                </form> */}
-                <Form
-                    layout="vertical"
-                    name="normal_login"
-                    className="login-form"
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                >
-                    <LoginForm />
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="login-form-button"
-                            // loading={isLoading}
-                            size="large"
-                        >
-                            'Log in'
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
+            <Footer />
+        </>
     )
 }
 
