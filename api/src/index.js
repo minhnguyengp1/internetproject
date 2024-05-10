@@ -17,7 +17,12 @@ app.use('/api/auth', authRoute);
 app.use('/api/user', authRoute);
 app.get('/api/allArticles', articlesRoute);
 app.get('/api/allArticles/:categorie', articlesRoute);
+app.get('/api/search', articlesRoute);
 //app.use('/api/files', fileRouter);
 app.use('/api/createArticle', createArticleRouter);
+
+app.use('*', (req, res) => {
+    res.status(404).send('API endpoint does not exist');
+});
 
 export default app;

@@ -1,12 +1,21 @@
-import React from 'react'
-import './headerStyle.scss'
+// Header.jsx
+import './header.scss'
 import AppLogo from '../assets/logoBlack.png'
+import { useSearch } from '../context/SearchContext'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaSearch, FaUser } from 'react-icons/fa'
+import { FaUser } from 'react-icons/fa'
 import { logoutThunk } from '../redux/actions/authActions'
 import { useSelector, useDispatch } from 'react-redux'
+import { Input } from 'antd'
+const { Search } = Input
 
 const Header = () => {
+    const { setSearchTerm } = useSearch()
+
+    const onSearch = (value) => {
+        setSearchTerm(value)
+    }
+
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -18,13 +27,20 @@ const Header = () => {
         navigate('/')
     }
 
+    const handleLogoClick = () => {
+        if (location.pathname !== '/') {
+            navigate('/')
+        }
+        window.location.reload()
+    }
+
     const isLoginOrRegister =
         location.pathname === '/login' || location.pathname === '/register'
 
     return (
         <div className="header">
             <div className="top">
-                <Link id="homeLink" to={'/'}>
+                <Link id="homeLink" to={'/'} onClick={handleLogoClick}>
                     <img className="imageLogo" src={AppLogo} alt="yabe" />
                 </Link>
                 <form className="buttonsTop">
@@ -64,16 +80,19 @@ const Header = () => {
 
             <div className="down">
                 {!isLoginOrRegister ? (
-                    <form className="buttonsDown">
-                        <input type="text" placeholder="was suchen Sie?" />
-                        <input type="text" placeholder="PLZ oder Ort" />
-                        <button id="searchBtn">
-                            <FaSearch /> Finden
-                        </button>
+                    <div className="buttonsDown">
+                        <Search
+                            placeholder="input search text"
+                            onSearch={onSearch}
+                            enterButton
+                            allowClear
+                            size="large"
+                            className="searchBar"
+                        />
                         <button id="accountBtn">
                             <FaUser /> Mein Profil
                         </button>
-                    </form>
+                    </div>
                 ) : (
                     <></>
                 )}

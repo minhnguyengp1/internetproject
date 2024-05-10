@@ -5,9 +5,14 @@ import SidebarMenu from './SidebarMenu'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
+    const [searchTerm, setSearchTerm] = useState('')
 
     const handleCategorySelect = (category) => {
         setSelectedCategory(category)
+    }
+
+    const handleSearch = (term) => {
+        setSearchTerm(term)
     }
 
     return (

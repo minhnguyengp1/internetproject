@@ -10,6 +10,7 @@ import Article from './pages/article/Article.jsx'
 import CreateArticle from './pages/articleCreate/CreateArticle.jsx'
 import Dashboard from './pages/profile/Dashboard.jsx'
 import UserLayout from './components/profilePage/UserLayout.jsx'
+import { SearchProvider } from './context/SearchContext'
 
 const Layout = () => {
     return (
@@ -65,7 +66,9 @@ function App() {
     return (
         <div className="app">
             <div className="container">
-                <RouterProvider router={router} />
+                <SearchProvider>
+                    <RouterProvider router={router} />
+                </SearchProvider>
             </div>
         </div>
     )

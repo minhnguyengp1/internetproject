@@ -1,18 +1,19 @@
 .main {
     display: flex;
-    height: 700px;
-    margin-left: 270px;
-    margin-right: 270px;
+    justify-content: center;
+    width: 90%;
+    margin: 20px 0;
+    padding: 20px 0;
 }
 
-.whole {
-    /* Deine anderen Stile hier */
-    height: 700px;
-    margin-left: 270px;
-    margin-right: 270px;
-    width: 900px;
+.formContainer {
+    width: 500px;
+    height: 600px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 a {
@@ -24,11 +25,6 @@ a {
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.preis {
-}
-
-.preisEingabe {
-}
-
-.preisArt {
+.ant-upload ant-upload-select {
+    background-color: aqua;
 }

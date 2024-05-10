@@ -1,8 +1,25 @@
 import './createArticle.scss'
-import { Button, Checkbox, Form, Input, Upload } from 'antd'
-import FormItem from 'antd/es/form/FormItem'
-import { StarOutlined, UploadOutlined } from '@ant-design/icons'
+//import { Button, Checkbox, Form, Input, Upload } from 'antd'
 import axios from 'axios'
+import React, { useState } from 'react'
+import { PlusOutlined } from '@ant-design/icons'
+import {
+    Button,
+    Cascader,
+    Checkbox,
+    ColorPicker,
+    DatePicker,
+    Form,
+    Input,
+    InputNumber,
+    Radio,
+    Select,
+    Slider,
+    Switch,
+    TreeSelect,
+    Upload,
+    ConfigProvider,
+} from 'antd'
 
 const onFinish = async (values) => {
     const apiUrl = 'http://localhost:5000/api/createArticle'
@@ -15,8 +32,6 @@ const onFinish = async (values) => {
     } catch (error) {
         if (error.response) {
             console.error('Error data:', error.response.data)
-            console.error('Error status:', error.response.status)
-            console.error('Error headers:', error.response.headers)
         } else if (error.request) {
             console.error('Error request:', error.request)
         } else {
@@ -29,10 +44,120 @@ const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
 }
 
+const { RangePicker } = DatePicker
+const { TextArea } = Input
+const normFile = (e) => {
+    if (Array.isArray(e)) {
+        return e
+    }
+    return e?.fileList
+}
+
 const Create = () => {
     return (
         <div className="main">
-            <div className="whole">
+            <div className="formContainer">
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Form: {
+                                /* here is your component tokens */
+                                labelFontSize: 20,
+                            },
+                        },
+                    }}
+                >
+                    <Form
+                        labelCol={{
+                            span: 7,
+                        }}
+                        wrapperCol={{
+                            span: 80,
+                        }}
+                        layout="horizontal"
+                        style={{
+                            minWidth: 450,
+                            maxWidth: 500,
+                        }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                    >
+                        <Form.Item label="Titel">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="Kategorie">
+                            <Select>
+                                <Select.Option value="Elektronik">
+                                    Elektronik
+                                </Select.Option>
+                                <Select.Option value="Sport">
+                                    Sport
+                                </Select.Option>
+                                <Select.Option value="Mode">Mode</Select.Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Preis">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Radio.Group>
+                                <div className="testas">
+                                    <Radio value="Festpreis">Festpreis</Radio>
+                                    <Radio value="Verhandelbar">
+                                        Verhandelbar
+                                    </Radio>
+                                    <Radio value="Verschenken">
+                                        zu Verschenken
+                                    </Radio>
+                                </div>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item label="Beschreibung">
+                            <TextArea rows={4} />
+                        </Form.Item>
+                        <Form.Item
+                            label="Upload"
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                        >
+                            <Upload action="/upload.do" listType="picture-card">
+                                <button
+                                    style={{
+                                        border: 0,
+                                        background: 'none',
+                                    }}
+                                    type="button"
+                                >
+                                    <PlusOutlined />
+                                    <div
+                                        style={{
+                                            marginTop: 8,
+                                        }}
+                                    >
+                                        Upload
+                                    </div>
+                                </button>
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item label="Button">
+                            <Button type="primary" htmlType="submit">
+                                Anzeige aufgeben
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </ConfigProvider>
+            </div>
+        </div>
+    )
+}
+
+export default () => <Create />
+
+//export default Create
+
+/*        <div className="main">
+            <div className="formContainer">
                 <Form
                     name="createArticleForm"
                     labelCol={{
@@ -165,7 +290,4 @@ const Create = () => {
                 </Form>
             </div>
         </div>
-    )
-}
-
-export default Create
+    )*/

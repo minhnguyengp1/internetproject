@@ -11,11 +11,9 @@ const SidebarMenu = ({ onSelectCategory }) => {
         )
         if (selectedItem) {
             if (selectedItem.label === 'All Categories') {
-                console.log(selectedItem.label)
                 setSelectedCategory(null)
                 onSelectCategory(null)
             } else {
-                console.log(selectedItem.label)
                 setSelectedCategory(selectedItem.label)
                 onSelectCategory(selectedItem.label)
             }
