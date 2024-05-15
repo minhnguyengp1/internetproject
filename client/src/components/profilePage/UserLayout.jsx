@@ -6,7 +6,7 @@ const UserLayout = () => (
     <div className="SideMenuAndPageContent">
         <SideMenu />
         <div className="PageContent">
-            <Outlet /> {/* This is where dynamic content is displayed */}
+            <Outlet />
         </div>
     </div>
 )

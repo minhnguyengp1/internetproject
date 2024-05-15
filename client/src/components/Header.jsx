@@ -3,7 +3,7 @@ import './headerStyle.scss'
 import AppLogo from '../assets/logoBlack.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaSearch, FaUser } from 'react-icons/fa'
-import { logoutThunk } from '../redux/actions/authActions'
+// import { logoutThunk } from '../redux/actions/authActions'
 import { useSelector, useDispatch } from 'react-redux'
 
 const Header = () => {
@@ -14,7 +14,7 @@ const Header = () => {
     const location = useLocation()
 
     const handleLogout = () => {
-        dispatch(logoutThunk())
+        // dispatch(logoutThunk())
         navigate('/')
     }
 

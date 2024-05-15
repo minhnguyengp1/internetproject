@@ -1,53 +1,27 @@
-import * as actionTypes from '../constants/userActionTypes.js'
-
-export const userLoginReducer = (state = {}, action) => {
-    switch (action.type) {
-        case actionTypes.USER_LOGIN_REQUEST:
-            return {
-                loading: true,
-            }
-        case actionTypes.USER_LOGIN_SUCCESS:
-            return {
-                loading: false,
-                userInfo: action.payload,
-            }
-        case actionTypes.USER_LOGIN_FAIL:
-            return {
-                loading: false,
-                error: action.payload,
-            }
-        case actionTypes.USER_LOGOUT:
-            return {}
-        default:
-            return state
-    }
+// userReducer.js
+const initialState = {
+    userDetails: null,
+    error: null,
 }
 
-export const userRegisterReducer = (state = {}, action) => {
+export const userDetailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.USER_REGISTER_REQUEST:
-            return { loading: true }
-        case actionTypes.USER_REGISTER_SUCCESS:
-            return { loading: false, userInfo: action.payload }
-        case actionTypes.USER_REGISTER_FAIL:
-            return { loading: false, error: action.payload }
-        case actionTypes.USER_LOGOUT:
-            return {}
-        default:
-            return state
-    }
-}
-
-export const userDetailsReducer = (state = { user: {} }, action) => {
-    switch (action.type) {
-        case actionTypes.USER_DETAILS_REQUEST:
-            return { ...state, loading: true }
-        case actionTypes.USER_DETAILS_SUCCESS:
-            return { loading: false, user: action.payload }
-        case actionTypes.USER_DETAILS_FAIL:
-            return { loading: false, error: action.payload }
-        case actionTypes.USER_DETAILS_RESET:
-            return { user: {} }
+        case 'FETCH_USER_DETAILS_REQUEST':
+            return {
+                ...state,
+                error: null,
+            }
+        case 'FETCH_USER_DETAILS_SUCCESS':
+            return {
+                ...state,
+                userDetails: action.payload.userDetails,
+                error: null,
+            }
+        case 'FETCH_USER_DETAILS_FAILURE':
+            return {
+                ...state,
+                error: action.payload.error,
+            }
         default:
             return state
     }

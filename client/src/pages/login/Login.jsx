@@ -2,50 +2,31 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Form, Button } from 'antd'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
-import { loginThunk } from '../../redux/actions/userActions.js'
+import { loginThunk } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import Header from '../../components/Header'
 
 const Login = () => {
-    console.log('HALLO TO LOGIN PAGE')
-
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
 
-    const userLogin = useSelector((state) => state.userLogin)
-    console.log('userLogin: ' + JSON.stringify(userLogin))
+    const { error, isAuthenticated } = useSelector((state) => state.auth)
 
-    const { error, userInfo } = userLogin
-
-    console.log('location.search: ' + location.search)
-
-    const redirect = location.search ? location.search.split('=')[1] : '/'
-
-    console.log('redirect: ' + redirect)
-
-    // useEffect(() => {
-    //     console.log(
-    //         'userInfo when Login is redered: ' + JSON.stringify(userInfo)
-    //     )
-    //     if (userInfo) {
-    //         navigate(redirect)
-    //     }
-    // }, [navigate, userInfo, redirect])
     useEffect(() => {
-        console.log()
-        if (userInfo) {
-            // If userInfo exists, navigate to the previous URL
+        // If the user is already authenticated, redirect them to the previous URL
+        if (isAuthenticated) {
             if (location.state?.from) {
                 navigate(location.state.from)
+            } else {
+                navigate('/')
             }
         }
-    }, [userInfo, navigate, location])
+    }, [isAuthenticated, navigate, location])
 
     const onFinish = (values) => {
-        const email = values.email
-        const password = values.password
+        const { email, password } = values
         dispatch(loginThunk({ email, password }))
     }
 

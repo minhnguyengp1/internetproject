@@ -62,24 +62,14 @@ export const login = (req, res) => {
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_KEY);
 
-        res.cookie('access_token', token, {
-            httpOnly: true,
-            secure: true,
-        })
-            .status(200)
-            .json({
-                userId: user.id,
-                email: user.email,
-                access_token: token,
-            });
+        res.status(200).json({
+            userId: user.userId,
+            email: user.email,
+            accessToken: token,
+        });
     });
 };
 
 export const logout = (req, res) => {
-    res.clearCookie('access_token', {
-        sameSite: 'none',
-        secure: true,
-    })
-        .status(200)
-        .json('User has been logged out.');
+    res.status(200).json('User has been logged out.');
 };

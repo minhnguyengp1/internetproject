@@ -1,58 +1,55 @@
-import { act } from 'react'
-import {
-    REQUEST_LOADING,
-    REQUEST_SUCCESS,
-    REQUEST_FAILED,
-    REGISTER_SUCCESS,
-    LOGOUT_SUCCESS,
-    AUTH_RESTORE,
-} from '../constants/authActionTypes.js'
-
 const initialState = {
-    isAuthenticated: false,
-    isLoading: false,
-    isSuccessful: false,
-    currentUser: null,
+    accessToken: localStorage.getItem('accessToken') || null,
+    userId: localStorage.getItem('userId') || null,
+    isAuthenticated: localStorage.getItem('accessToken') ? true : false,
+    error: null,
 }
 
-export const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REQUEST_LOADING:
+        case 'LOGIN_REQUEST':
             return {
                 ...state,
-                isAuthenticated: false,
-                isLoading: true,
+                error: null,
             }
-        case REQUEST_SUCCESS:
+        case 'LOGIN_SUCCESS':
+            localStorage.setItem('accessToken', action.payload.accessToken)
+            localStorage.setItem('userId', action.payload.userId)
             return {
+                ...state,
+                accessToken: action.payload.accessToken,
+                userId: action.payload.userId,
                 isAuthenticated: true,
-                isLoading: false,
-                isSuccessful: true,
-                currentUser: action.payload,
+                error: null,
             }
-        case REQUEST_FAILED:
-            return initialState
-        case REGISTER_SUCCESS:
-            return {
-                isAuthenticated: false,
-                isLoading: false,
-                isSuccessful: true,
-                currentUser: null,
-            }
-        case LOGOUT_SUCCESS:
-            return {
-                ...initialState,
-            }
-        case AUTH_RESTORE:
-            console.log('state:' + state)
-            console.log(action.payload.isAuthenticated)
-            console.log(action.payload.token)
+        case 'LOGIN_FAILURE':
             return {
                 ...state,
-                isAuthenticated: action.payload.isAuthenticated,
-                token: action.payload.token,
+                error: action.payload.error,
+            }
+        case 'REGISTER_SUCCESS':
+            return {
+                ...state,
+                error: null,
+            }
+        case 'REGISTER_FAILURE':
+            return {
+                ...state,
+                error: action.payload.error,
+            }
+        case 'LOGOUT':
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('userId')
+            return {
+                ...state,
+                accessToken: null,
+                userId: null,
+                isAuthenticated: false,
+                error: null,
             }
         default:
             return state
     }
 }
+
+export default authReducer

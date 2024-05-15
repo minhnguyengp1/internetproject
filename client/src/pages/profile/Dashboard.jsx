@@ -21,57 +21,42 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { useNavigate, Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserDetails } from '../../redux/actions/userActions.js'
+import { fetchUserDetails } from '../../redux/actions/userActions'
+import defaultAvatar from '../../assets/default-avatar.png'
+import './style.scss'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function Dashboard() {
-    const [email, setEmail] = useState('')
-    const [name, setName] = useState('')
-    const [orders, setOrders] = useState(0)
+    const [userInfo, setUserInfo] = useState({
+        fullName: '',
+        activeArticles: 0,
+        activeSince: 'Unknown',
+        img: defaultAvatar,
+    })
     const [inventory, setInventory] = useState(0)
 
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
 
-    const userDetails = useSelector((state) => state.userDetails)
+    const { error, userDetails } = useSelector((state) => state.userDetails)
 
-    const { error, user } = userDetails
-
-    const userLogin = useSelector((state) => state.userLogin)
-
-    const { userInfo } = userLogin
-
-    console.log('user: ', user)
-
-    // useEffect(() => {
-    //     getOrders().then((res) => {
-    //         setOrders(res.total)
-    //         setRevenue(res.discountedTotal)
-    //     })
-    //     getInventory().then((res) => {
-    //         setInventory(res.total)
-    //     })
-    //     getCustomers().then((res) => {
-    //         setCustomers(res.total)
-    //     })
-    // }, [])
+    console.log('userDetails in Dashboard: ' + JSON.stringify(userDetails))
 
     useEffect(() => {
-        console.log('userInfo: ', userInfo)
-        if (!userInfo) {
-            navigate('/login', { state: { from: location }, replace: true })
-        } else {
-            if (!user.name) {
-                dispatch(getUserDetails(userInfo.id))
-                // dispatch(listMyOrders())
-            } else {
-                setName(user.name)
-                setEmail(user.email)
+        // Dispatch fetchUserDetails action and update local states
+        dispatch(fetchUserDetails()).then(() => {
+            if (userDetails) {
+                setUserInfo({
+                    fullName: userDetails.fullName || '',
+                    activeArticles: userDetails.activeArticles || 0,
+                    activeSince: userDetails.activeSince || 'Unknown',
+                    img: userDetails.img || defaultAvatar,
+                })
             }
-        }
-    }, [dispatch, userInfo, user])
+        })
+    }, [dispatch, userDetails])
 
     return (
         <Space size={20} direction="vertical">
@@ -79,30 +64,22 @@ function Dashboard() {
             <Card style={{ width: '100%' }}>
                 <Space direction="horizontal" size={16}>
                     <img
-                        src={user.profilePicture || 'default-profile.png'}
+                        src={userInfo.img}
                         alt="Profile"
-                        className="profile-pic"
+                        className="profile-pic" // Global styles
                     />
                     <Space direction="vertical">
                         <Typography.Text>
-                            <strong>Name:</strong> {user.name || 'Unknown'}
+                            <strong>Name:</strong> {userInfo.fullName}
                         </Typography.Text>
                         <Typography.Text>
                             <strong>Anzeigen online:</strong>{' '}
-                            {user.activeAnzeigen || 0}
+                            {userInfo.activeArticles}
                         </Typography.Text>
                         <Typography.Text>
-                            <strong>Aktiv seit:</strong>{' '}
-                            {user.activeSince || 'Unknown'}
+                            <strong>Aktiv seit:</strong> {userInfo.activeSince}
                         </Typography.Text>
                     </Space>
-                    <Button
-                        type="primary"
-                        icon={<EditOutlined />}
-                        onClick={() => {}}
-                    >
-                        Edit Info
-                    </Button>
                 </Space>
             </Card>
             <Space direction="horizontal">
@@ -118,8 +95,8 @@ function Dashboard() {
                             }}
                         />
                     }
-                    title={'Orders'}
-                    value={orders}
+                    title={'Anzeigen online'}
+                    value={userInfo.activeArticles}
                 />
                 <DashboardCard
                     icon={
@@ -242,4 +219,5 @@ function DashboardChart() {
         </Card>
     )
 }
+
 export default Dashboard

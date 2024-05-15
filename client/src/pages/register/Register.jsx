@@ -5,36 +5,16 @@ import { Form, Button } from 'antd'
 import { useEffect } from 'react'
 import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerThunk } from '../../redux/actions/userActions.js'
+import { registerThunk } from '../../redux/actions/authActions.js'
 
 const Register = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    // const currentUser = useSelector((state) => state.auth.currentUser)
-    // const isScuccessful = useSelector((state) => state.auth.isSuccessful)
-
-    const userRegister = useSelector((state) => state.userRegister)
-    console.log('userRegister: ' + userRegister)
-
-    const { error, userInfo } = userRegister
-
     const onFinish = (values) => {
-        const email = values.email
-        const password = values.password
+        const { email, password } = values
         dispatch(registerThunk({ email, password }))
-
-        console.log('values: ' + JSON.stringify(values))
-        console.log('email: ' + email)
-        console.log('password: ' + password)
     }
-
-    useEffect(() => {
-        console.log('userInfo when Register is redered: ' + userInfo)
-        if (userInfo) {
-            navigate('/login')
-        }
-    }, [userInfo])
 
     return (
         <div className="register">
