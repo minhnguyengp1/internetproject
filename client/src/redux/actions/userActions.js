@@ -2,11 +2,11 @@ import * as actionTypes from '../constants/userActionTypes.js'
 import axios from 'axios'
 
 export const fetchUserDetails = () => async (dispatch, getState) => {
-    dispatch({ type: 'FETCH_USER_DETAILS_REQUEST' })
+    dispatch({ type: actionTypes.FETCH_USER_DETAILS_REQUEST })
 
     try {
         const { accessToken } = getState().auth
-        const { userId } = getState().auth // Assuming you have a userId field in your auth state
+        const { userId } = getState().auth
 
         const config = {
             headers: {
@@ -21,13 +21,46 @@ export const fetchUserDetails = () => async (dispatch, getState) => {
         )
 
         dispatch({
-            type: 'FETCH_USER_DETAILS_SUCCESS',
+            type: actionTypes.FETCH_USER_DETAILS_SUCCESS,
             payload: { userDetails: data },
         })
     } catch (error) {
         dispatch({
-            type: 'FETCH_USER_DETAILS_FAILURE',
+            type: actionTypes.FETCH_USER_DETAILS_FAILURE,
             payload: { error: 'An error occurred' },
+        })
+    }
+}
+
+export const fetchUserArticles = () => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.FETCH_USER_ARTICLES_REQUEST })
+
+    try {
+        const { accessToken } = getState().auth
+        const { userId } = getState().auth
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+
+        const { data } = await axios.get(
+            `http://localhost:5000/api/articles/user/${userId}`,
+            config
+        )
+
+        console.log('response.data in fetchUserArticles: ', data)
+
+        dispatch({
+            type: actionTypes.FETCH_USER_ARTICLES_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.FETCH_USER_ARTICLES_FAILURE,
+            payload: error.message || 'Failed to fetch user articles',
         })
     }
 }

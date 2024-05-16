@@ -28,7 +28,7 @@ import './style.scss'
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function Dashboard() {
-    const [userInfo, setUserInfo] = useState({
+    const [userDetails, setUserDetails] = useState({
         fullName: '',
         activeArticles: 0,
         activeSince: 'Unknown',
@@ -40,23 +40,25 @@ function Dashboard() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { error, userDetails } = useSelector((state) => state.userDetails)
+    const { error, userDetails: reduxUserDetails } = useSelector(
+        (state) => state.userDetails
+    )
 
-    console.log('userDetails in Dashboard: ' + JSON.stringify(userDetails))
+    console.log('userDetails in Dashboard: ' + JSON.stringify(reduxUserDetails))
 
     useEffect(() => {
         // Dispatch fetchUserDetails action and update local states
         dispatch(fetchUserDetails()).then(() => {
-            if (userDetails) {
-                setUserInfo({
-                    fullName: userDetails.fullName || '',
-                    activeArticles: userDetails.activeArticles || 0,
-                    activeSince: userDetails.activeSince || 'Unknown',
-                    img: userDetails.img || defaultAvatar,
+            if (reduxUserDetails) {
+                setUserDetails({
+                    fullName: reduxUserDetails.fullName || '',
+                    activeArticles: reduxUserDetails.activeArticles || 0,
+                    activeSince: reduxUserDetails.activeSince || 'Unknown',
+                    img: reduxUserDetails.img || defaultAvatar,
                 })
             }
         })
-    }, [dispatch, userDetails])
+    }, [dispatch, reduxUserDetails])
 
     return (
         <Space size={20} direction="vertical">
@@ -64,20 +66,21 @@ function Dashboard() {
             <Card style={{ width: '100%' }}>
                 <Space direction="horizontal" size={16}>
                     <img
-                        src={userInfo.img}
+                        src={userDetails.img}
                         alt="Profile"
                         className="profile-pic" // Global styles
                     />
                     <Space direction="vertical">
                         <Typography.Text>
-                            <strong>Name:</strong> {userInfo.fullName}
+                            <strong>Name:</strong> {userDetails.fullName}
                         </Typography.Text>
                         <Typography.Text>
                             <strong>Anzeigen online:</strong>{' '}
-                            {userInfo.activeArticles}
+                            {userDetails.activeArticles}
                         </Typography.Text>
                         <Typography.Text>
-                            <strong>Aktiv seit:</strong> {userInfo.activeSince}
+                            <strong>Aktiv seit:</strong>{' '}
+                            {userDetails.activeSince}
                         </Typography.Text>
                     </Space>
                 </Space>
@@ -96,7 +99,7 @@ function Dashboard() {
                         />
                     }
                     title={'Anzeigen online'}
-                    value={userInfo.activeArticles}
+                    value={userDetails.activeArticles}
                 />
                 <DashboardCard
                     icon={

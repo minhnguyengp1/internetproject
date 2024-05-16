@@ -12,6 +12,7 @@ import Dashboard from './pages/profile/Dashboard.jsx'
 import ProfileInfo from './pages/profile/ProfileInfo.jsx'
 import UserLayout from './components/profilePage/UserLayout.jsx'
 import PrivateRoute from './pages/PrivateRoute.jsx'
+import UserArticles from './pages/profile/UserArticles.jsx'
 
 const Layout = () => {
     return (
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
                 children: [
                     { path: '', element: <Dashboard /> },
                     { path: 'personal-info', element: <ProfileInfo /> },
+                    { path: 'articles', element: <UserArticles /> },
                 ],
             },
         ],

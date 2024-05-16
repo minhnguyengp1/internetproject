@@ -9,6 +9,7 @@ const ProfileInfo = () => {
         fullName: '',
         activeArticles: 0,
         activeSince: 'Unknown',
+        articles: [],
     })
 
     const dispatch = useDispatch()
@@ -28,13 +29,9 @@ const ProfileInfo = () => {
         })
     }, [dispatch, userDetails])
 
-    const handleEditName = () => {
-        // Implement logic to handle editing name
-    }
+    const handleEditName = () => {}
 
-    const handleEditAddress = () => {
-        // Implement logic to handle editing address
-    }
+    const handleEditAddress = () => {}
 
     return (
         <Space size={20} direction="vertical">

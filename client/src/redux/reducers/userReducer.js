@@ -26,3 +26,35 @@ export const userDetailsReducer = (state = initialState, action) => {
             return state
     }
 }
+
+const initialArticlesState = {
+    userArticles: [],
+    loading: false,
+    error: null,
+}
+
+export const userArticlesReducer = (state = initialArticlesState, action) => {
+    switch (action.type) {
+        case 'FETCH_USER_ARTICLES_REQUEST':
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            }
+        case 'FETCH_USER_ARTICLES_SUCCESS':
+            return {
+                ...state,
+                userArticles: action.payload,
+                loading: false,
+                error: null,
+            }
+        case 'FETCH_USER_ARTICLES_FAILURE':
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            }
+        default:
+            return state
+    }
+}
