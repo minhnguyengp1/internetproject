@@ -1,48 +1,56 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Form, Button } from 'antd'
+import { Form, Button, Alert } from 'antd'
 import './login.scss'
 import LoginForm from '../../forms/LoginForm.jsx'
-import { loginThunk } from '../../redux/actions/authActions.js'
+import { login } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 
 const Login = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState('')
 
-    const { error, isAuthenticated } = useSelector((state) => state.auth)
+    const { error, isAuthenticated } = useSelector((state) => state.userLogin)
+
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+
+    const handleSubmit = (values) => {
+        const { email, password } = values
+        dispatch(login({ email, password }))
+    }
 
     useEffect(() => {
-        // If the user is already authenticated, redirect them to the previous URL
         if (isAuthenticated) {
-            if (location.state?.from) {
-                navigate(location.state.from)
-            } else {
-                navigate('/')
-            }
+            navigate(redirect)
         }
-    }, [isAuthenticated, navigate, location])
-
-    const onFinish = (values) => {
-        const { email, password } = values
-        dispatch(loginThunk({ email, password }))
-    }
+        if (error) {
+            setErrorMessage(error)
+        } else {
+            setErrorMessage('')
+        }
+    }, [isAuthenticated, error, navigate, redirect])
 
     return (
         <>
             <Header />
             <div className="login">
+                {errorMessage ? (
+                    <div style={{ marginBottom: '24px' }}>
+                        <Alert message={errorMessage} type="error" showIcon />
+                    </div>
+                ) : null}
                 <div className="containerLogin">
                     <h1>Login</h1>
                     <Form
                         name="normal_login"
                         className="login-form"
                         initialValues={{
-                            remember: true,
+                            remember: true
                         }}
-                        onFinish={onFinish}
+                        onFinish={handleSubmit}
                     >
                         <LoginForm />
                         <Form.Item>

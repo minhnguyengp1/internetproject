@@ -1,47 +1,54 @@
-import * as actionTypes from '../constants/userActionTypes.js'
+import * as actionTypes from '../constants/authActionTypes.js'
 import axios from 'axios'
 
-export const loginThunk = ({ email, password }) => {
+export const login = ({ email, password }) => {
     return async (dispatch) => {
-        dispatch({ type: 'LOGIN_REQUEST' })
+        dispatch({ type: actionTypes.LOGIN_REQUEST })
 
         try {
-            // const response = await someApi.login(credentials) // Assume an API call
             const { data } = await axios.post(
                 'http://localhost:5000/api/auth/login',
                 { email, password }
             )
 
-            console.log('data in loginThunk: ' + JSON.stringify(data))
+            const { accessToken, userId } = data
 
             dispatch({
                 type: 'LOGIN_SUCCESS',
-                payload: { userId: data.userId, accessToken: data.accessToken },
+                payload: { userId: userId, accessToken: accessToken }
             })
         } catch (error) {
+            const errorMessage = error.response && error.response.data && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
             dispatch({
-                type: 'LOGIN_FAILURE',
-                payload: { error: 'An error occurred' },
+                type: actionTypes.LOGIN_FAILURE,
+                payload: errorMessage
             })
         }
     }
 }
 
-export const registerThunk = ({ fullName, email, password }) => {
+export const register = ({ fullName, email, password }) => {
     return async (dispatch) => {
-        dispatch({ type: 'REGISTER_REQUEST' })
+        dispatch({ type: actionTypes.REGISTER_REQUEST })
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 'http://localhost:5000/api/auth/register',
                 { fullName, email, password }
             )
 
-            dispatch({ type: 'REGISTER_SUCCESS' })
+            dispatch({ type: actionTypes.REGISTER_SUCCESS })
         } catch (error) {
+            const errorMessage = error.response && error.response.data && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
             dispatch({
-                type: 'REGISTER_FAILURE',
-                payload: { error: 'An error occurred' },
+                type: actionTypes.REGISTER_FAILURE,
+                payload: errorMessage
             })
         }
     }

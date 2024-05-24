@@ -1,9 +1,6 @@
 import {
-    DollarCircleOutlined,
     ShoppingCartOutlined,
-    ShoppingOutlined,
-    UserOutlined,
-    EditOutlined,
+    ShoppingOutlined
 } from '@ant-design/icons'
 import { Card, Space, Statistic, Table, Typography, Button } from 'antd'
 import { useEffect, useState } from 'react'
@@ -16,24 +13,26 @@ import {
     BarElement,
     Title,
     Tooltip,
-    Legend,
+    Legend
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { useNavigate, Navigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserDetails } from '../../redux/actions/userActions'
 import defaultAvatar from '../../assets/default-avatar.png'
 import './style.scss'
+import UserLayout from '../../components/profilePage/UserLayout.jsx'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-function Dashboard() {
+const Dashboard = () => {
     const [userDetails, setUserDetails] = useState({
         fullName: '',
         activeArticles: 0,
         activeSince: 'Unknown',
-        img: defaultAvatar,
+        img: defaultAvatar
     })
+
     const [inventory, setInventory] = useState(0)
 
     const dispatch = useDispatch()
@@ -44,84 +43,87 @@ function Dashboard() {
         (state) => state.userDetails
     )
 
-    console.log('userDetails in Dashboard: ' + JSON.stringify(reduxUserDetails))
+    // console.log('userDetails in Dashboard: ' + JSON.stringify(userDetails))
 
     useEffect(() => {
-        // Dispatch fetchUserDetails action and update local states
-        dispatch(fetchUserDetails()).then(() => {
-            if (reduxUserDetails) {
-                setUserDetails({
-                    fullName: reduxUserDetails.fullName || '',
-                    activeArticles: reduxUserDetails.activeArticles || 0,
-                    activeSince: reduxUserDetails.activeSince || 'Unknown',
-                    img: reduxUserDetails.img || defaultAvatar,
-                })
-            }
-        })
-    }, [dispatch, reduxUserDetails])
+        dispatch(fetchUserDetails())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (reduxUserDetails) {
+            setUserDetails({
+                fullName: reduxUserDetails.fullName || '',
+                activeArticles: reduxUserDetails.activeArticles || 0,
+                activeSince: reduxUserDetails.activeSince || 'Unknown',
+                img: reduxUserDetails.img || defaultAvatar
+            })
+        }
+    }, [reduxUserDetails])
 
     return (
-        <Space size={20} direction="vertical">
-            <Typography.Title level={4}>Dashboard</Typography.Title>
-            <Card style={{ width: '100%' }}>
-                <Space direction="horizontal" size={16}>
-                    <img
-                        src={userDetails.img}
-                        alt="Profile"
-                        className="profile-pic" // Global styles
-                    />
-                    <Space direction="vertical">
-                        <Typography.Text>
-                            <strong>Name:</strong> {userDetails.fullName}
-                        </Typography.Text>
-                        <Typography.Text>
-                            <strong>Anzeigen online:</strong>{' '}
-                            {userDetails.activeArticles}
-                        </Typography.Text>
-                        <Typography.Text>
-                            <strong>Aktiv seit:</strong>{' '}
-                            {userDetails.activeSince}
-                        </Typography.Text>
+        <UserLayout>
+            <Space size={20} direction="vertical">
+                <Typography.Title level={4}>Dashboard</Typography.Title>
+                <Card style={{ width: '100%' }}>
+                    <Space direction="horizontal" size={16}>
+                        <img
+                            src={userDetails.img}
+                            alt="Profile"
+                            className="profile-pic" // Global styles
+                        />
+                        <Space direction="vertical">
+                            <Typography.Text>
+                                <strong>Name:</strong> {userDetails.fullName}
+                            </Typography.Text>
+                            <Typography.Text>
+                                <strong>Anzeigen online:</strong>{' '}
+                                {userDetails.activeArticles}
+                            </Typography.Text>
+                            <Typography.Text>
+                                <strong>Aktiv seit:</strong>{' '}
+                                {userDetails.activeSince}
+                            </Typography.Text>
+                        </Space>
                     </Space>
+                </Card>
+                <Space direction="horizontal">
+                    <DashboardCard
+                        icon={
+                            <ShoppingCartOutlined
+                                style={{
+                                    color: 'green',
+                                    backgroundColor: 'rgba(0,255,0,0.25)',
+                                    borderRadius: 20,
+                                    fontSize: 24,
+                                    padding: 8
+                                }}
+                            />
+                        }
+                        title={'Anzeigen online'}
+                        value={userDetails.activeArticles}
+                    />
+                    <DashboardCard
+                        icon={
+                            <ShoppingOutlined
+                                style={{
+                                    color: 'blue',
+                                    backgroundColor: 'rgba(0,0,255,0.25)',
+                                    borderRadius: 20,
+                                    fontSize: 24,
+                                    padding: 8
+                                }}
+                            />
+                        }
+                        title={'Inventory'}
+                        value={inventory}
+                    />
                 </Space>
-            </Card>
-            <Space direction="horizontal">
-                <DashboardCard
-                    icon={
-                        <ShoppingCartOutlined
-                            style={{
-                                color: 'green',
-                                backgroundColor: 'rgba(0,255,0,0.25)',
-                                borderRadius: 20,
-                                fontSize: 24,
-                                padding: 8,
-                            }}
-                        />
-                    }
-                    title={'Anzeigen online'}
-                    value={userDetails.activeArticles}
-                />
-                <DashboardCard
-                    icon={
-                        <ShoppingOutlined
-                            style={{
-                                color: 'blue',
-                                backgroundColor: 'rgba(0,0,255,0.25)',
-                                borderRadius: 20,
-                                fontSize: 24,
-                                padding: 8,
-                            }}
-                        />
-                    }
-                    title={'Inventory'}
-                    value={inventory}
-                />
+                <Space>
+                    <RecentOrders />
+                    <DashboardChart />
+                </Space>
             </Space>
-            <Space>
-                <RecentOrders />
-                <DashboardChart />
-            </Space>
-        </Space>
+        </UserLayout>
     )
 }
 
@@ -135,6 +137,7 @@ function DashboardCard({ title, value, icon }) {
         </Card>
     )
 }
+
 function RecentOrders() {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
@@ -154,16 +157,16 @@ function RecentOrders() {
                 columns={[
                     {
                         title: 'Title',
-                        dataIndex: 'title',
+                        dataIndex: 'title'
                     },
                     {
                         title: 'Quantity',
-                        dataIndex: 'quantity',
+                        dataIndex: 'quantity'
                     },
                     {
                         title: 'Price',
-                        dataIndex: 'discountedPrice',
-                    },
+                        dataIndex: 'discountedPrice'
+                    }
                 ]}
                 loading={loading}
                 dataSource={dataSource}
@@ -176,7 +179,7 @@ function RecentOrders() {
 function DashboardChart() {
     const [reveneuData, setReveneuData] = useState({
         labels: [],
-        datasets: [],
+        datasets: []
     })
 
     // useEffect(() => {
@@ -207,13 +210,13 @@ function DashboardChart() {
         responsive: true,
         plugins: {
             legend: {
-                position: 'bottom',
+                position: 'bottom'
             },
             title: {
                 display: true,
-                text: 'Order Revenue',
-            },
-        },
+                text: 'Order Revenue'
+            }
+        }
     }
 
     return (

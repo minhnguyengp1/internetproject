@@ -14,26 +14,29 @@ const UserArticles = ({ userId }) => {
     const {
         userArticles: reduxUserArticles,
         loading: reduxLoading,
-        error: reduxError,
+        error: reduxError
     } = useSelector((state) => state.userArticles)
 
     useEffect(() => {
         setLoading(true)
         setError(null)
+        console.log('reduxUserArticles for if: ', reduxUserArticles)
 
+        console.log('inside')
         dispatch(fetchUserArticles())
             .then(() => {
                 if (reduxUserArticles) {
                     // setLoading(false)
+                    console.log('reduxUserArticles: ', reduxUserArticles)
+
                     setUserArticles(reduxUserArticles)
                 }
-                console.log('reduxUserArticles: ', reduxUserArticles)
             })
             .catch((error) => {
                 // setLoading(false)
                 setError(error.message || 'Failed to fetch user articles')
             })
-    }, [dispatch])
+    }, [dispatch, reduxUserArticles])
 
     // console.log('loading: ' + loading)
 

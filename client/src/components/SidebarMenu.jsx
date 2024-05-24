@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { categories } from '../../assets/categories'
+import { categories } from '../assets/categories.js'
 import './sidebarMenu.scss'
 
 const SidebarMenu = ({ onSelectCategory }) => {

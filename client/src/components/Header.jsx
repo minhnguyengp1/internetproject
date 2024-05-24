@@ -1,17 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './headerStyle.scss'
 import AppLogo from '../assets/logoBlack.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaSearch, FaUser } from 'react-icons/fa'
 // import { logoutThunk } from '../redux/actions/authActions'
 import { useSelector, useDispatch } from 'react-redux'
+import { fetchUserDetails } from '../redux/actions/userActions.js'
+import defaultAvatar from '../assets/default-avatar.png'
 
 const Header = () => {
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const userEmail = useSelector((state) => state.auth.currentUser?.email)
     const location = useLocation()
+    const [userDetails, setUserDetails] = useState({
+        fullName: ''
+    })
+
+    const { isAuthenticated } = useSelector((state) => state.userLogin)
+
+    const { error, userDetails: reduxUserDetails } = useSelector((state) => state.userDetails)
+
+    useEffect(() => {
+        dispatch(fetchUserDetails())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (reduxUserDetails) {
+            setUserDetails({
+                fullName: reduxUserDetails.fullName || ''
+            })
+        }
+    }, [reduxUserDetails])
 
     const handleLogout = () => {
         // dispatch(logoutThunk())
@@ -48,7 +67,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p id="userName">{userEmail}</p>
+                                    <p id="userName">{userDetails.fullName}</p>
                                     <button
                                         onClick={handleLogout}
                                         className="buttonLogout"

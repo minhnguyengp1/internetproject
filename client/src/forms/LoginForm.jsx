@@ -9,12 +9,12 @@ export default function LoginForm() {
                 name="email"
                 rules={[
                     {
-                        required: true,
+                        required: true
                     },
                     {
                         type: 'email',
-                        message: 'Bitte Email eingeben',
-                    },
+                        message: 'Bitte Email eingeben'
+                    }
                 ]}
             >
                 <Input
@@ -27,8 +27,8 @@ export default function LoginForm() {
                 rules={[
                     {
                         required: true,
-                        message: 'Bitte Passwort eingeben',
-                    },
+                        message: 'Bitte Passwort eingeben'
+                    }
                 ]}
             >
                 <Input.Password
