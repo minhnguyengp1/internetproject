@@ -93,6 +93,36 @@ const Header = () => {
                             )}
                         </>
                     )}
+                    {!isLoginPage && !isRegisterPage && (
+                        <>
+                            {!isAuthenticated ? (
+                                <>
+                                    <button className="buttonRegister">
+                                        <span>
+                                            <Link to="/register">
+                                                Registrieren{' '}
+                                            </Link>
+                                        </span>
+                                    </button>
+                                    <button className="buttonEinloggen">
+                                        <span>
+                                            <Link to="/login">Einloggen</Link>
+                                        </span>
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <p id="userName">{userEmail}</p>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="buttonLogout"
+                                    >
+                                        Ausloggen
+                                    </button>
+                                </>
+                            )}
+                        </>
+                    )}
                 </form>
             </div>
 

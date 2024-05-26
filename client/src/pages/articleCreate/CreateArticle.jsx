@@ -24,6 +24,8 @@ import {
 const onFinish = async (values) => {
     const apiUrl = 'http://localhost:5000/api/createArticle'
 
+    console.log('Form values:', values)
+
     try {
         console.log(values)
         const response = await axios.post(apiUrl, values)
@@ -44,7 +46,6 @@ const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
 }
 
-const { RangePicker } = DatePicker
 const { TextArea } = Input
 const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -61,7 +62,6 @@ const Create = () => {
                     theme={{
                         components: {
                             Form: {
-                                /* here is your component tokens */
                                 labelFontSize: 20,
                             },
                         },
@@ -83,10 +83,16 @@ const Create = () => {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
-                        <Form.Item label="Titel">
+                        <Form.Item
+                            label="Titel"
+                            name="title" // Add name attribute
+                        >
                             <Input />
                         </Form.Item>
-                        <Form.Item label="Kategorie">
+                        <Form.Item
+                            label="Kategorie"
+                            name="category" // Add name attribute
+                        >
                             <Select>
                                 <Select.Option value="Elektronik">
                                     Elektronik
@@ -97,10 +103,15 @@ const Create = () => {
                                 <Select.Option value="Mode">Mode</Select.Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item label="Preis">
+                        <Form.Item
+                            label="Preis"
+                            name="price" // Add name attribute
+                        >
                             <Input />
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item
+                            name="type" // Add name attribute
+                        >
                             <Radio.Group>
                                 <div className="testas">
                                     <Radio value="Festpreis">Festpreis</Radio>
@@ -113,7 +124,10 @@ const Create = () => {
                                 </div>
                             </Radio.Group>
                         </Form.Item>
-                        <Form.Item label="Beschreibung">
+                        <Form.Item
+                            label="Beschreibung"
+                            name="description" // Add name attribute
+                        >
                             <TextArea rows={4} />
                         </Form.Item>
                         <Form.Item
@@ -140,7 +154,7 @@ const Create = () => {
                                 </button>
                             </Upload>
                         </Form.Item>
-                        <Form.Item label="Button">
+                        <Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Anzeige aufgeben
                             </Button>
@@ -153,141 +167,3 @@ const Create = () => {
 }
 
 export default () => <Create />
-
-//export default Create
-
-/*        <div className="main">
-            <div className="formContainer">
-                <Form
-                    name="createArticleForm"
-                    labelCol={{
-                        span: 8,
-                    }}
-                    wrapperCol={{
-                        span: 16,
-                    }}
-                    style={{
-                        maxWidth: 600,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                    <Form.Item
-                        label="Titel"
-                        name="title"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    'Bitte geben den Titel deiner Anzeige an',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <div className="preisArt">
-                        <Form.Item label="Kategorie" name="type">
-                            <select id="kategorie" name="type">
-                                <option value="Elektronik" defaultValue={true}>
-                                    Elektronik
-                                </option>
-                                <option value="Mode">Mode</option>
-                                <option value="Sport">Sport</option>
-                            </select>
-                        </Form.Item>
-                    </div>
-
-                    <div className="preis">
-                        <Form.Item
-                            className="preisEingabe"
-                            label="Preis"
-                            name="price"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Bitte gebe den Preis an',
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-
-                        <div className="preisArt">
-                            <Form.Item label="PreisArt" name="type">
-                                <select id="preisArt" name="type">
-                                    <option value="Festpreis">Festpreis</option>
-                                    <option value="Verschenken">
-                                        Kostenlos
-                                    </option>
-                                    <option value="Verhandelbar">
-                                        Verhandelbar
-                                    </option>
-                                </select>
-                            </Form.Item>
-                        </div>
-                    </div>
-
-                    <Form.Item
-                        label="Beschreibung"
-                        name="description"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    'Bitte gebe die Beschreibung deiner Anzeige an',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Image"
-                        name="imgUrl"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    'Bitte gebe die Beschreibung deiner Anzeige an',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="UserId"
-                        name="userId"
-                        rules={[
-                            {
-                                required: true,
-                                message:
-                                    'Bitte gebe die Beschreibung deiner Anzeige an',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <a> Persönliche Informationen</a>
-                    <p></p>
-
-                    <Form.Item
-                        wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                        }}
-                    >
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
-    )*/
