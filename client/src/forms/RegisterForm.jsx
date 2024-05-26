@@ -8,8 +8,8 @@ export default function RegisterForm({ userLocation }) {
     return (
         <>
             <Form.Item
-                name="name"
-                label="name"
+                name="Name"
+                label="Name"
                 rules={[
                     {
                         required: true,
@@ -22,8 +22,8 @@ export default function RegisterForm({ userLocation }) {
                 />
             </Form.Item>
             <Form.Item
-                name="email"
-                label="email"
+                name="Email"
+                label="Email"
                 rules={[
                     {
                         required: true,
@@ -40,8 +40,8 @@ export default function RegisterForm({ userLocation }) {
                 />
             </Form.Item>
             <Form.Item
-                name="password"
-                label="password"
+                name="Passwort"
+                label="Passwort"
                 rules={[
                     {
                         required: true,
@@ -74,8 +74,8 @@ export default function RegisterForm({ userLocation }) {
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
       </Form.Item> */}
             <Form.Item
-                label="country"
-                name="country"
+                label="Land"
+                name="Land"
                 rules={[
                     {
                         required: true,

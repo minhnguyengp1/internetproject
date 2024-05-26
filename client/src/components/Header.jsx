@@ -34,8 +34,9 @@ const Header = () => {
         window.location.reload()
     }
 
-    const isLoginOrRegister =
-        location.pathname === '/login' || location.pathname === '/register'
+    const isLoginPage = location.pathname === '/login'
+
+    const isRegisterPage = location.pathname === '/register'
 
     return (
         <div className="header">
@@ -44,7 +45,7 @@ const Header = () => {
                     <img className="imageLogo" src={AppLogo} alt="yabe" />
                 </Link>
                 <form className="buttonsTop">
-                    {!isLoginOrRegister && (
+                    {isLoginPage && (
                         <>
                             {!isAuthenticated ? (
                                 <>
@@ -55,7 +56,24 @@ const Header = () => {
                                             </Link>
                                         </span>
                                     </button>
-                                    <span>oder</span>
+                                </>
+                            ) : (
+                                <>
+                                    <p id="userName">{userEmail}</p>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="buttonLogout"
+                                    >
+                                        Ausloggen
+                                    </button>
+                                </>
+                            )}
+                        </>
+                    )}
+                    {isRegisterPage && (
+                        <>
+                            {!isAuthenticated ? (
+                                <>
                                     <button className="buttonEinloggen">
                                         <span>
                                             <Link to="/login">Einloggen</Link>
@@ -79,7 +97,7 @@ const Header = () => {
             </div>
 
             <div className="down">
-                {!isLoginOrRegister ? (
+                {!isLoginPage && !isRegisterPage ? (
                     <div className="buttonsDown">
                         <Search
                             placeholder="input search text"

@@ -1,43 +1,14 @@
 .register {
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(
-            to bottom,
-            rgba(163, 86, 86, 0) 0%,
-            rgb(118, 164, 104) 100%
-        ),
-        url('https://cdn.hipwallpaper.com/i/98/21/dUyCkp.jpg');
-    background-size: cover;
-    position: relative;
-
-    .top {
-        .wrapper {
-            padding: 20px 50px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            .logo {
-                height: 80px;
-            }
-
-            .loginButton {
-                background-color: #1d4b00;
-                border: none;
-                color: white;
-                border-radius: 5px;
-                padding: 5px 15px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-            }
-        }
-    }
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin-top: 100px;
+    margin-bottom: 300px;
+    /*
     .container {
         width: 100%;
         height: 100%;
-        position: absolute;
         top: 0;
         left: 0;
         display: flex;
@@ -77,4 +48,62 @@
             }
         }
     }
+    */
+}
+
+.containerRegister {
+    width: 600px;
+    height: 550px;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        color: white;
+    }
+
+    Form {
+        width: 90%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+
+        input {
+            padding: 0;
+            margin: 0;
+        }
+
+        button {
+            border: none;
+            width: 150px;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                color: white;
+            }
+        }
+
+        span {
+            font-size: 20px;
+            text-align: center;
+            color: black;
+        }
+        a {
+            width: 140px;
+            color: white;
+            border-color: white;
+        }
+    }
+}
+
+#normal_register > div:nth-child(5) > div > div > div > div {
+    display: flex;
+    justify-content: center;
 }

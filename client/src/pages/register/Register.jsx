@@ -3,9 +3,10 @@ import './register.scss'
 import RegisterForm from '../../forms/RegisterForm.jsx'
 import { Form, Button } from 'antd'
 import { useEffect } from 'react'
-import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerThunk } from '../../redux/actions/userActions.js'
+import Header from '../../components/Header.jsx'
+import Footer from '../../components/Footer.jsx'
 
 const Register = () => {
     const dispatch = useDispatch()
@@ -37,44 +38,37 @@ const Register = () => {
     }, [userInfo])
 
     return (
-        <div className="register">
-            <div className="top">
-                <div className="wrapper">
-                    <img className="logo" src={AppLogo} alt="" />
-                    <button
-                        className="loginButton"
-                        onClick={() => navigate('/login')}
+        <>
+            <Header />
+            <div className="register">
+                <div className="containerRegister">
+                    <h1>Register</h1>
+                    <Form
+                        layout="vertical"
+                        name="normal_register"
+                        className="register-form"
+                        initialValues={{
+                            remember: true,
+                        }}
+                        onFinish={onFinish}
                     >
-                        Sign In
-                    </button>
+                        <RegisterForm />
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="register-form-button"
+                                // loading={isLoading}
+                                size="large"
+                            >
+                                Register
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
             </div>
-            <div className="container">
-                <h1>Register</h1>
-                <Form
-                    layout="vertical"
-                    name="normal_register"
-                    className="register-form"
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                >
-                    <RegisterForm />
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="register-form-button"
-                            // loading={isLoading}
-                            size="large"
-                        >
-                            Register
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
+            <Footer />
+        </>
     )
 }
 
