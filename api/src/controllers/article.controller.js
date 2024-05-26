@@ -52,20 +52,18 @@ export const getArticles = (req, res) => {
 };
 
 export const getArticleById = (req, res) => {
-    const articleId = req.params.articleId;
+    const { id } = req.params;
 
-    const q = 'SELECT * FROM articles WHERE articleId = ?';
+    const query = 'SELECT * FROM articles WHERE articleId = ?';
 
-    db.query(q, [articleId], (err, data) => {
+    db.query(query, [id], (err, data) => {
         if (err) {
-            return res.status(500).send(err);
+            return res.status(500).json(err);
         }
-
         if (data.length === 0) {
             return res.status(404).json({ message: 'Article not found' });
         }
-
-        return res.status(200).json(data[0]);
+        res.status(200).json(data[0]);
     });
 };
 

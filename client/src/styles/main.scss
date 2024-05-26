@@ -3,8 +3,16 @@
 :root {
     --primary-color: #486d9e;
     --secondary-color: #7099e6;
-    --accent-color: #e8f5fe; 
+    --accent-color: #e8f5fe;
     --text-color: #333;
+}
+
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 body {

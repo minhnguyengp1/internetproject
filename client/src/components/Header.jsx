@@ -56,6 +56,14 @@ const Header = () => {
         window.location.reload()
     }
 
+    const handleMyProfileClick = () => {
+        if (isAuthenticated) {
+            navigate('/user')
+        } else {
+            navigate('login')
+        }
+    }
+
     const isLoginPage = location.pathname === '/login'
 
     const isRegisterPage = location.pathname === '/register'
@@ -81,7 +89,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p id="userName">{userEmail}</p>
+                                    <p id="userName">{userDetails.fullName}</p>
                                     <button
                                         onClick={handleLogout}
                                         className="buttonLogout"
@@ -104,7 +112,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p id="userName">{userEmail}</p>
+                                    <p id="userName">{userDetails.fullName}</p>
                                     <button
                                         onClick={handleLogout}
                                         className="buttonLogout"
@@ -159,7 +167,7 @@ const Header = () => {
                             size="large"
                             className="searchBar"
                         />
-                        <button id="accountBtn">
+                        <button id="accountBtn" onClick={handleMyProfileClick}>
                             <FaUser /> Mein Profil
                         </button>
                     </div>

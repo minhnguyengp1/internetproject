@@ -54,7 +54,7 @@ const normFile = (e) => {
     return e?.fileList
 }
 
-const Create = () => {
+const CreateArticle = () => {
     return (
         <div className="main">
             <div className="formContainer">
@@ -166,4 +166,4 @@ const Create = () => {
     )
 }
 
-export default () => <Create />
+export default () => <CreateArticle />

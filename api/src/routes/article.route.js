@@ -14,10 +14,9 @@ const router = express.Router();
 
 router.post('/createArticle', createArticle);
 router.get('/', getArticles);
-router.get('/:articleId', getArticleById);
+router.get('/article/:id', getArticleById);
 router.put('/:articleId', updateArticle);
 router.delete('/:articleId', deleteArticle);
-
 router.get('/user/:userId', getUserArticles);
 
 export default router;

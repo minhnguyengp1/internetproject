@@ -2,7 +2,7 @@ import './newestArticle.scss'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import ArticleCard from './ArticleCard'
-import { useSearch } from '../../context/SearchContext'
+import { useSearch } from '../../context/SearchContext.jsx'
 
 const NewestArticle = ({ selectedCategory }) => {
     const [articles, setArticles] = useState([])

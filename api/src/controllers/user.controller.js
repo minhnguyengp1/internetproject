@@ -28,3 +28,17 @@ export const getUser = (req, res) => {
         });
     });
 };
+
+export const getUserArticles = (req, res) => {
+    const userId = req.params.userId; // Assuming userId is passed in the URL
+
+    const q = 'SELECT * FROM articles WHERE userId = ?';
+
+    db.query(q, [userId], (err, data) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+
+        return res.status(200).json(data);
+    });
+};

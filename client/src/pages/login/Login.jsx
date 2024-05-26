@@ -35,7 +35,7 @@ const Login = () => {
     }, [isAuthenticated, error, navigate, redirect])
 
     return (
-        <>
+        <div className="loginMainContainer">
             <Header />
             <div className="login">
                 {errorMessage ? (
@@ -49,7 +49,7 @@ const Login = () => {
                         name="normal_login"
                         className="login-form"
                         initialValues={{
-                            remember: true
+                            remember: true,
                         }}
                         onFinish={handleSubmit}
                     >
@@ -68,7 +68,7 @@ const Login = () => {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     )
 }
 

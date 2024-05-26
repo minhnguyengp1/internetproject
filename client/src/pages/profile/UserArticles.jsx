@@ -14,7 +14,7 @@ const UserArticles = ({ userId }) => {
     const {
         userArticles: reduxUserArticles,
         loading: reduxLoading,
-        error: reduxError
+        error: reduxError,
     } = useSelector((state) => state.userArticles)
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const UserArticles = ({ userId }) => {
                 // setLoading(false)
                 setError(error.message || 'Failed to fetch user articles')
             })
-    }, [dispatch, reduxUserArticles])
+    }, [dispatch])
 
     // console.log('loading: ' + loading)
 

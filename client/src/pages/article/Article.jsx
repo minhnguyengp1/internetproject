@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import ProfilInfo from '../../components/Article/ProfilInfo'
+import Header from '../../components/Header.jsx'
+import Footer from '../../components/Footer.jsx'
 import './article.scss'
 
 const Article = () => {
@@ -28,28 +29,32 @@ const Article = () => {
     }
 
     return (
-        <div className="mainPage">
-            <div className="mainContainer">
-                <div className="imgContainer">
-                    <img src={article.imgUrl} alt="test" />
+        <div className="articleContainer">
+            <Header />
+            <div className="mainPage">
+                <div className="mainContainer">
+                    <div className="imgContainer">
+                        <img src={article.imgUrl} alt="test" />
+                    </div>
+                    <div className="optionsContainer">
+                        <div className="itemInfoBox">
+                            <h1>{article.title}</h1>
+                            <p>{article.price} €</p>
+                        </div>
+                        <div className="userInfoBox">
+                            <p>User name</p>
+                            <p>User info</p>
+                        </div>
+                        <button>Nachricht schreiben</button>
+                        <button>Zur Merkliste hinzufügen</button>
+                    </div>
                 </div>
-                <div className="optionsContainer">
-                    <div className="itemInfoBox">
-                        <h1>{article.title}</h1>
-                        <p>{article.price} €</p>
-                    </div>
-                    <div className="userInfoBox">
-                        <p>User name</p>
-                        <p>User info</p>
-                    </div>
-                    <button>Nachricht schreiben</button>
-                    <button>Zur Merkliste hinzufügen</button>
+                <div className="descriptionBox">
+                    <h3>Beschreibung</h3>
+                    <p>{article.description}</p>
                 </div>
             </div>
-            <div className="descriptionBox">
-                <h3>Beschreibung</h3>
-                <p>{article.description}</p>
-            </div>
+            <Footer />
         </div>
     )
 }
