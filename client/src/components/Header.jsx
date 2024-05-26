@@ -1,11 +1,14 @@
-// Header.jsx
+import React, { useEffect, useState } from 'react'
 import './header.scss'
 import AppLogo from '../assets/logoBlack.png'
 import { useSearch } from '../context/SearchContext'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
-import { logoutThunk } from '../redux/actions/authActions'
+//import { logoutThunk } from '../redux/actions/authActions'
 import { useSelector, useDispatch } from 'react-redux'
+import { fetchUserDetails } from '../redux/actions/userActions.js'
+import defaultAvatar from '../assets/default-avatar.png'
+
 import { Input } from 'antd'
 const { Search } = Input
 
@@ -16,14 +19,33 @@ const Header = () => {
         setSearchTerm(value)
     }
 
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const userEmail = useSelector((state) => state.auth.currentUser?.email)
     const location = useLocation()
+    const [userDetails, setUserDetails] = useState({
+        fullName: '',
+    })
+
+    const { isAuthenticated } = useSelector((state) => state.userLogin)
+
+    const { error, userDetails: reduxUserDetails } = useSelector(
+        (state) => state.userDetails
+    )
+
+    useEffect(() => {
+        dispatch(fetchUserDetails())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (reduxUserDetails) {
+            setUserDetails({
+                fullName: reduxUserDetails.fullName || '',
+            })
+        }
+    }, [reduxUserDetails])
 
     const handleLogout = () => {
-        dispatch(logoutThunk())
+        // dispatch(logoutThunk())
         navigate('/')
     }
 
@@ -112,7 +134,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p id="userName">{userEmail}</p>
+                                    <p id="userName">{userDetails.fullName}</p>
                                     <button
                                         onClick={handleLogout}
                                         className="buttonLogout"

@@ -1,74 +1,175 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './register.scss'
-import RegisterForm from '../../forms/RegisterForm.jsx'
-import { Form, Button } from 'antd'
-import { useEffect } from 'react'
+// import RegisterForm from '../../forms/RegisterForm.jsx'
+import { Form, Button, Alert, Input } from 'antd'
+import React, { useEffect, useState } from 'react'
+import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerThunk } from '../../redux/actions/userActions.js'
-import Header from '../../components/Header.jsx'
-import Footer from '../../components/Footer.jsx'
+import { register } from '../../redux/actions/authActions.js'
+import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 
 const Register = () => {
     const dispatch = useDispatch()
+    const location = useLocation()
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState('')
 
-    // const currentUser = useSelector((state) => state.auth.currentUser)
-    // const isScuccessful = useSelector((state) => state.auth.isSuccessful)
+    const { error, loading, success } = useSelector(
+        (state) => state.userRegister
+    )
 
-    const userRegister = useSelector((state) => state.userRegister)
-    console.log('userRegister: ' + userRegister)
+    const redirect = location.search ? location.search.split('=')[1] : '/'
 
-    const { error, userInfo } = userRegister
-
-    const onFinish = (values) => {
-        const email = values.email
-        const password = values.password
-        dispatch(registerThunk({ email, password }))
-
-        console.log('values: ' + JSON.stringify(values))
-        console.log('email: ' + email)
-        console.log('password: ' + password)
+    const handleSubmit = (values) => {
+        const { name, email, password } = values
+        dispatch(register({ name, email, password }))
     }
 
     useEffect(() => {
-        console.log('userInfo when Register is redered: ' + userInfo)
-        if (userInfo) {
-            navigate('/login')
+        if (success) {
+            setTimeout(() => {
+                navigate({
+                    pathname: '/login',
+                    search: `?redirect=${redirect}`,
+                })
+            }, 3000)
         }
-    }, [userInfo])
+        if (error) {
+            console.log('error: ', error)
+            setErrorMessage(error)
+        } else {
+            setErrorMessage('')
+        }
+    }, [success, redirect, navigate, error])
 
     return (
-        <>
-            <Header />
-            <div className="register">
-                <div className="containerRegister">
-                    <h1>Register</h1>
-                    <Form
-                        layout="vertical"
-                        name="normal_register"
-                        className="register-form"
-                        initialValues={{
-                            remember: true,
-                        }}
-                        onFinish={onFinish}
+        <div className="register">
+            <div className="top">
+                <div className="wrapper">
+                    <img className="logo" src={AppLogo} alt="" />
+                    <button
+                        className="loginButton"
+                        onClick={() => navigate('/login')}
                     >
-                        <RegisterForm />
-                        <Form.Item>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                className="register-form-button"
-                                // loading={isLoading}
-                                size="large"
-                            >
-                                Register
-                            </Button>
-                        </Form.Item>
-                    </Form>
+                        Sign In
+                    </button>
                 </div>
             </div>
-            <Footer />
-        </>
+            {errorMessage ? (
+                <div style={{ marginBottom: '24px' }}>
+                    <Alert message={errorMessage} type="error" showIcon />
+                </div>
+            ) : null}
+            <div className="container">
+                <h1>Register</h1>
+                <Form
+                    // layout="vertical"
+                    name="normal_register"
+                    className="register-form"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={handleSubmit}
+                >
+                    {/*<RegisterForm />*/}
+                    <Form.Item
+                        name="name"
+                        label="name"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input
+                            prefix={
+                                <UserOutlined className="site-form-item-icon" />
+                            }
+                            size="large"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="email"
+                        label="email"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                            {
+                                type: 'email',
+                            },
+                        ]}
+                    >
+                        <Input
+                            prefix={
+                                <MailOutlined className="site-form-item-icon" />
+                            }
+                            type="email"
+                            size="large"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        label="password"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input.Password
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            size="large"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="confirm_password"
+                        label="confirm_password"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (
+                                        !value ||
+                                        getFieldValue('password') === value
+                                    ) {
+                                        return Promise.resolve()
+                                    }
+                                    return Promise.reject(
+                                        new Error(
+                                            'The two passwords that you entered do not match!'
+                                        )
+                                    )
+                                },
+                            }),
+                        ]}
+                        hasFeedback
+                    >
+                        <Input.Password
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            size="large"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="register-form-button"
+                            // loading={isLoading}
+                            size="large"
+                        >
+                            Register
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
     )
 }
 

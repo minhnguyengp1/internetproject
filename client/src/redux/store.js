@@ -1,18 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { authReducer } from './reducers/authReducer.js'
+import { userLogin, userRegister } from './reducers/authReducer.js'
 import {
-    userDetailsReducer,
-    userLoginReducer,
-    userRegisterReducer,
+    userArticlesReducer,
+    userDetailsReducer
 } from './reducers/userReducer.js'
 
 const store = configureStore({
     reducer: {
-        auth: authReducer, // Register your reducer(s) with the store
-        userRegister: userRegisterReducer,
-        userLogin: userLoginReducer,
+        userLogin: userLogin,
+        userRegister: userRegister,
         userDetails: userDetailsReducer,
-    },
+        userArticles: userArticlesReducer
+    }
 })
 
 export default store

@@ -1,85 +1,62 @@
-import {
-    REQUEST_LOADING,
-    REQUEST_SUCCESS,
-    REQUEST_FAILED,
-    REGISTER_SUCCESS,
-    LOGOUT_SUCCESS,
-} from '../constants/authActionTypes.js'
+import * as actionTypes from '../constants/authActionTypes.js'
 import axios from 'axios'
 
-const requestLoading = () => ({
-    type: REQUEST_LOADING,
-})
-
-const requestSuccess = (payload) => ({
-    type: REQUEST_SUCCESS,
-    payload,
-})
-
-const requestFailed = () => ({
-    type: REQUEST_FAILED,
-})
-
-const registerSuccess = () => ({
-    type: REGISTER_SUCCESS,
-})
-
-const logoutSuccess = () => ({
-    type: LOGOUT_SUCCESS,
-})
-
-export const loginThunk = (credentials) => {
+export const login = ({ email, password }) => {
     return async (dispatch) => {
-        dispatch(requestLoading())
+        dispatch({ type: actionTypes.LOGIN_REQUEST })
 
         try {
-            // const response = await someApi.login(credentials) // Assume an API call
-            const response = await axios.post(
+            const { data } = await axios.post(
                 'http://localhost:5000/api/auth/login',
-                credentials
+                { email, password }
             )
-            console.log('response.data: ' + JSON.stringify(response.data))
-            const { access_token, email } = response.data
 
-            localStorage.setItem('token', access_token)
+            const { accessToken, userId } = data
 
-            console.log('access_token: ' + access_token)
-            console.log('email: ' + email)
-
-            dispatch(requestSuccess({ access_token, email }))
+            dispatch({
+                type: 'LOGIN_SUCCESS',
+                payload: { userId: userId, accessToken: accessToken }
+            })
         } catch (error) {
-            console.log('error by login: ' + error.message)
-            dispatch(requestFailed())
+            const errorMessage = error.response && error.response.data && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+            dispatch({
+                type: actionTypes.LOGIN_FAILURE,
+                payload: errorMessage
+            })
         }
     }
 }
 
-export const registerThunk = (registerData) => {
+export const register = ({ fullName, email, password }) => {
     return async (dispatch) => {
-        dispatch(requestLoading()) // Dispatch the request action
+        dispatch({ type: actionTypes.REGISTER_REQUEST })
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 'http://localhost:5000/api/auth/register',
-                registerData
+                { fullName, email, password }
             )
 
-            console.log(
-                'response.data: from registerThunk ' +
-                    JSON.stringify(response.data)
-            )
-
-            dispatch(registerSuccess())
+            dispatch({ type: actionTypes.REGISTER_SUCCESS })
         } catch (error) {
-            console.log('error by registration: ' + error.message)
-            dispatch(requestFailed())
+            const errorMessage = error.response && error.response.data && error.response.data.message
+                ? error.response.data.message
+                : error.message
+
+            dispatch({
+                type: actionTypes.REGISTER_FAILURE,
+                payload: errorMessage
+            })
         }
     }
 }
 
-export const logoutThunk = () => (dispatch) => {
-    localStorage.removeItem('token')
-    console.log('Logged out and removed token from LocalStorage')
+// export const logoutThunk = () => (dispatch) => {
+//     localStorage.removeItem('token')
+//     console.log('Logged out and removed token from LocalStorage')
 
-    dispatch(logoutSuccess())
-}
+//     dispatch(logoutSuccess())
+// }

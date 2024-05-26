@@ -35,13 +35,18 @@ function SideMenu() {
                         icon: <AppstoreOutlined />,
                     },
                     {
-                        label: 'Inventory',
-                        key: '/user/inventory',
+                        label: 'Profilinformationen',
+                        key: '/user/personal-info',
                         icon: <ShopOutlined />,
                     },
                     {
-                        label: 'Orders',
-                        key: '/user/orders',
+                        label: 'Anzeigen',
+                        key: '/user/articles',
+                        icon: <ShopOutlined />,
+                    },
+                    {
+                        label: 'Einstellungen',
+                        key: '/user/settings',
                         icon: <ShoppingCartOutlined />,
                     },
                     {

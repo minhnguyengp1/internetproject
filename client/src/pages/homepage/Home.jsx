@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import NewestArticle from './NewestArticle'
 import './home.scss'
-import SidebarMenu from './SidebarMenu'
+import SidebarMenu from '../../components/SidebarMenu.jsx'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
