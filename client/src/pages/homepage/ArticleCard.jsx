@@ -1,13 +1,17 @@
 import './articleCard.scss'
-const ArticleCard = ({ title, img }) => {
+import { Link } from 'react-router-dom'
+
+const ArticleCard = ({ title, img, id }) => {
     return (
         <div className="card">
-            <div className="card-img">
-                <img src={img} alt={title} />
-            </div>
-            <div className="cardDetails">
-                <p>{title}</p>
-            </div>
+            <Link to={`/article/${id}`}>
+                <div className="card-img">
+                    <img src={img} alt={title} />
+                </div>
+                <div className="cardDetails">
+                    <p>{title}</p>
+                </div>
+            </Link>
         </div>
     )
 }

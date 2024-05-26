@@ -19,7 +19,7 @@ app.get('/api/allArticles', articlesRoute);
 app.get('/api/allArticles/:categorie', articlesRoute);
 app.get('/api/search', articlesRoute);
 //app.use('/api/files', fileRouter);
-app.post('/api/createArticle', createArticleRouter);
+app.use('/api', createArticleRouter);
 
 app.use('*', (req, res) => {
     res.status(404).send('API endpoint does not exist');

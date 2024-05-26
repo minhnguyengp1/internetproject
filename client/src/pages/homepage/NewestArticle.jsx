@@ -48,6 +48,7 @@ const NewestArticle = ({ selectedCategory }) => {
                     className="card"
                     title={article.title}
                     img={article.imgUrl}
+                    id={article.articleId}
                 />
             ))}
         </div>

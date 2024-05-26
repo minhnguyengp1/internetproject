@@ -38,3 +38,19 @@ export const createArticle = (req, res) => {
         },
     );
 };
+
+export const getArticleById = (req, res) => {
+    const { id } = req.params;
+
+    const query = 'SELECT * FROM articles WHERE articleId = ?';
+
+    db.query(query, [id], (err, data) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        if (data.length === 0) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+        res.status(200).json(data[0]);
+    });
+};
