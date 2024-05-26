@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import MainPicture from '../../components/Article/MainPicture'
 import ProfilInfo from '../../components/Article/ProfilInfo'
 import './article.scss'
 
@@ -30,14 +29,27 @@ const Article = () => {
 
     return (
         <div className="mainPage">
-            <h1>{article.title}</h1>
-            <div className="test1">
-                <MainPicture img={article.imgUrl} />
-                <ProfilInfo userId={article.userId} />
+            <div className="mainContainer">
+                <div className="imgContainer">
+                    <img src={article.imgUrl} alt="test" />
+                </div>
+                <div className="optionsContainer">
+                    <div className="itemInfoBox">
+                        <h1>{article.title}</h1>
+                        <p>{article.price} €</p>
+                    </div>
+                    <div className="userInfoBox">
+                        <p>User name</p>
+                        <p>User info</p>
+                    </div>
+                    <button>Nachricht schreiben</button>
+                    <button>Zur Merkliste hinzufügen</button>
+                </div>
             </div>
-            <p>{article.description}</p>
-            <p>Price: {article.price} €</p>
-            <p>Category: {article.category}</p>
+            <div className="descriptionBox">
+                <h3>Beschreibung</h3>
+                <p>{article.description}</p>
+            </div>
         </div>
     )
 }
