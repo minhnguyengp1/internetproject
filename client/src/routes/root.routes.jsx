@@ -7,7 +7,7 @@ import Article from '../pages/article/Article.jsx'
 import Dashboard from '../pages/profile/Dashboard.jsx'
 import ProfileInfo from '../pages/profile/ProfileInfo.jsx'
 import UserArticles from '../pages/profile/UserArticles.jsx'
-import Create from '../pages/articleCreate/Create.jsx'
+import CreateArticle from '../pages/articleCreate/CreateArticle.jsx'
 
 function RootRoutes() {
     return (
@@ -15,7 +15,7 @@ function RootRoutes() {
             <Routes>
                 <Route path="/" element={<ProtectedRoute component={Home} />} />
                 <Route path="/article" element={<ProtectedRoute component={Article} />} />
-                <Route path="/article/create" element={<ProtectedRoute component={Create} />} />
+                <Route path="/article/create" element={<ProtectedRoute component={CreateArticle} />} />
                 <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
                 <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
                 <Route path="/user/articles" element={<ProtectedRoute component={UserArticles} />} />

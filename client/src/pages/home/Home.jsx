@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import NewestArticle from '../../components/homepage/NewestArticle'
+import NewestArticle from './NewestArticle.jsx'
 import './home.scss'
 import SidebarMenu from '../../components/SidebarMenu.jsx'
 
