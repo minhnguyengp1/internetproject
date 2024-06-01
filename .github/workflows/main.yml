@@ -1,30 +1,42 @@
-name: CI Pipeline
+stages:
+ - test
+ - build
+ - image
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+variables:
+ IMAGE_NAME: development
+ IMAGE_TAG: latest
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+test:
+ stage: test
+ image: node:14
+ script:
+ - npm install
+ - npm test
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+build:
+ stage: build
+ image: node:14
+ script:
+ - npm install
+ - npm run build
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./internetproject
-
-    - name: Run tests
-      run: npm test
-      working-directory: ./internetproject
+build-docker-image:
+ stage: image
+ image: docker:19.03.12
+ services:
+ - docker:19.03.12-dind
+ script:
+ - docker info
+ - |
+ if [ "$CI_COMMIT_BRANCH" == "main" ]; then
+ export IMAGE_NAME=production
+ elif [ "$CI_COMMIT_BRANCH" == "development" ]; then
+ export IMAGE_NAME=staging
+ else
+ echo "Skipping Docker image build for branch $CI_COMMIT_BRANCH"
+ exit 0
+ fi
+ - docker build -t $CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
+ - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+ - docker push $CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA
