@@ -1,4 +1,4 @@
-import { BlobServiceClient } from '@azure/storage-blob';
+/*import { BlobServiceClient } from '@azure/storage-blob';
 import { config } from 'dotenv';
 
 config();
@@ -27,3 +27,4 @@ export const downloadFile = async (fileName) => {
 
     return downloadBlockBlobResponse.readableStreamBody;
 };
+*/

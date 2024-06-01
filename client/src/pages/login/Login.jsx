@@ -6,6 +6,7 @@ import { login } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -66,6 +67,7 @@ const Login = () => {
                     </Form>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
