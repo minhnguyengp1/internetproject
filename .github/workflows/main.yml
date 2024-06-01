@@ -31,3 +31,18 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Start Docker container for testing
+        run: |
+          docker run -d --name test-container ${{ steps.meta.outputs.tags }}
+          sleep 10
+          docker ps | grep test-container
+      
+      - name: Check if container is running
+        run: |
+          if [[ $(docker ps | grep test-container) ]]; then
+            echo "Container is running"
+          else
+            echo "Container is not running"
+            exit 1
+          fi
