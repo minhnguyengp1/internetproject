@@ -1,42 +1,33 @@
-stages:
- - test
- - build
- - image
+name: Publish Docker image
 
-variables:
- IMAGE_NAME: development
- IMAGE_TAG: latest
+on:
+  push:
+    branches: ['master']
 
-test:
- stage: test
- image: node:14
- script:
- - npm install
- - npm test
-
-build:
- stage: build
- image: node:14
- script:
- - npm install
- - npm run build
-
-build-docker-image:
- stage: image
- image: docker:19.03.12
- services:
- - docker:19.03.12-dind
- script:
- - docker info
- - |
- if [ "$CI_COMMIT_BRANCH" == "main" ]; then
- export IMAGE_NAME=production
- elif [ "$CI_COMMIT_BRANCH" == "development" ]; then
- export IMAGE_NAME=staging
- else
- echo "Skipping Docker image build for branch $CI_COMMIT_BRANCH"
- exit 0
- fi
- - docker build -t $CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
- - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
- - docker push $CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: thetips4you/testjodejsapp
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
