@@ -15,16 +15,19 @@ export const login = ({ email, password }) => {
 
             dispatch({
                 type: 'LOGIN_SUCCESS',
-                payload: { userId: userId, accessToken: accessToken }
+                payload: { userId: userId, accessToken: accessToken },
             })
         } catch (error) {
-            const errorMessage = error.response && error.response.data && error.response.data.message
-                ? error.response.data.message
-                : error.message
+            const errorMessage =
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+                    ? error.response.data.message
+                    : error.message
 
             dispatch({
                 type: actionTypes.LOGIN_FAILURE,
-                payload: errorMessage
+                payload: errorMessage,
             })
         }
     }
@@ -35,28 +38,31 @@ export const register = ({ fullName, email, password }) => {
         dispatch({ type: actionTypes.REGISTER_REQUEST })
 
         try {
-            await axios.post(
-                'http://localhost:5000/api/auth/register',
-                { fullName, email, password }
-            )
+            await axios.post('http://localhost:5000/api/auth/register', {
+                fullName,
+                email,
+                password,
+            })
 
             dispatch({ type: actionTypes.REGISTER_SUCCESS })
         } catch (error) {
-            const errorMessage = error.response && error.response.data && error.response.data.message
-                ? error.response.data.message
-                : error.message
+            const errorMessage =
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+                    ? error.response.data.message
+                    : error.message
 
             dispatch({
                 type: actionTypes.REGISTER_FAILURE,
-                payload: errorMessage
+                payload: errorMessage,
             })
         }
     }
 }
 
-// export const logoutThunk = () => (dispatch) => {
-//     localStorage.removeItem('token')
-//     console.log('Logged out and removed token from LocalStorage')
-
-//     dispatch(logoutSuccess())
-// }
+export const logout = () => {
+    return (dispatch) => {
+        dispatch({ type: actionTypes.LOGOUT })
+    }
+}

@@ -3,10 +3,10 @@ import './header.scss'
 import AppLogo from '../assets/logoBlack.png'
 import { useSearch } from '../context/SearchContext'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaUser } from 'react-icons/fa'
-//import { logoutThunk } from '../redux/actions/authActions'
+import { FaUser, FaCheck } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserDetails } from '../redux/actions/userActions.js'
+import { logout } from '../redux/actions/authActions.js'
 import defaultAvatar from '../assets/default-avatar.png'
 
 import { Input } from 'antd'
@@ -44,11 +44,6 @@ const Header = () => {
         }
     }, [reduxUserDetails])
 
-    const handleLogout = () => {
-        // dispatch(logoutThunk())
-        navigate('/')
-    }
-
     const handleLogoClick = () => {
         if (location.pathname !== '/') {
             navigate('/')
@@ -63,6 +58,13 @@ const Header = () => {
             navigate('login')
         }
     }
+
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate('/login')
+    }
+
+    const handleCreateArticleClick = () => {}
 
     const isLoginPage = location.pathname === '/login'
 
@@ -169,6 +171,12 @@ const Header = () => {
                         />
                         <button id="accountBtn" onClick={handleMyProfileClick}>
                             <FaUser /> Mein Profil
+                        </button>
+                        <button
+                            id="createBtn"
+                            onClick={handleCreateArticleClick}
+                        >
+                            <FaCheck /> Anzeige aufgeben
                         </button>
                     </div>
                 ) : (
