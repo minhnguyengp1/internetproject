@@ -41,3 +41,12 @@ jobs:
 
       - name: Build Docker image for Frontend
         run: docker build -t frontend-image ./client
+      
+      - name: Save Docker image as a file
+        run: docker save -o frontend-image.tar frontend-image
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-image
+          path: frontend-image.tar
