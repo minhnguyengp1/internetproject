@@ -1,5 +1,3 @@
-# .github/workflows/main.yml
-
 name: CI
 
 on:
@@ -23,6 +21,5 @@ jobs:
     - name: Build and push Docker image
       run: |
         docker build -t my-react-app .
-        docker tag my-react-app:latest docker.pkg.github.com/${{ github.repository }}/my-react-app:latest
-        echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-        docker push docker.pkg.github.com/${{ github.repository }}/my-react-app:latest
+        # Hier kannst du das Docker-Image an dein Registry oder eine andere Plattform pushen
+        # Beispiel: docker push my-registry/my-react-app:latest
