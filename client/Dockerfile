@@ -1,4 +1,5 @@
-FROM node:14
+# Stufe 1: Installieren von Abhängigkeiten und Erstellen des Builds
+FROM node:14 AS builder
 
 WORKDIR /app
 
@@ -10,9 +11,10 @@ COPY . .
 
 RUN npm run build
 
+# Stufe 2: Einrichten des Nginx-Servers und Kopieren des Builds
 FROM nginx:alpine
 
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 
 EXPOSE 80
 
