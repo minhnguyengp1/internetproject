@@ -1,1 +1,51 @@
+name: Node.js CI
 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: buni
+          MYSQL_DATABASE: testdb
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.12.2"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Wait for MySQL to be ready
+        run: |
+          dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build Docker image
+        run: docker build -t my-nodejs-app .
+
+      - name: Save Docker image to artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: |
+            $(docker save my-nodejs-app | gzip -c > my-nodejs-app.tar.gz)
