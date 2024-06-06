@@ -61,10 +61,12 @@ const Header = () => {
 
     const handleLogout = () => {
         dispatch(logout())
-        navigate('/login')
+        navigate('/')
     }
 
-    const handleCreateArticleClick = () => {}
+    const handleCreateArticleClick = () => {
+        navigate('article/create')
+    }
 
     const isLoginPage = location.pathname === '/login'
 
