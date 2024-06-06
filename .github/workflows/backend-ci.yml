@@ -32,6 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./api
 
       - name: Wait for MySQL to be ready
         run: |
@@ -39,13 +40,16 @@ jobs:
 
       - name: Run tests
         run: npm test
+        working-directory: ./api
 
       - name: Build Docker image
-        run: docker build -t my-nodejs-app .
+        run: docker build -t backend-image ./api
 
-      - name: Save Docker image to artifact
+      - name: Save Docker image as a file
+        run: docker save -o backend-image.tar backend-image
+
+      - name: Upload Docker image as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: docker-image
-          path: |
-            $(docker save my-nodejs-app | gzip -c > my-nodejs-app.tar.gz)
+          name: backend-image
+          path: backend-image.tar
