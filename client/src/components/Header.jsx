@@ -7,7 +7,6 @@ import { FaUser, FaCheck } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserDetails } from '../redux/actions/userActions.js'
 import { logout } from '../redux/actions/authActions.js'
-import defaultAvatar from '../assets/default-avatar.png'
 
 import { Input } from 'antd'
 const { Search } = Input
