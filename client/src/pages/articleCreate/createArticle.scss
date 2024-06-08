@@ -1,30 +1,104 @@
 .main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    width: 90%;
-    margin: 20px 0;
-    padding: 20px 0;
+    align-items: center;
+    width: 100%;
 }
 
 .formContainer {
-    width: 500px;
+    width: 700px;
     height: 600px;
     background-color: var(--secondary-color);
     border-radius: 10px;
+    margin: 30px 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.formBox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.formItem {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
-}
 
-a {
-    border-bottom: 1px solid black;
-    width: 100%;
-    display: block;
-    color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
+    label {
+        min-width: 150px;
+        margin-left: 20px;
+        font-size: 20px;
+    }
 
-.ant-upload ant-upload-select {
-    background-color: aqua;
+    input {
+        width: 400px;
+        height: 30px;
+        border: none;
+        border-radius: 10px;
+        padding: 0 10px;
+    }
+
+    select {
+        width: 200px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        font-size: large;
+    }
+
+    .priceInputs {
+        display: flex;
+        align-items: center;
+        input {
+            width: 20px;
+            margin-right: 5px;
+            margin-left: 30px;
+        }
+    }
+
+    textarea {
+        min-width: 500px;
+        min-height: 100px;
+    }
+
+    .dropzone {
+        width: 100%;
+        height: 50px;
+        font-size: 20px;
+        font-weight: 400;
+        border: 2px dotted;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            border-color: white;
+            color: white;
+        }
+    }
+
+    button {
+        min-width: 100%;
+        margin-left: 20px;
+        height: 45px;
+        border: none;
+        background-color: var(--primary-color);
+        cursor: pointer;
+        border-radius: 50px;
+        font-size: 20px;
+        font-weight: 500;
+        color: white;
+
+        &:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+    }
 }

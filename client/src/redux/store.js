@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userLogin, userRegister } from './reducers/authReducer.js'
 import {
     userArticlesReducer,
-    userDetailsReducer
+    userDetailsReducer,
 } from './reducers/userReducer.js'
 
 const store = configureStore({
@@ -10,8 +10,8 @@ const store = configureStore({
         userLogin: userLogin,
         userRegister: userRegister,
         userDetails: userDetailsReducer,
-        userArticles: userArticlesReducer
-    }
+        userArticles: userArticlesReducer,
+    },
 })
 
 export default store

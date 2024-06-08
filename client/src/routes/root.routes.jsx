@@ -9,9 +9,9 @@ import ProfileInfo from '../pages/profile/ProfileInfo.jsx'
 import UserArticles from '../pages/profile/UserArticles.jsx'
 import CreateArticle from '../pages/articleCreate/CreateArticle.jsx'
 
-function RootRoutes() {
+function RootRoutes({ router: RouterComponent = BrowserRouter }) {
     return (
-        <BrowserRouter>
+        <RouterComponent>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/article/:id" element={<Article />} />
@@ -34,7 +34,7 @@ function RootRoutes() {
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
             </Routes>
-        </BrowserRouter>
+        </RouterComponent>
     )
 }
 

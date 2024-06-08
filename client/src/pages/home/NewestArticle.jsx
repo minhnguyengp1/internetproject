@@ -41,16 +41,19 @@ const NewestArticle = ({ selectedCategory }) => {
     }, [searchTerm])
 
     return (
-        <div className="newestArticle">
-            {articles.map((article, index) => (
-                <ArticleCard
-                    key={index}
-                    className="card"
-                    title={article.title}
-                    img={article.imgUrl}
-                    id={article.articleId}
-                />
-            ))}
+        <div newestArticleContainer>
+            {selectedCategory ? <h1>Kategorie: {selectedCategory}</h1> : null}
+            <div className="newestArticle">
+                {articles.map((article, index) => (
+                    <ArticleCard
+                        key={index}
+                        className="card"
+                        title={article.title}
+                        img={article.imgUrl}
+                        id={article.articleId}
+                    />
+                ))}
+            </div>
         </div>
     )
 }
