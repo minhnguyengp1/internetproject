@@ -1,0 +1,41 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.12.2"
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./api
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./api
+
+      - name: Build Docker image
+        run: docker build -t backend-image ./api
+
+      - name: Save Docker image as a file
+        run: docker save -o backend-image.tar backend-image
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-image
+          path: backend-image.tar
