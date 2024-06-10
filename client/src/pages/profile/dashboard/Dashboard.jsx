@@ -4,6 +4,7 @@ import {
 } from '@ant-design/icons'
 import { Card, Space, Statistic, Table, Typography, Button } from 'antd'
 import { useEffect, useState } from 'react'
+import './dashboard.scss'
 // import { getCustomers, getInventory, getOrders, getRevenue } from '../../API'
 
 import {
@@ -18,15 +19,14 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserDetails } from '../../redux/actions/userActions'
-import defaultAvatar from '../../assets/default-avatar.png'
-import './style.scss'
-import UserLayout from '../../components/profilePage/UserLayout.jsx'
+import { fetchUserDetails } from '../../../redux/actions/userActions.js'
+import defaultAvatar from '../../../assets/default-avatar.png'
+import UserLayout from '../../../layouts/userLayout/UserLayout.jsx'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Dashboard = () => {
-    const [userDetails, setUserDetails] = useState({
+    const [userInfo, setUserInfo] = useState({
         fullName: '',
         activeArticles: 0,
         activeSince: 'Unknown',
@@ -39,7 +39,7 @@ const Dashboard = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { error, userDetails: reduxUserDetails } = useSelector(
+    const { error, userDetails } = useSelector(
         (state) => state.userDetails
     )
 
@@ -50,44 +50,45 @@ const Dashboard = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (reduxUserDetails) {
-            setUserDetails({
-                fullName: reduxUserDetails.fullName || '',
-                activeArticles: reduxUserDetails.activeArticles || 0,
-                activeSince: reduxUserDetails.activeSince || 'Unknown',
-                img: reduxUserDetails.img || defaultAvatar
+        if (userDetails) {
+            setUserInfo({
+                fullName: userDetails.fullName || '',
+                activeArticles: userDetails.activeArticles || 0,
+                activeSince: userDetails.activeSince || 'Unknown',
+                img: userDetails.img || defaultAvatar
             })
         }
-    }, [reduxUserDetails])
+    }, [userDetails])
 
     return (
         <UserLayout>
             <Space size={20} direction="vertical">
-                <Typography.Title level={4}>Dashboard</Typography.Title>
-                <Card style={{ width: '100%' }}>
+                <Typography.Title level={4} className="dashboard-title">Dashboard</Typography.Title>
+                <Card className="user-card">
                     <Space direction="horizontal" size={16}>
                         <img
-                            src={userDetails.img}
+                            src={userInfo.img}
                             alt="Profile"
                             className="profile-pic" // Global styles
                         />
                         <Space direction="vertical">
                             <Typography.Text>
-                                <strong>Name:</strong> {userDetails.fullName}
+                                <strong>Name:</strong> {userInfo.fullName}
                             </Typography.Text>
                             <Typography.Text>
                                 <strong>Anzeigen online:</strong>{' '}
-                                {userDetails.activeArticles}
+                                {userInfo.activeArticles}
                             </Typography.Text>
                             <Typography.Text>
                                 <strong>Aktiv seit:</strong>{' '}
-                                {userDetails.activeSince}
+                                {userInfo.activeSince}
                             </Typography.Text>
                         </Space>
                     </Space>
                 </Card>
-                <Space direction="horizontal">
+                <Space direction="horizontal" className="dashboard-space-horizontal">
                     <DashboardCard
+                        className="dashboard-card"
                         icon={
                             <ShoppingCartOutlined
                                 style={{
@@ -100,9 +101,10 @@ const Dashboard = () => {
                             />
                         }
                         title={'Anzeigen online'}
-                        value={userDetails.activeArticles}
+                        value={userInfo.activeArticles}
                     />
                     <DashboardCard
+                        className="dashboard-card"
                         icon={
                             <ShoppingOutlined
                                 style={{
@@ -118,7 +120,7 @@ const Dashboard = () => {
                         value={inventory}
                     />
                 </Space>
-                <Space>
+                <Space className="dashboard-space">
                     <RecentOrders />
                     <DashboardChart />
                 </Space>

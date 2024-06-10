@@ -4,10 +4,11 @@ import Register from '../pages/register/Register.jsx'
 import ProtectedRoute from './protected.route.jsx'
 import Home from '../pages/home/Home.jsx'
 import Article from '../pages/article/Article.jsx'
-import Dashboard from '../pages/profile/Dashboard.jsx'
-import ProfileInfo from '../pages/profile/ProfileInfo.jsx'
-import UserArticles from '../pages/profile/UserArticles.jsx'
+import Dashboard from '../pages/profile/dashboard/Dashboard.jsx'
+import ProfileInfo from '../pages/profile/profileInfo/ProfileInfo.jsx'
+import ArticleList from '../pages/profile/articleList/ArticleList.jsx'
 import CreateArticle from '../pages/articleCreate/CreateArticle.jsx'
+import SearchResults from '../pages/SearchResults/SearchResults.jsx'
 
 function RootRoutes() {
     return (
@@ -18,7 +19,8 @@ function RootRoutes() {
                 <Route path="/article/create" element={<ProtectedRoute component={CreateArticle} />} />
                 <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
                 <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
-                <Route path="/user/articles" element={<ProtectedRoute component={UserArticles} />} />
+                <Route path="/user/articles" element={<ProtectedRoute component={ArticleList} />} />
+                <Route path="/search" element={<SearchResults />} />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
             </Routes>

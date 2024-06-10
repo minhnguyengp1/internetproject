@@ -1,0 +1,30 @@
+.category-dropdown {
+  position: absolute;
+  right: 0;
+  width: 150px;
+  padding: 0 10px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #ddd;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background-color: transparent;
+  cursor: pointer;
+  appearance: none;
+  font-size: 14px;
+  outline: none;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat right 10px center;
+  background-size: 16px 16px;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  &::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+  }
+}

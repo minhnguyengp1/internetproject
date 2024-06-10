@@ -1,5 +1,5 @@
-import React from 'react';
-import "./footerStyle.scss"
+import React from 'react'
+import './footerStyle.scss'
 
 const Footer = () => {
     return (
@@ -40,7 +40,7 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
-    );
-};
+    )
+}
 
-export default Footer;
+export default Footer

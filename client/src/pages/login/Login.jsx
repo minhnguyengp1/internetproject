@@ -5,8 +5,8 @@ import LoginForm from '../../forms/LoginForm.jsx'
 import { login } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
+import Header from '../../components/header/Header.jsx'
+import Footer from '../../components/footer/Footer.jsx'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -35,8 +35,8 @@ const Login = () => {
     }, [isAuthenticated, error, navigate, redirect])
 
     return (
-        <div className="loginMainContainer">
-            <Header />
+        <>
+            {/*<Header />*/}
             <div className="login">
                 {errorMessage ? (
                     <div style={{ marginBottom: '24px' }}>
@@ -49,7 +49,7 @@ const Login = () => {
                         name="normal_login"
                         className="login-form"
                         initialValues={{
-                            remember: true,
+                            remember: true
                         }}
                         onFinish={handleSubmit}
                     >
@@ -67,8 +67,8 @@ const Login = () => {
                     </Form>
                 </div>
             </div>
-            <Footer />
-        </div>
+            {/*<Footer />*/}
+        </>
     )
 }
 

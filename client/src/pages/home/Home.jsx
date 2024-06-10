@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import NewestArticle from './NewestArticle.jsx'
 import './home.scss'
-import SidebarMenu from '../../components/SidebarMenu.jsx'
+import SidebarMenu from '../../components/sidebar-menu/SidebarMenu.jsx'
+import HomeLayout from '../../layouts/homeLayout/HomeLayout.jsx'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
@@ -11,14 +12,9 @@ const Home = () => {
     }
 
     return (
-        <div className="homePage">
-            <div className="topSplit">
-                <div className="leftSide">
-                    <SidebarMenu onSelectCategory={handleCategorySelect} />
-                </div>
-                <NewestArticle selectedCategory={selectedCategory} />
-            </div>
-        </div>
+        <HomeLayout>
+            <NewestArticle selectedCategory={selectedCategory} />
+        </HomeLayout>
     )
 }
 

@@ -66,3 +66,35 @@ export const fetchUserArticles = () => async (dispatch, getState) => {
         })
     }
 }
+
+export const updateUserDetails = (updatedFields) => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.UPDATE_USER_DETAILS_REQUEST })
+
+    try {
+        const { accessToken } = getState().userLogin
+        const { userId } = getState().userLogin
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `http://localhost:5000/api/user/${userId}`,
+            updatedFields,
+            config
+        )
+
+        dispatch({
+            type: actionTypes.UPDATE_USER_DETAILS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.UPDATE_USER_DETAILS_FAILURE,
+            payload: error.message || 'Failed to update user details'
+        })
+    }
+}
