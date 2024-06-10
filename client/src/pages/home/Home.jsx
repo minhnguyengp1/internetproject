@@ -1,34 +1,23 @@
 import { useState } from 'react'
-import NewestArticle from './NewestArticle'
+import NewestArticle from './NewestArticle.jsx'
 import './home.scss'
-import SidebarMenu from './SidebarMenu.jsx'
-import Header from '../../components/Header.jsx'
-import Footer from '../../components/Footer.jsx'
+import SidebarMenu from '../../components/SidebarMenu.jsx'
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState()
-    const [searchTerm, setSearchTerm] = useState('')
 
     const handleCategorySelect = (category) => {
         setSelectedCategory(category)
     }
 
-    const handleSearch = (term) => {
-        setSearchTerm(term)
-    }
-
     return (
-        <div className="homeContainer">
-            <Header />
-            <div className="homePage">
-                <div className="topSplit">
-                    <div className="leftSide">
-                        <SidebarMenu onSelectCategory={handleCategorySelect} />
-                    </div>
-                    <NewestArticle selectedCategory={selectedCategory} />
+        <div className="homePage">
+            <div className="topSplit">
+                <div className="leftSide">
+                    <SidebarMenu onSelectCategory={handleCategorySelect} />
                 </div>
+                <NewestArticle selectedCategory={selectedCategory} />
             </div>
-            <Footer />
         </div>
     )
 }

@@ -1,39 +1,23 @@
 import { db } from '../dbs/init.mysql.js';
 
 export const createArticle = (req, res) => {
-    console.log(req.body);
-    const { title, description, price, type, category } = req.body;
-    const userId = 1;
-    const imgUrl = '';
-    if (
-        !title ||
-        !description ||
-        !price ||
-        !type ||
-        !category
-        //!userId ||
-        //!imgUrl
-    ) {
-        return res.status(400).json({ message: 'Missing required parameter' });
-    }
-    const query =
-        'INSERT INTO articles (userId , description, price, title, type,  imgUrl, category) VALUES (?, ?, ?, ?, ?, ?, ?);';
+    const { category, description, imgUrl, price, title, userId, type } =
+        req.body;
+
+    const q =
+        'INSERT INTO articles (category, description, imgUrl, price, title, userId, type) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
     db.query(
-        query,
-        [userId, description, price, title, type, imgUrl, category],
-        (err, data) => {
+        q,
+        [category, description, imgUrl, price, title, userId, type],
+        (err, result) => {
             if (err) {
-                return res.status(500).json(err);
+                return res.status(500).send(err);
             }
-            res.status(201).json({
-                message: 'New article created successfully',
-                userIdId: title,
-                description,
-                price,
-                type,
-                category,
-                imgUrl,
+
+            return res.status(201).json({
+                message: 'Article created successfully',
+                articleId: result.insertId,
             });
         },
     );
@@ -52,18 +36,20 @@ export const getArticles = (req, res) => {
 };
 
 export const getArticleById = (req, res) => {
-    const { id } = req.params;
+    const articleId = req.params.articleId;
 
-    const query = 'SELECT * FROM articles WHERE articleId = ?';
+    const q = 'SELECT * FROM articles WHERE articleId = ?';
 
-    db.query(query, [id], (err, data) => {
+    db.query(q, [articleId], (err, data) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).send(err);
         }
+
         if (data.length === 0) {
             return res.status(404).json({ message: 'Article not found' });
         }
-        res.status(200).json(data[0]);
+
+        return res.status(200).json(data[0]);
     });
 };
 

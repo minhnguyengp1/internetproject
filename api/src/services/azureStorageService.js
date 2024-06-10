@@ -1,30 +1,29 @@
-/*import { BlobServiceClient } from '@azure/storage-blob';
-import { config } from 'dotenv';
+import { BlobServiceClient } from '@azure/storage-blob'
+import { config } from 'dotenv'
 
-config();
+config()
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(
-    process.env.AZURE_STORAGE_CONNECTION_STRING,
-);
+    process.env.AZURE_STORAGE_CONNECTION_STRING
+)
 const containerClient =
-    blobServiceClient.getContainerClient('yabe-common-files');
+    blobServiceClient.getContainerClient('yabe-common-files')
 
 export const uploadFile = async (file) => {
-    const { originalname, buffer } = file;
-    const blobName = `${Date.now()}-${originalname}`;
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const { originalname, buffer } = file
+    const blobName = `${Date.now()}-${originalname}`
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName)
 
-    await blockBlobClient.uploadData(buffer);
+    await blockBlobClient.uploadData(buffer)
 
-    return blobName;
-};
+    return blobName
+}
 
 export const downloadFile = async (fileName) => {
-    const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+    const blockBlobClient = containerClient.getBlockBlobClient(fileName)
 
-    console.log('Downloading file: ', fileName);
-    const downloadBlockBlobResponse = await blockBlobClient.download();
+    console.log('Downloading file: ', fileName)
+    const downloadBlockBlobResponse = await blockBlobClient.download()
 
-    return downloadBlockBlobResponse.readableStreamBody;
-};
-*/
+    return downloadBlockBlobResponse.readableStreamBody
+}

@@ -13,24 +13,12 @@ function RootRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/article/:id" element={<Article />} />
-                <Route
-                    path="/article/create"
-                    element={<ProtectedRoute component={CreateArticle} />}
-                />
-                <Route
-                    path="/user"
-                    element={<ProtectedRoute component={Dashboard} />}
-                />
-                <Route
-                    path="/user/personal-info"
-                    element={<ProtectedRoute component={ProfileInfo} />}
-                />
-                <Route
-                    path="/user/articles"
-                    element={<ProtectedRoute component={UserArticles} />}
-                />
+                <Route path="/" element={<ProtectedRoute component={Home} />} />
+                <Route path="/article" element={<ProtectedRoute component={Article} />} />
+                <Route path="/article/create" element={<ProtectedRoute component={CreateArticle} />} />
+                <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
+                <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
+                <Route path="/user/articles" element={<ProtectedRoute component={UserArticles} />} />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
             </Routes>
