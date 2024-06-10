@@ -1,0 +1,24 @@
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .home-layout__content {
+    display: flex;
+    flex: 1;
+
+    .home-layout__main-content {
+      flex: 1;
+      padding: 20px;
+      background-color: #f0f2f5;
+      overflow-y: auto;
+    }
+
+    .sidebar-menu {
+      width: 300px;
+      background-color: #001529;
+      color: #fff;
+      padding: 20px;
+    }
+  }
+}

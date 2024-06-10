@@ -1,0 +1,169 @@
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  //background-color: var(--accent-color);
+  background-color: white;
+}
+
+.top {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.buttonsTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 20px;
+}
+
+#homeLink {
+  border: none;
+  width: 200px;
+}
+
+.imageLogo {
+  width: 200px;
+}
+
+.buttonRegister {
+  background-color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  width: 120px;
+  height: 35px;
+  cursor: pointer;
+
+  a {
+    border: none;
+    text-decoration: none;
+    color: var(--primary-color);
+    display: block;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background-color: var(--primary-color);
+    border: none;
+
+    a {
+      color: white;
+    }
+  }
+}
+
+.buttonEinloggen {
+  border: none;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  width: 120px;
+  height: 35px;
+  border-radius: 50px;
+
+  a {
+    color: white;
+    border: none;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background-color: white;
+    border: 2px solid var(--primary-color);
+
+    a {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.buttonLogout {
+  border: none;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  width: 120px;
+  height: 35px;
+  border-radius: 50px;
+  color: white;
+
+  &:hover {
+    background-color: white;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
+#userName {
+  font-size: large;
+  font-weight: 600;
+  color: var(--primary-color);
+  padding-right: 20px;
+}
+
+.down {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background-color: var(--secondary-color);
+}
+
+//-------------------------------------------------------------------------------------------
+
+.buttonsDown {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Gap between input fields and dropdown */
+  padding: 0 20px;
+  padding: 0 20px;
+  position: relative;
+
+  input[type='text'] {
+    width: 450px;
+    height: 40px;
+    border-radius: 12px;
+    padding-left: 10px;
+    border: 1px solid #ddd;
+    position: relative;
+  }
+
+  .input-with-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 450px;
+  }
+
+  #searchBtn,
+  #accountBtn {
+    width: 130px;
+    height: 35px;
+    margin-left: 30px;
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 5px 12px;
+    font-weight: 700;
+    color: white;
+
+    &:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+  }
+}

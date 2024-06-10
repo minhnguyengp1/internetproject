@@ -1,7 +1,7 @@
 import './newestArticle.scss'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import ArticleCard from './ArticleCard'
+import ArticleCard from '../../components/article-card/ArticleCard.jsx'
 
 const NewestArticle = ({ selectedCategory }) => {
     const [articles, setArticles] = useState([])

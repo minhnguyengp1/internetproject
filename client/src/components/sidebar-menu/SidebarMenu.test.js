@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SidebarMenu from './SidebarMenu.jsx'
-import { categories } from '../assets/categories.js'
+import { categories } from '../../assets/categories.js'
 
 describe('SidebarMenu', () => {
     const mockOnSelectCategory = jest.fn()

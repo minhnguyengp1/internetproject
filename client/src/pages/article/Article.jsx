@@ -1,31 +1,26 @@
 import React from 'react'
-import MainPicture from '../../components/Article/MainPicture';
-import './article.scss';
-import ProfilInfo from '../../components/Article/ProfilInfo';
-
-
+import MainPicture from '../../components/article/MainPicture'
+import './article.scss'
+import ProfilInfo from '../../components/article/ProfilInfo'
 
 
 export const Article = () => {
-  return (
-     
-   
-    
-    <div className='mainPage'>
+    return (
+
+
+        <div className="mainPage">
             <h1> Hallo, das ist dein Artikel </h1>
-           
-           
-           <div className='test1'>
-            <MainPicture></MainPicture>
-            <ProfilInfo></ProfilInfo>
-           </div>
-            
-    </div>
-    
 
-   
 
-  )
+            <div className="test1">
+                <MainPicture></MainPicture>
+                <ProfilInfo></ProfilInfo>
+            </div>
+
+        </div>
+
+
+    )
 }
 
-export default Article;
+export default Article
