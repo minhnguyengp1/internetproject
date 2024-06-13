@@ -1,0 +1,100 @@
+.create-article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: var(--secondary-color, #f9f9f9); // Ensure a default fallback color
+
+  .form-container {
+    width: 95%;
+    max-width: 1200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+
+    .create-article-form {
+      display: flex;
+      flex-direction: column;
+
+      .ant-form-item {
+        margin-bottom: 30px;
+        border: 1px solid #d9d9d9; // Add border color
+        border-radius: 6px; // delete
+        width: calc(100% - 10px);
+
+        label {
+          font-size: 20px;
+          font-weight: 500;
+        }
+
+        .ant-input,
+        .ant-select-selector,
+        .ant-radio-group {
+          border-radius: 6px;
+          height: 40px;
+          font-size: 16px;
+          transition: border-color 0.3s ease;
+          width: 100%;
+
+          &:hover {
+            border-color: var(--primary-color, #1890ff);
+          }
+        }
+
+        .ant-input {
+          padding: 8px 12px;
+        }
+
+        .ant-select-selector {
+          padding-top: 16px;
+        }
+      }
+
+      .description-form-item {
+        height: 200px;
+
+        .ant-input {
+          height: 100%;
+        }
+      }
+
+      .radio-group {
+        display: flex;
+        justify-content: space-between;
+
+        .ant-radio-wrapper {
+          flex: 1;
+          text-align: center;
+
+          &:not(:last-child) {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .ant-upload.ant-upload-select {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        .ant-btn {
+          width: auto;
+          height: 40px;
+          font-size: 16px;
+        }
+      }
+
+      .submit-button {
+        text-align: center;
+
+        .ant-btn {
+          width: 100%;
+          padding: 10px 0;
+          height: 45px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}

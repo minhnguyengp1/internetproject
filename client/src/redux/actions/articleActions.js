@@ -33,7 +33,12 @@ export const createArticle = (articleData) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.ARTICLE_CREATE_REQUEST })
 
     try {
-        const { accessToken } = getState().userLogin
+        const { accessToken, userId } = getState().userLogin
+
+        const articleDataWithUserId = {
+            ...articleData,
+            userId
+        }
 
         const config = {
             headers: {
@@ -42,7 +47,7 @@ export const createArticle = (articleData) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.post('http://localhost:5000/api/articles', articleData, config)
+        const { data } = await axios.post('http://localhost:5000/api/articles', articleDataWithUserId, config)
 
         dispatch({
             type: actionTypes.ARTICLE_CREATE_SUCCESS,
@@ -61,7 +66,7 @@ export const updateArticle = (articleId, updatedData) => async (dispatch, getSta
     dispatch({ type: actionTypes.ARTICLE_UPDATE_REQUEST })
 
     try {
-        const { accessToken } = getState().userLogin
+        const { accessToken, userId } = getState().userLogin
 
         const config = {
             headers: {

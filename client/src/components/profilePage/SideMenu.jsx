@@ -2,7 +2,7 @@ import {
     AppstoreOutlined,
     ShopOutlined,
     ShoppingCartOutlined,
-    UserOutlined,
+    UserOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
 import { useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ function SideMenu() {
 
     const navigate = useNavigate()
     return (
-        <div className="SideMenu">
+        <div className="side-menu">
             <Menu
                 className="SideMenuVertical"
                 mode="vertical"
@@ -32,31 +32,32 @@ function SideMenu() {
                     {
                         label: 'Dashboard',
                         key: '/user',
-                        icon: <AppstoreOutlined />,
+                        icon: <AppstoreOutlined />
                     },
                     {
                         label: 'Profilinformationen',
                         key: '/user/personal-info',
-                        icon: <ShopOutlined />,
+                        icon: <ShopOutlined />
                     },
                     {
                         label: 'Anzeigen',
                         key: '/user/articles',
-                        icon: <ShopOutlined />,
+                        icon: <ShopOutlined />
                     },
                     {
                         label: 'Einstellungen',
                         key: '/user/settings',
-                        icon: <ShoppingCartOutlined />,
+                        icon: <ShoppingCartOutlined />
                     },
                     {
                         label: 'Customers',
                         key: '/user/customers',
-                        icon: <UserOutlined />,
-                    },
+                        icon: <UserOutlined />
+                    }
                 ]}
             ></Menu>
         </div>
     )
 }
+
 export default SideMenu

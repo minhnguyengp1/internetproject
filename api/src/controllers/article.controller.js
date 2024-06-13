@@ -23,26 +23,38 @@ export const createArticle = (req, res) => {
     )
 }
 
-// GET: http://localhost:5000/api/articles?search=query
 export const getArticles = (req, res) => {
-    const { search } = req.query
+    let searchQuery = req.query.search
+    const category = req.params.category
 
-    let q = 'SELECT * FROM articles'
+    console.log('req.query: ', req.query)
+    console.log('searchQuery: ', searchQuery)
 
-    if (search) {
-        // Adjust the query to search based on title, description, or category
-        q += ` WHERE title LIKE '%${search}%' OR description LIKE '%${search}%' OR category LIKE '%${search}%'`
+    if (!searchQuery) {
+        return res.status(400).json({ error: 'Search query is required' })
     }
 
-    db.query(q, (err, data) => {
+    const searchTerms = searchQuery.split(' ')
+
+    const placeholders = searchTerms.map(() => `(title LIKE ? OR description LIKE ? OR category LIKE ?)`).join(' OR ')
+
+    const values = searchTerms.flatMap(term => [`%${term}%`, `%${term}%`, `%${category}%`])
+
+    const query = `
+        SELECT *
+        FROM articles
+        WHERE ${placeholders}
+    `
+
+    db.query(query, values, (err, results) => {
         if (err) {
-            return res.status(500).send(err)
+            console.error('Error executing search query:', err)
+            return res.status(500).json({ error: 'Internal server error' })
         }
 
-        return res.status(200).json(data)
+        res.json(results)
     })
 }
-
 
 // GET: http://localhost:5000/api/articles/${articleId}
 export const getArticleById = (req, res) => {

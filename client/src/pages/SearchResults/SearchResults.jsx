@@ -1,44 +1,59 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { searchArticles } from '../../redux/actions/searchActions.js'
-import HomeLayout from '../../layouts/homeLayout/HomeLayout.jsx'
-import SearchResultsLayout from '../../layouts/SearchResultLayout/SearchResultLayout.jsx'
+import SearchResultsLayout from '../../layouts/SearchResultsLayout/SearchResultsLayout.jsx'
+import ArticleCard from '../../components/article-card/ArticleCard.jsx'
+import './searchResults.scss'
 
 const SearchResults = () => {
     const dispatch = useDispatch()
     const location = useLocation()
+    const navigate = useNavigate()
 
     const { loading, results, error } = useSelector((state) => state.search)
 
+    const queryParams = new URLSearchParams(location.search)
+    const searchQuery = queryParams.get('q') || ''
+    const category = location.pathname.split('/category/')[1]
+
+    // Parse the filter parameters from the URL
+    const filterParams = new URLSearchParams(location.search)
+    const initialFilter = {
+        category: queryParams.get('category') || '',
+        minPrice: queryParams.get('minPrice') || '',
+        maxPrice: queryParams.get('maxPrice') || ''
+    }
+
+    const [filter, setFilter] = useState(initialFilter)
+
+    console.log('searchQuery: ', searchQuery)
+    console.log('filter: ', filter)
+    console.log('results: ', results)
+
     useEffect(() => {
-        const queryParams = new URLSearchParams(location.search)
-        const query = queryParams.get('q')
-        const category = location.pathname.split('/category/')[1]
+        console.log('useEffect')
+        dispatch(searchArticles(searchQuery, filter))
+    }, [dispatch, searchQuery, filter])
 
-        let searchQuery = query ? query : ''
-        if (category) searchQuery = `${category} ${searchQuery}`
-
-        if (searchQuery) {
-            dispatch(searchArticles(searchQuery))
-        }
-    }, [dispatch, location.search, location.pathname])
+    const handleFilterChange = (newFilter) => {
+        setFilter(newFilter)
+    }
 
     return (
         <SearchResultsLayout>
-            {/*<h1>Search Results</h1>*/}
-            {/*{loading && <p>Loading...</p>}*/}
-            {/*{error && <p>Error: {error}</p>}*/}
-            {/*{results && results.length > 0 ? (*/}
-            {/*    <ul>*/}
-            {/*        {results.map((result) => (*/}
-            {/*            <li key={result.id}>{result.name}</li>*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*) : (*/}
-            {/*    <p>No results found.</p>*/}
-            {/*)}*/}
-
+            <div className="search-results">
+                {loading && <div className="loading">Loading...</div>}
+                {error && <div className="error">Error: {error}</div>}
+                {results !== undefined && results.map((article) => (
+                    <ArticleCard
+                        key={article.id}
+                        className="card"
+                        title={article.title}
+                        img={article.imgUrl}
+                    />
+                ))}
+            </div>
         </SearchResultsLayout>
     )
 }

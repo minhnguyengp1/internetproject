@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import Footer from '../../components/footer/Footer.jsx'
 import Header from '../../components/header/Header.jsx'
 import FilterSidebar from '../../components/FilterSidebar/FilterSidebar.jsx'
+import './searchResultsLayout.scss'
 
 const SearchResultsLayout = ({ children }) => (
     <div className="search-results-layout">

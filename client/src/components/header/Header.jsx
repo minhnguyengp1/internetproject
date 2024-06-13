@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserDetails } from '../../redux/actions/userActions.js'
 import defaultAvatar from '../../assets/default-avatar.png'
 import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
-import Search from '../Search/Search.jsx'
+import BundeslandAutocomplete from '../BundeslandAutocomplete/BundeslandAutocomplete.jsx'
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -17,6 +17,7 @@ const Header = () => {
         fullName: ''
     })
     const [selectedCategory, setSelectedCategory] = useState('')
+    const [place, setPlace] = useState('')
     const [query, setQuery] = useState('')
 
     const { isAuthenticated } = useSelector((state) => state.userLogin)
@@ -44,10 +45,8 @@ const Header = () => {
         e.preventDefault()
         const categoryPath = selectedCategory ? `/category/${selectedCategory}` : ''
         const searchPath = query ? `?q=${query}` : ''
-        navigate(`/search${categoryPath}${searchPath}`)
-        // const categoryPath = selectedCategory ? `/${selectedCategory}` : '/all';
-        // const searchPath = query ? `/search?q=${query}` : '';
-        // navigate(`${categoryPath}${searchPath}`);
+        const placePath = place ? `&place=${place}` : '' // Include place in search URL
+        navigate(`/search${categoryPath}${searchPath}${placePath}`)
     }
 
     const isLoginOrRegister =
@@ -65,17 +64,17 @@ const Header = () => {
                             {!isAuthenticated ? (
                                 <>
                                     <button className="buttonRegister">
-                                        <span>
-                                            <Link to="/register">
-                                                Registrieren{' '}
-                                            </Link>
-                                        </span>
+                                            <span>
+                                                <Link to="/register">
+                                                    Registrieren{' '}
+                                                </Link>
+                                            </span>
                                     </button>
                                     <span>oder</span>
                                     <button className="buttonEinloggen">
-                                        <span>
-                                            <Link to="/login">Einloggen</Link>
-                                        </span>
+                                            <span>
+                                                <Link to="/login">Einloggen</Link>
+                                            </span>
                                     </button>
                                 </>
                             ) : (
@@ -98,14 +97,25 @@ const Header = () => {
                 {!isLoginOrRegister ? (
                     <form className="buttonsDown">
                         <div className="input-with-dropdown">
-                            <Search onSearch={setQuery} />
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
                             <CategoryDropdown
                                 selectedCategory={selectedCategory}
                                 setSelectedCategory={setSelectedCategory}
                             />
                         </div>
 
-                        <input type="text" placeholder="PLZ oder Ort" />
+                        {/*<input*/}
+                        {/*    type="text"*/}
+                        {/*    placeholder="PLZ oder Ort"*/}
+                        {/*    value={place}*/}
+                        {/*    onChange={(e) => setPlace(e.target.value)} // Handle place input change*/}
+                        {/*/>*/}
+                        <BundeslandAutocomplete onSelect={(value) => console.log(value)} />
                         <button id="searchBtn" onClick={handleSearch}>
                             <FaSearch /> Finden
                         </button>

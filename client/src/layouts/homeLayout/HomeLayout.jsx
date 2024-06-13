@@ -1,9 +1,8 @@
-import SideMenu from '../../components/profilePage/SideMenu.jsx'
-import './homeLayout.scss'
 import PropTypes from 'prop-types'
 import Footer from '../../components/footer/Footer.jsx'
 import Header from '../../components/header/Header.jsx'
 import SidebarMenu from '../../components/sidebar-menu/SidebarMenu.jsx'
+import './homeLayout.scss'
 
 const HomeLayout = ({ children }) => (
     <div className="home-layout">

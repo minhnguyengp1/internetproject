@@ -1,0 +1,35 @@
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+
+  .loading {
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .error {
+    font-size: 1.2rem;
+    color: red;
+  }
+
+  .card {
+    width: calc(33.33% - 20px); /* Adjust as needed */
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .card .cardDetails {
+    margin-top: 10px;
+  }
+
+  .card .cardDetails p {
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+

@@ -1,0 +1,32 @@
+// SuccessCreate.scss
+
+.success-create {
+  text-align: center;
+  margin-top: 50px;
+
+  .ant-result {
+    font-size: 1.5em; // Increase font size for the Result component
+    padding: 20px; // Increase padding for the Result component
+    border-radius: 10px; // Add border-radius for rounded corners
+
+    h1 {
+      font-size: 3em; // Increase font size for the title
+      margin-bottom: 20px;
+    }
+
+    .ant-result-subtitle {
+      font-size: 1.5em; // Increase font size for the subtitle
+      margin-bottom: 30px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+
+      button {
+        margin-right: 20px;
+        font-size: 1.2em; // Increase font size for the buttons
+      }
+    }
+  }
+}

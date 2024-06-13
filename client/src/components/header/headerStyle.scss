@@ -129,30 +129,38 @@
   align-items: center;
   gap: 10px; /* Gap between input fields and dropdown */
   padding: 0 20px;
-  padding: 0 20px;
   position: relative;
 
   input[type='text'] {
-    width: 450px;
-    height: 40px;
+    width: 300px;
+    height: 36px;
     border-radius: 12px;
     padding-left: 10px;
     border: 1px solid #ddd;
-    position: relative;
+    background-color: #fff;
   }
 
   .input-with-dropdown {
-    position: relative;
     display: flex;
     align-items: center;
     width: 450px;
+    gap: 0;
+
+    .category-dropdown {
+      height: 40px;
+      width: 150px;
+      padding: 0 10px;
+      font-size: 14px;
+      background-color: #fff; /* Set background color to match the input field */
+      background-size: 16px 16px;
+    }
   }
 
   #searchBtn,
   #accountBtn {
     width: 130px;
     height: 35px;
-    margin-left: 30px;
+    margin-left: 10px;
     border: none;
     background-color: var(--primary-color);
     cursor: pointer;

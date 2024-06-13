@@ -1,0 +1,19 @@
+.search-results-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .search-results-layout__content {
+    display: flex;
+    flex: 1;
+
+    .search-results-layout__main-content {
+      flex: 1;
+      padding: 20px;
+      background-color: #f0f2f5;
+      overflow-y: auto;
+    }
+  }
+}
+
+

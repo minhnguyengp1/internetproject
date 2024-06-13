@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../../redux/actions/authActions.js'
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 import Header from '../../components/Header.jsx'
-import Footer from '../../components/Footer.jsx'
+import Footer from '../../components/footer/Footer.jsx'
 
 const Register = () => {
     const dispatch = useDispatch()
@@ -32,7 +32,7 @@ const Register = () => {
             setTimeout(() => {
                 navigate({
                     pathname: '/login',
-                    search: `?redirect=${redirect}`,
+                    search: `?redirect=${redirect}`
                 })
             }, 3000)
         }
@@ -47,7 +47,7 @@ const Register = () => {
     return (
         <>
             <div className="register">
-                <Header />
+                {/*<Header />*/}
                 {errorMessage ? (
                     <div style={{ marginBottom: '24px' }}>
                         <Alert message={errorMessage} type="error" showIcon />
@@ -60,7 +60,7 @@ const Register = () => {
                         name="normal_register"
                         className="register-form"
                         initialValues={{
-                            remember: true,
+                            remember: true
                         }}
                         onFinish={handleSubmit}
                     >
@@ -70,8 +70,8 @@ const Register = () => {
                             label="name"
                             rules={[
                                 {
-                                    required: true,
-                                },
+                                    required: true
+                                }
                             ]}
                         >
                             <Input
@@ -86,11 +86,11 @@ const Register = () => {
                             label="email"
                             rules={[
                                 {
-                                    required: true,
+                                    required: true
                                 },
                                 {
-                                    type: 'email',
-                                },
+                                    type: 'email'
+                                }
                             ]}
                         >
                             <Input
@@ -106,8 +106,8 @@ const Register = () => {
                             label="password"
                             rules={[
                                 {
-                                    required: true,
-                                },
+                                    required: true
+                                }
                             ]}
                         >
                             <Input.Password
@@ -122,7 +122,7 @@ const Register = () => {
                             label="confirm_password"
                             rules={[
                                 {
-                                    required: true,
+                                    required: true
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
@@ -137,8 +137,8 @@ const Register = () => {
                                                 'The two passwords that you entered do not match!'
                                             )
                                         )
-                                    },
-                                }),
+                                    }
+                                })
                             ]}
                             hasFeedback
                         >
