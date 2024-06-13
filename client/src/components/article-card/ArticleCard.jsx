@@ -8,7 +8,7 @@ const ArticleCard = ({ title, img, id }) => {
                 <div className="card-img">
                     <img src={img} alt={title} />
                 </div>
-                <div className="cardDetails">
+                <div className="card-details">
                     <p>{title}</p>
                 </div>
             </Link>
