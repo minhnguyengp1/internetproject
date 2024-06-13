@@ -10,6 +10,7 @@ import ArticleList from '../pages/profile/articleList/ArticleList.jsx'
 import CreateArticle from '../pages/CreateArticle/CreateArticle.jsx'
 import SearchResults from '../pages/SearchResults/SearchResults.jsx'
 import SuccessCreate from '../pages/SuccessCreate/SuccessCreate.jsx'
+import OtherUserView from "../pages/OtherUserView/OtherUserView.jsx";
 
 function RootRoutes() {
     return (
@@ -20,6 +21,7 @@ function RootRoutes() {
                 <Route path="/article-create" element={<ProtectedRoute component={CreateArticle} />} />
                 <Route path="/article-create/success" element={<ProtectedRoute component={SuccessCreate} />} />
                 <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
+                <Route path="/other-user" element={<ProtectedRoute component={OtherUserView} />} />
                 <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
                 <Route path="/user/articles" element={<ProtectedRoute component={ArticleList} />} />
                 <Route path="/search/*" element={<SearchResults />} />
