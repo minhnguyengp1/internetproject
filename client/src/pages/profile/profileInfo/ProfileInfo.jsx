@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserDetails, updateUserDetails } from '../../../redux/actions/userActions.js'
 import UserLayout from '../../../layouts/userLayout/UserLayout.jsx'
+import defaultAvatar from '../../../assets/default-avatar.png'
 
 const ProfileInfo = () => {
     const [userInfo, setUserInfo] = useState({
@@ -11,7 +12,7 @@ const ProfileInfo = () => {
         street: '',
         city: '',
         postalCode: '',
-        img: null
+        img: defaultAvatar
     })
     const [editMode, setEditMode] = useState({
         name: false,
@@ -82,80 +83,82 @@ const ProfileInfo = () => {
     return (
         <UserLayout>
             <Space size={20} direction="vertical">
-                <Typography.Title level={4}>Profilinformationen</Typography.Title>
-                <Card style={{ width: '100%' }}>
-                    <Space direction="horizontal" size={16}>
-                        <div className="profile-pic">
-                            <img src={userInfo.img} alt="Profile" />
-                        </div>
-                        <Space direction="vertical">
-                            <Typography.Text>
-                                <strong>Profilname:</strong>
-                                {editMode.name ? (
-                                    <>
-                                        <Input
-                                            name="fullName"
-                                            value={userInfo.fullName}
-                                            onChange={handleInputChange}
-                                            placeholder="Name"
-                                            style={{ width: 'auto', marginLeft: '10px' }}
-                                        />
-                                        <Button type="link" onClick={() => handleSave('fullName')}>
-                                            <SaveOutlined />
-                                        </Button>
-                                    </>
-                                ) : (
-                                    <>
-                                        {userInfo.fullName}
-                                        <Button type="link" onClick={() => handleEditToggle('name')}>
-                                            <EditOutlined />
-                                        </Button>
-                                    </>
-                                )}
-                            </Typography.Text>
-                            <Typography.Text>
-                                <strong>Lieferadresse:</strong>
-                                {editMode.address ? (
-                                    <>
-                                        <Input
-                                            name="street"
-                                            value={userInfo.street}
-                                            onChange={handleInputChange}
-                                            placeholder="Straße"
-                                            style={{ width: 'auto', marginLeft: '10px' }}
-                                        />
-                                        <Input
-                                            name="postalCode"
-                                            value={userInfo.postalCode}
-                                            onChange={handleInputChange}
-                                            placeholder="Postleitzahl"
-                                            style={{ width: 'auto', marginLeft: '10px' }}
-                                        />
-                                        <Input
-                                            name="city"
-                                            value={userInfo.city}
-                                            onChange={handleInputChange}
-                                            placeholder="Stadt"
-                                            style={{ width: 'auto', marginLeft: '10px' }}
-                                        />
-                                        <Button type="link" onClick={() => handleSave('address')}>
-                                            <SaveOutlined />
-                                        </Button>
-                                    </>
-                                ) : (
-                                    <>
-                                        {userInfo.street ? `${userInfo.street}, ` : ''}
-                                        {userInfo.postalCode ? `${userInfo.postalCode} ` : ''}
-                                        {userInfo.city}
-                                        <Button type="link" onClick={() => handleEditToggle('address')}>
-                                            <EditOutlined />
-                                        </Button>
-                                    </>
-                                )}
-                            </Typography.Text>
+                <Typography.Title level={3}>Profilinformationen</Typography.Title>
+                <Space wrap>
+                    <Card style={{ width: '100%' }}>
+                        <Space direction="horizontal" size={16}>
+                            <div className="profile-pic">
+                                <img src={userInfo.img} alt="Profile" />
+                            </div>
+                            <Space direction="vertical">
+                                <Typography.Text>
+                                    <strong>Profilname:</strong>
+                                    {editMode.name ? (
+                                        <>
+                                            <Input
+                                                name="fullName"
+                                                value={userInfo.fullName}
+                                                onChange={handleInputChange}
+                                                placeholder="Name"
+                                                style={{ width: 'auto', marginLeft: '10px' }}
+                                            />
+                                            <Button type="link" onClick={() => handleSave('fullName')}>
+                                                <SaveOutlined />
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {userInfo.fullName}
+                                            <Button type="link" onClick={() => handleEditToggle('name')}>
+                                                <EditOutlined />
+                                            </Button>
+                                        </>
+                                    )}
+                                </Typography.Text>
+                                <Typography.Text>
+                                    <strong>Lieferadresse:</strong>
+                                    {editMode.address ? (
+                                        <>
+                                            <Input
+                                                name="street"
+                                                value={userInfo.street}
+                                                onChange={handleInputChange}
+                                                placeholder="Straße"
+                                                style={{ width: 'auto', marginLeft: '10px' }}
+                                            />
+                                            <Input
+                                                name="postalCode"
+                                                value={userInfo.postalCode}
+                                                onChange={handleInputChange}
+                                                placeholder="Postleitzahl"
+                                                style={{ width: 'auto', marginLeft: '10px' }}
+                                            />
+                                            <Input
+                                                name="city"
+                                                value={userInfo.city}
+                                                onChange={handleInputChange}
+                                                placeholder="Stadt"
+                                                style={{ width: 'auto', marginLeft: '10px' }}
+                                            />
+                                            <Button type="link" onClick={() => handleSave('address')}>
+                                                <SaveOutlined />
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {userInfo.street ? `${userInfo.street}, ` : ''}
+                                            {userInfo.postalCode ? `${userInfo.postalCode} ` : ''}
+                                            {userInfo.city}
+                                            <Button type="link" onClick={() => handleEditToggle('address')}>
+                                                <EditOutlined />
+                                            </Button>
+                                        </>
+                                    )}
+                                </Typography.Text>
+                            </Space>
                         </Space>
-                    </Space>
-                </Card>
+                    </Card>
+                </Space>
             </Space>
         </UserLayout>
     )

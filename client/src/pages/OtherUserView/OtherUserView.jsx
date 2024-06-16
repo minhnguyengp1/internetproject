@@ -1,98 +1,161 @@
-import React, { useEffect, useState } from 'react';
-import './OtherUserView.scss';
+import React, { useEffect, useState } from 'react'
+import './otherUserView.scss'
+import defaultAvatar from '../../assets/default-avatar.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchStrangerArticles, fetchStrangerDetails } from '../../redux/actions/userActions.js'
+import { useParams } from 'react-router-dom'
+import { Button, Card, Form, Space, Typography, Input } from 'antd'
+import Header from '../../components/header/Header.jsx'
+import Footer from '../../components/footer/Footer.jsx'
+import './otherUserView.scss'
+import { submitReview } from '../../redux/actions/reviewActions.js'
 
-const OtherUserView = ({ userId }) => {
-    const [userData, setUserData] = useState(null);
-    const [userArticles, setUserArticles] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+const OtherUserView = () => {
+    const { userId } = useParams()
+    const [strangerInfo, setStrangerInfo] = useState({
+        fullName: '',
+        activeArticles: 0,
+        activeSince: 'Unknown',
+        street: '',
+        city: '',
+        postalCode: '',
+        img: defaultAvatar
+    })
+    const { userId: loggedInUserId } = useSelector((state) => state.userLogin) // Get current user's userId
+    const [showReviewForm, setShowReviewForm] = useState(false) // State to manage review form visibility
+    const [form] = Form.useForm()
+
+    const dispatch = useDispatch()
+    const { loading, error, strangerDetails } = useSelector(
+        (state) => state.strangerDetails
+    )
+    const {
+        strangerArticles = [],
+        loading: articlesLoading,
+        error: articlesError
+    } = useSelector((state) => state.strangerArticles)
+    const { loading: reviewLoading, success: reviewSuccess, error: reviewError } = useSelector(
+        (state) => state.reviewSubmit
+    )
 
     useEffect(() => {
-        // Dummy-Daten
-        const dummyUserData = {
-            name: 'K.P',
-            address: '123 Main St, Springfield',
-            activeSince: '06.07.2019',
-            responseTime: 'in der Regel innerhalb von 10 Minuten',
-            followers: 11,
-            badges: [
-                { text: 'TOP Zufriedenheit', color: 'purple' },
-                { text: 'Besonders freundlich', color: 'purple' },
-                { text: 'Besonders zuverlässig', color: 'purple' }
-            ]
-        };
+        dispatch(fetchStrangerDetails(userId))
+        dispatch(fetchStrangerArticles(userId))
+    }, [dispatch])
 
-        const dummyUserArticles = [
-            {
-                articleId: 1,
-                title: 'PlayStation 4 (Ps4) + HDMI Kabel + Netzkabel',
-                description: 'Liebe Interessenten hiermit verkaufe ich eine gut erhaltene PlayStation 4 inklusive HDMI Kabel und...',
-                price: 75.0,
-                location: '71364 Winnenden',
-                date: 'Heute, 10:46',
-                image: 'https://via.placeholder.com/150' // Beispielbild
-            },
-            {
-                articleId: 2,
-                title: 'PlayStation 4 Slim (Ps4) 1TB + Spiel + Controller',
-                description: 'Liebe Interessenten hiermit verkaufe ich eine TOP erhaltene PlayStation 4 Slim inklusive einem...',
-                price: 140.0,
-                location: '71364 Winnenden',
-                date: 'Gestern, 21:50',
-                image: 'https://via.placeholder.com/150' // Beispielbild
-            }
-        ];
+    useEffect(() => {
+        if (strangerDetails) {
+            console.log('strangerDetails: ', strangerDetails)
+            setStrangerInfo({
+                fullName: strangerDetails.fullName || '',
+                street: strangerDetails.street || '',
+                city: strangerDetails.city || '',
+                postalCode: strangerDetails.postalCode || '',
+                img: strangerDetails.img || null
+            })
+        }
+    }, [strangerDetails])
 
-        // Simuliere den Ladevorgang
-        setLoading(true);
-        setTimeout(() => {
-            setUserData(dummyUserData);
-            setUserArticles(dummyUserArticles);
-            setLoading(false);
-        }, 1000); // Simuliert eine 1-Sekunden-Ladezeit
-    }, [userId]);
+    console.log('strangerDetails in OtherUserView: ' + JSON.stringify(strangerDetails))
+    console.log('strangerArticles in OtherUserView: ' + JSON.stringify(strangerArticles))
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+    const handleToggleReviewForm = () => {
+        setShowReviewForm(!showReviewForm) // Toggle review form visibility
+    }
+
+    const handleReviewSubmit = async (values) => {
+        await dispatch(submitReview(userId, values))
+        setShowReviewForm(false) // Hide the review form after submission
+        form.resetFields() // Reset form fields
+    }
+
+    const isCurrentUser = loggedInUserId === userId // Check if the current user is viewing their own profile
+
+    if (loading) {
+        return <Typography.Text>Loading...</Typography.Text>
+    }
+
+    if (error) {
+        return <Typography.Text>Error: {error}</Typography.Text>
+    }
 
     return (
         <div className="profile-container">
-            {userData && (
+            <Header />
+            <div className="profile-container__content">
                 <div className="profile-sidebar">
-                    <div className="profile-avatar">
-                        <span className="profile-avatar-initials">{userData.name[0]}</span>
-                    </div>
-                    <h1 className="profile-name">{userData.name}</h1>
-                    {userData.badges.map((badge, index) => (
-                        <span key={index} className={`badge badge-${badge.color}`}>{badge.text}</span>
-                    ))}
-                    <p className="profile-detail">Privater Nutzer</p>
-                    <p className="profile-detail">Aktiv seit {userData.activeSince}</p>
-                    <p className="profile-detail">Antwortet {userData.responseTime}</p>
-                    <p className="profile-detail">{userData.followers} Follower</p>
-                    <button className="follow-button">Folgen</button>
+                    {strangerInfo && (
+                        <Card className="user-card">
+                            <Typography.Title level={4} className="dashboard-title">Dashboard</Typography.Title>
+                            <img
+                                src={strangerInfo.img}
+                                alt="Profile"
+                                className="profile-pic" // Global styles
+                            />
+                            <Space direction="vertical">
+                                <Typography.Text>
+                                    <strong>Name:</strong> {strangerInfo.fullName}
+                                </Typography.Text>
+                                <Typography.Text>
+                                    <strong>Anzeigen online:</strong>{' '}
+                                    {strangerInfo.activeArticles}
+                                </Typography.Text>
+                                <Typography.Text>
+                                    <strong>Aktiv seit:</strong>{' '}
+                                    {strangerInfo.activeSince}
+                                </Typography.Text>
+                                {!isCurrentUser && (
+                                    <Button onClick={handleToggleReviewForm}>
+                                        Write a Review
+                                    </Button>
+                                )}
+                            </Space>
+                        </Card>
+                    )}
+                    {showReviewForm && !isCurrentUser && (
+                        <Card className="review-form">
+                            <Form form={form} onFinish={handleReviewSubmit}>
+                                <Form.Item
+                                    name="review"
+                                    rules={[{ required: true, message: 'Please enter your review!' }]}
+                                >
+                                    <Input.TextArea placeholder="Write your review here" rows={4} />
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        loading={reviewLoading}
+                                        disabled={reviewLoading}
+                                    >
+                                        Submit Review
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Card>
+                    )}
                 </div>
-            )}
-            <div className="profile-main">
-                <h2>Articles</h2>
-                <p>Total Articles: {userArticles.length}</p>
-                <ul className="articles-list">
-                    {userArticles.map(article => (
-                        <li key={article.articleId} className="article-item">
-                            <img src={article.image} alt={article.title} className="article-image"/>
-                            <div className="article-details">
-                                <h3>{article.title}</h3>
-                                <p>{article.description}</p>
-                                <p className="article-price">{article.price} €</p>
-                                <p className="article-location">{article.location}</p>
-                                <p className="article-date">{article.date}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                <div className="profile-articles">
+                    <h2>Articles</h2>
+                    <ul className="articles-list">
+                        {strangerArticles.map(article => (
+                            <li key={article.articleId} className="article-item">
+                                <img src={article.image} alt={article.title} className="article-image" />
+                                <div className="article-details">
+                                    <h3>{article.title}</h3>
+                                    <p>{article.description}</p>
+                                    <p className="article-price">{article.price} €</p>
+                                    <p className="article-location">{article.location}</p>
+                                    <p className="article-date">{article.date}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
+            <Footer />
         </div>
-    );
-};
+    )
+}
 
-export default OtherUserView;
+export default OtherUserView

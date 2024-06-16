@@ -5,7 +5,6 @@ import {
 import { Card, Space, Statistic, Table, Typography, Button } from 'antd'
 import { useEffect, useState } from 'react'
 import './dashboard.scss'
-// import { getCustomers, getInventory, getOrders, getRevenue } from '../../API'
 
 import {
     Chart as ChartJS,
@@ -39,7 +38,7 @@ const Dashboard = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { error, userDetails } = useSelector(
+    const { loading, error, userDetails } = useSelector(
         (state) => state.userDetails
     )
 
@@ -59,6 +58,14 @@ const Dashboard = () => {
             })
         }
     }, [userDetails])
+
+    // if (loading) {
+    //     return <Typography.Text>Loading...</Typography.Text>
+    // }
+
+    if (error) {
+        return <Typography.Text>Error: {error}</Typography.Text>
+    }
 
     return (
         <UserLayout>

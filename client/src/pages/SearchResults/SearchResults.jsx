@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { searchArticles } from '../../redux/actions/searchActions.js'
 import SearchResultsLayout from '../../layouts/SearchResultsLayout/SearchResultsLayout.jsx'
-import ArticleCard from '../../components/article-card/ArticleCard.jsx'
+import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
 import './searchResults.scss'
 
 const SearchResults = () => {
@@ -45,14 +45,19 @@ const SearchResults = () => {
             <div className="search-results">
                 {loading && <div className="loading">Loading...</div>}
                 {error && <div className="error">Error: {error}</div>}
-                {results !== undefined && results.map((article) => (
-                    <ArticleCard
-                        key={article.id}
-                        className="card"
-                        title={article.title}
-                        img={article.imgUrl}
-                    />
-                ))}
+                {results !== undefined && results.map((article) => {
+                    console.log('article: ', article)
+                    return (
+                        <ArticleCard
+                            key={article.articleId}
+                            className="card"
+                            title={article.title}
+                            price={article.price}
+                            category={article.category}
+                            img={article.imgUrl}
+                        />
+                    )
+                })}
             </div>
         </SearchResultsLayout>
     )

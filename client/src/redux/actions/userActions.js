@@ -11,8 +11,8 @@ export const fetchUserDetails = () => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         const { data } = await axios.get(
@@ -24,12 +24,12 @@ export const fetchUserDetails = () => async (dispatch, getState) => {
 
         dispatch({
             type: actionTypes.FETCH_USER_DETAILS_SUCCESS,
-            payload: { userDetails: data },
+            payload: { userDetails: data }
         })
     } catch (error) {
         dispatch({
             type: actionTypes.FETCH_USER_DETAILS_FAILURE,
-            payload: { error: 'An error occurred' },
+            payload: { error: 'An error occurred' }
         })
     }
 }
@@ -44,8 +44,8 @@ export const fetchUserArticles = () => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         const { data } = await axios.get(
@@ -57,12 +57,12 @@ export const fetchUserArticles = () => async (dispatch, getState) => {
 
         dispatch({
             type: actionTypes.FETCH_USER_ARTICLES_SUCCESS,
-            payload: data,
+            payload: data
         })
     } catch (error) {
         dispatch({
             type: actionTypes.FETCH_USER_ARTICLES_FAILURE,
-            payload: error.message || 'Failed to fetch user articles',
+            payload: error.message || 'Failed to fetch user articles'
         })
     }
 }
@@ -95,6 +95,70 @@ export const updateUserDetails = (updatedFields) => async (dispatch, getState) =
         dispatch({
             type: actionTypes.UPDATE_USER_DETAILS_FAILURE,
             payload: error.message || 'Failed to update user details'
+        })
+    }
+}
+
+export const fetchStrangerDetails = (strangerId) => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.FETCH_STRANGER_DETAILS_REQUEST })
+
+    try {
+        const { accessToken } = getState().userLogin
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `http://localhost:5000/api/user/${strangerId}`,
+            config
+        )
+
+        console.log('data in fetchStrangerDetails: ', data)
+
+        dispatch({
+            type: actionTypes.FETCH_STRANGER_DETAILS_SUCCESS,
+            payload: { strangerDetails: data }
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.FETCH_STRANGER_DETAILS_FAILURE,
+            payload: { error: error.response?.data?.message || 'An error occurred' }
+        })
+    }
+}
+
+export const fetchStrangerArticles = (strangerId) => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.FETCH_STRANGER_ARTICLES_REQUEST })
+
+    try {
+        const { accessToken } = getState().userLogin
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `http://localhost:5000/api/user/${strangerId}/articles`,
+            config
+        )
+
+        console.log('response.data in fetchStrangerArticles: ', data)
+
+        dispatch({
+            type: actionTypes.FETCH_STRANGER_ARTICLES_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.FETCH_STRANGER_ARTICLES_FAILURE,
+            payload: error.message || 'Failed to fetch user articles'
         })
     }
 }

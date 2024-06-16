@@ -8,6 +8,7 @@ import { fetchUserDetails } from '../../redux/actions/userActions.js'
 import defaultAvatar from '../../assets/default-avatar.png'
 import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
 import BundeslandAutocomplete from '../BundeslandAutocomplete/BundeslandAutocomplete.jsx'
+import { logout } from '../../redux/actions/authActions.js'
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const Header = () => {
 
     const { isAuthenticated } = useSelector((state) => state.userLogin)
 
-    const { error, userDetails } = useSelector((state) => state.userDetails)
+    const { userDetails } = useSelector((state) => state.userDetails)
 
     useEffect(() => {
         dispatch(fetchUserDetails())
@@ -36,8 +37,8 @@ const Header = () => {
         }
     }, [userDetails])
 
-    const handleLogout = () => {
-        // dispatch(logoutThunk())
+    const handleLogoutClick = () => {
+        dispatch(logout())
         navigate('/')
     }
 
@@ -47,6 +48,10 @@ const Header = () => {
         const searchPath = query ? `?q=${query}` : ''
         const placePath = place ? `&place=${place}` : '' // Include place in search URL
         navigate(`/search${categoryPath}${searchPath}${placePath}`)
+    }
+
+    const handleProfileClick = () => {
+        navigate('/user')
     }
 
     const isLoginOrRegister =
@@ -81,7 +86,7 @@ const Header = () => {
                                 <>
                                     <p id="userName">{userInfo.fullName}</p>
                                     <button
-                                        onClick={handleLogout}
+                                        onClick={handleLogoutClick}
                                         className="buttonLogout"
                                     >
                                         Ausloggen
@@ -119,7 +124,7 @@ const Header = () => {
                         <button id="searchBtn" onClick={handleSearch}>
                             <FaSearch /> Finden
                         </button>
-                        <button id="accountBtn">
+                        <button id="accountBtn" onClick={handleProfileClick}>
                             <FaUser /> Mein Profil
                         </button>
                     </form>

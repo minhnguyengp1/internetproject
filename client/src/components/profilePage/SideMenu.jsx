@@ -7,6 +7,7 @@ import {
 import { Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import './sideMenu.scss'
 
 function SideMenu() {
     const location = useLocation()
@@ -19,44 +20,43 @@ function SideMenu() {
 
     const navigate = useNavigate()
     return (
-        <div className="side-menu">
-            <Menu
-                className="SideMenuVertical"
-                mode="vertical"
-                onClick={(item) => {
-                    //item.key
-                    navigate(item.key)
-                }}
-                selectedKeys={[selectedKeys]}
-                items={[
-                    {
-                        label: 'Dashboard',
-                        key: '/user',
-                        icon: <AppstoreOutlined />
-                    },
-                    {
-                        label: 'Profilinformationen',
-                        key: '/user/personal-info',
-                        icon: <ShopOutlined />
-                    },
-                    {
-                        label: 'Anzeigen',
-                        key: '/user/articles',
-                        icon: <ShopOutlined />
-                    },
-                    {
-                        label: 'Einstellungen',
-                        key: '/user/settings',
-                        icon: <ShoppingCartOutlined />
-                    },
-                    {
-                        label: 'Customers',
-                        key: '/user/customers',
-                        icon: <UserOutlined />
-                    }
-                ]}
-            ></Menu>
-        </div>
+
+        <Menu
+            className="side-menu"
+            mode="vertical"
+            onClick={(item) => {
+                //item.key
+                navigate(item.key)
+            }}
+            selectedKeys={[selectedKeys]}
+            items={[
+                {
+                    label: 'Dashboard',
+                    key: '/user',
+                    icon: <AppstoreOutlined />
+                },
+                {
+                    label: 'Profilinformationen',
+                    key: '/user/personal-info',
+                    icon: <ShopOutlined />
+                },
+                {
+                    label: 'Anzeigen',
+                    key: '/user/articles',
+                    icon: <ShopOutlined />
+                },
+                {
+                    label: 'Bewertungen',
+                    key: '/user/reviews',
+                    icon: <UserOutlined />
+                },
+                {
+                    label: 'Einstellungen',
+                    key: '/user/settings',
+                    icon: <ShoppingCartOutlined />
+                }
+            ]}
+        ></Menu>
     )
 }
 

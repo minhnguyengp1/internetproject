@@ -15,7 +15,7 @@ export const login = ({ email, password }) => {
 
             dispatch({
                 type: 'LOGIN_SUCCESS',
-                payload: { userId: userId, accessToken: accessToken },
+                payload: { userId: userId, accessToken: accessToken }
             })
         } catch (error) {
             const errorMessage =
@@ -27,7 +27,7 @@ export const login = ({ email, password }) => {
 
             dispatch({
                 type: actionTypes.LOGIN_FAILURE,
-                payload: errorMessage,
+                payload: errorMessage
             })
         }
     }
@@ -41,7 +41,7 @@ export const register = ({ fullName, email, password }) => {
             await axios.post('http://localhost:5000/api/auth/register', {
                 fullName,
                 email,
-                password,
+                password
             })
 
             dispatch({ type: actionTypes.REGISTER_SUCCESS })
@@ -55,7 +55,7 @@ export const register = ({ fullName, email, password }) => {
 
             dispatch({
                 type: actionTypes.REGISTER_FAILURE,
-                payload: errorMessage,
+                payload: errorMessage
             })
         }
     }
@@ -66,3 +66,4 @@ export const logout = () => {
         dispatch({ type: actionTypes.LOGOUT })
     }
 }
+

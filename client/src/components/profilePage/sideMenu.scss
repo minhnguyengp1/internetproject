@@ -1,0 +1,27 @@
+.side-menu {
+  width: 240px;
+  max-width: 100%;
+  background-color: #f0f2f5;
+  color: #001529;
+
+  .ant-menu-item,
+  .ant-menu-item-selected {
+    background-color: transparent;
+    color: #001529;
+  }
+
+  .ant-menu-item-selected {
+    background-color: #e6f7ff;
+  }
+
+  .ant-menu-item:hover {
+    background-color: #e6f7ff;
+  }
+
+  .ant-menu-item-icon {
+    color: #001529;
+  }
+
+  padding: 20px;
+  overflow-y: auto;
+}

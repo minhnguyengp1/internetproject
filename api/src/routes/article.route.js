@@ -4,8 +4,7 @@ import {
     getArticles,
     getArticleById,
     updateArticle,
-    deleteArticle,
-    getUserArticles
+    deleteArticle
 } from '../controllers/article.controller.js'
 
 const router = express.Router()
@@ -17,7 +16,5 @@ router.put('/:articleId', updateArticle)
 router.delete('/:articleId', deleteArticle)
 
 router.get('/search', getArticles)
-
-router.get('/user/:userId', getUserArticles)
 
 export default router

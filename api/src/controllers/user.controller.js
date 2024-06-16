@@ -86,3 +86,18 @@ export const updateUser = (req, res) => {
         return res.status(200).json({ message: 'User updated successfully' })
     })
 }
+
+// GET: /api/users/:userId/articles
+export const getUserArticles = (req, res) => {
+    const userId = req.params.userId // Assuming userId is passed in the URL
+
+    const q = 'SELECT * FROM articles WHERE userId = ?'
+
+    db.query(q, [userId], (err, data) => {
+        if (err) {
+            return res.status(500).send(err)
+        }
+
+        return res.status(200).json(data)
+    })
+}
