@@ -20,7 +20,6 @@ function SideMenu() {
 
     const navigate = useNavigate()
     return (
-
         <Menu
             className="side-menu"
             mode="vertical"

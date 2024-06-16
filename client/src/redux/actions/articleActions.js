@@ -1,6 +1,33 @@
 import * as actionTypes from '../constants/articleActionTypes.js'
 import axios from 'axios'
 
+// Fetch All Articles
+export const fetchArticles = () => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.ARTICLES_LIST_REQUEST })
+
+    try {
+        const { accessToken } = getState().userLogin
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+
+        const { data } = await axios.get('http://localhost:5000/api/articles', config)
+
+        dispatch({
+            type: actionTypes.ARTICLES_LIST_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.ARTICLES_LIST_FAIL,
+            payload: error.message || 'Failed to fetch articles'
+        })
+    }
+}
+
 // Fetch Article Details
 export const fetchArticleDetails = (articleId) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.ARTICLE_DETAILS_REQUEST })
@@ -115,3 +142,8 @@ export const deleteArticle = (articleId) => async (dispatch, getState) => {
         })
     }
 }
+
+export const setSelectedCategory = (category) => ({
+    type: actionTypes.SET_SELECTED_CATEGORY,
+    payload: category
+})

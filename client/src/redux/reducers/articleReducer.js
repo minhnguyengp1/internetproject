@@ -1,5 +1,20 @@
 import * as actionTypes from '../constants/articleActionTypes.js'
 
+export const articleListReducer = (state = { articles: [], selectedCategory: null }, action) => {
+    switch (action.type) {
+        case actionTypes.ARTICLES_LIST_REQUEST:
+            return { ...state, loading: true, articles: [], error: null, selectedCategory: null }
+        case actionTypes.ARTICLES_LIST_SUCCESS:
+            return { ...state, loading: false, articles: action.payload, error: null }
+        case actionTypes.ARTICLES_LIST_FAIL:
+            return { ...state, loading: false, error: action.payload, articles: [] }
+        case actionTypes.SET_SELECTED_CATEGORY:
+            return { ...state, selectedCategory: action.payload }
+        default:
+            return state
+    }
+}
+
 export const articleDetailsReducer = (state = {
     article: {
         reviews: [],

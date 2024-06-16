@@ -6,9 +6,16 @@ import {
     userArticles,
     userDetails, userUpdate
 } from './reducers/userReducer.js'
-import { articleCreateReducer, articleDeleteReducer, articleUpdateReducer } from './reducers/articleReducer.js'
+import {
+    articleCreateReducer,
+    articleDeleteReducer,
+    articleListReducer,
+    articleUpdateReducer
+} from './reducers/articleReducer.js'
 import { searchReducer } from './reducers/searchReducer.js'
 import { reviewSubmitReducer, userReviewsReducer } from './reducers/reviewReducer.js'
+import { conversationListReducer } from './reducers/conversationReducer.js'
+import { messageListReducer } from './reducers/messageReducer.js'
 
 const store = configureStore({
     reducer: {
@@ -17,6 +24,7 @@ const store = configureStore({
         userDetails: userDetails,
         userArticles: userArticles,
         userUpdate: userUpdate,
+        articleList: articleListReducer,
         articleDelete: articleDeleteReducer,
         articleUpdate: articleUpdateReducer,
         articleCreate: articleCreateReducer,
@@ -24,7 +32,9 @@ const store = configureStore({
         strangerArticles: strangerArticles,
         reviewSubmit: reviewSubmitReducer,
         userReviews: userReviewsReducer,
-        search: searchReducer
+        search: searchReducer,
+        conversationList: conversationListReducer,
+        messageList: messageListReducer
     }
 })
 

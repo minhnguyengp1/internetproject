@@ -1,29 +1,24 @@
 import { db } from '../dbs/init.mysql.js'
 
-export const createArticle = (req, res) => {
-    const { category, description, imgUrl, price, title, userId, type } =
-        req.body
+export const getAllArticles = (req, res) => {
+    const { category } = req.query
+    let query = 'SELECT * FROM articles'
 
-    const q =
-        'INSERT INTO articles (category, description, imgUrl, price, title, userId, type) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    if (category) {
+        query = `SELECT *
+                 FROM articles
+                 WHERE category = ?`
+    }
 
-    db.query(
-        q,
-        [category, description, imgUrl, price, title, userId, type],
-        (err, result) => {
-            if (err) {
-                return res.status(500).send(err)
-            }
-
-            return res.status(201).json({
-                message: 'Article created successfully',
-                articleId: result.insertId
-            })
+    db.query(query, [category], (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal server error' })
         }
-    )
+        return res.status(200).json(data)
+    })
 }
 
-export const getArticles = (req, res) => {
+export const searchArticles = (req, res) => {
     let searchQuery = req.query.search
     const category = req.params.category
 
@@ -54,6 +49,29 @@ export const getArticles = (req, res) => {
 
         res.json(results)
     })
+}
+
+export const createArticle = (req, res) => {
+    const { category, description, imgUrl, price, title, userId, type } =
+        req.body
+
+    const q =
+        'INSERT INTO articles (category, description, imgUrl, price, title, userId, type) VALUES (?, ?, ?, ?, ?, ?, ?)'
+
+    db.query(
+        q,
+        [category, description, imgUrl, price, title, userId, type],
+        (err, result) => {
+            if (err) {
+                return res.status(500).send(err)
+            }
+
+            return res.status(201).json({
+                message: 'Article created successfully',
+                articleId: result.insertId
+            })
+        }
+    )
 }
 
 // GET: http://localhost:5000/api/articles/${articleId}

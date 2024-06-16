@@ -1,14 +1,14 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SidebarMenu from './SidebarMenu.jsx'
+import CategorySidebar from './CategorySidebar.jsx'
 import { categories } from '../../assets/categories.js'
 
-describe('SidebarMenu', () => {
+describe('CategorySidebar', () => {
     const mockOnSelectCategory = jest.fn()
 
     beforeEach(() => {
-        render(<SidebarMenu onSelectCategory={mockOnSelectCategory} />)
+        render(<CategorySidebar onSelectCategory={mockOnSelectCategory} />)
         mockOnSelectCategory.mockClear()
     })
 

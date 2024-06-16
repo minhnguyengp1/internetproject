@@ -4,9 +4,10 @@ import authRoute from './routes/auth.route.js'
 import userRoute from './routes/user.route.js'
 import fileRoute from './routes/file.route.js'
 import cors from 'cors'
-import homepageRoute from './routes/homepage.route.js'
 import articleRoute from './routes/article.route.js'
 import reviewRoute from './routes/review.route.js'
+import conversationRoute from './routes/conversation.route.js'
+import messageRoute from './routes/message.route.js'
 
 dotenv.config()
 
@@ -17,11 +18,10 @@ app.use(express.json())
 
 app.use('/api/auth', authRoute)
 app.use('/api/user', userRoute)
-app.get('/api/allArticles', homepageRoute)
-app.get('/api/allArticles/:categorie', homepageRoute)
 app.use('/api/files', fileRoute)
 app.use('/api/articles', articleRoute)
 app.use('/api/reviews', reviewRoute)
-//app.use('/api/createArticle/', createArticle)
+app.use('/api/conversations', conversationRoute)
+app.use('/api/messages', messageRoute)
 
 export default app
