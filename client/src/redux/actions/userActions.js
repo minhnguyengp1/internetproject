@@ -24,7 +24,7 @@ export const fetchUserDetails = () => async (dispatch, getState) => {
 
         dispatch({
             type: actionTypes.FETCH_USER_DETAILS_SUCCESS,
-            payload: { userDetails: data }
+            payload: data
         })
     } catch (error) {
         dispatch({

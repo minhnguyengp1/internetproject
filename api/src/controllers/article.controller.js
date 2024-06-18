@@ -1,4 +1,8 @@
 import { db } from '../dbs/init.mysql.js'
+import { uploadFile } from '../services/azureStorageService.js'
+import multer from 'multer'
+
+const upload = multer({ storage: multer.memoryStorage() }).array('uploads', 5) // Adjust the limits and field name as per your requirements
 
 export const getAllArticles = (req, res) => {
     const { category } = req.query
@@ -51,27 +55,41 @@ export const searchArticles = (req, res) => {
     })
 }
 
+// POST: http://localhost:5000/api/articles
 export const createArticle = (req, res) => {
-    const { category, description, imgUrl, price, title, userId, type } =
-        req.body
-
-    const q =
-        'INSERT INTO articles (category, description, imgUrl, price, title, userId, type) VALUES (?, ?, ?, ?, ?, ?, ?)'
-
-    db.query(
-        q,
-        [category, description, imgUrl, price, title, userId, type],
-        (err, result) => {
-            if (err) {
-                return res.status(500).send(err)
-            }
-
-            return res.status(201).json({
-                message: 'Article created successfully',
-                articleId: result.insertId
-            })
+    upload(req, res, async (err) => {
+        if (err) {
+            console.log('Error uploading files:', err)
+            return res.status(500).json({ message: 'File upload failed', error: err.message })
         }
-    )
+
+        const { category, description, price, title, userId, type, postalCode, city } = req.body
+        console.log('req.body:', req.body)
+        const files = req.files
+        console.log('req.files:', req.files)
+        try {
+            const imgUrls = await Promise.all(files.map(file => uploadFile(file)))
+
+            const query = 'INSERT INTO articles (category, description, imgUrl, price, title, userId, type, postalCode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            db.query(
+                query,
+                [category, description, imgUrls.join(','), price, title, userId, type, postalCode, city],
+                (err, result) => {
+                    if (err) {
+                        console.error('Error creating article:', err)
+                        return res.status(500).json({ message: 'Database query failed', error: err })
+                    }
+
+                    return res.status(201).json({
+                        message: 'Article created successfully',
+                        articleId: result.insertId
+                    })
+                }
+            )
+        } catch (error) {
+            return res.status(500).json({ message: 'Error processing files', error })
+        }
+    })
 }
 
 // GET: http://localhost:5000/api/articles/${articleId}

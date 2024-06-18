@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import './headerStyle.scss'
+import './header.scss'
 import AppLogo from '../../assets/logoBlack.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaSearch, FaUser } from 'react-icons/fa'
+import { FaPlus, FaSearch, FaUser } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserDetails } from '../../redux/actions/userActions.js'
-import defaultAvatar from '../../assets/default-avatar.png'
 import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
 import BundeslandAutocomplete from '../BundeslandAutocomplete/BundeslandAutocomplete.jsx'
 import { logout } from '../../redux/actions/authActions.js'
@@ -52,6 +51,12 @@ const Header = () => {
 
     const handleProfileClick = () => {
         navigate('/user')
+    }
+
+    const handleNewArticle = () => {
+        // Handle the click event for creating a new article
+        // Navigate to the page where the user can create a new article
+        navigate('/create-article')
     }
 
     const isLoginOrRegister =
@@ -123,6 +128,9 @@ const Header = () => {
                         <BundeslandAutocomplete onSelect={(value) => console.log(value)} />
                         <button id="searchBtn" onClick={handleSearch}>
                             <FaSearch /> Finden
+                        </button>
+                        <button id="newArticleBtn" onClick={handleNewArticle}>
+                            <FaPlus /> Anzeige aufgeben
                         </button>
                         <button id="accountBtn" onClick={handleProfileClick}>
                             <FaUser /> Mein Profil

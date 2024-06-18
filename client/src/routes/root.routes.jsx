@@ -13,6 +13,7 @@ import SuccessCreate from '../pages/SuccessCreate/SuccessCreate.jsx'
 import ReviewCard from '../components/ReviewCard/ReviewCard.jsx'
 import OtherUserView from '../pages/OtherUserView/OtherUserView.jsx'
 import UserReviews from '../pages/profile/UserReviews/UserReviews.jsx'
+import UserChat from '../pages/UserChat/UserChat.jsx'
 
 function RootRoutes() {
     return (
@@ -20,8 +21,8 @@ function RootRoutes() {
             <Routes>
                 <Route path="/" element={<ProtectedRoute component={Home} />} />
                 <Route path="/article" element={<ProtectedRoute component={Article} />} />
-                <Route path="/article-create" element={<ProtectedRoute component={CreateArticle} />} />
-                <Route path="/article-create/success" element={<ProtectedRoute component={SuccessCreate} />} />
+                <Route path="/create-article" element={<ProtectedRoute component={CreateArticle} />} />
+                <Route path="/create-article/success" element={<ProtectedRoute component={SuccessCreate} />} />
                 <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
                 <Route path="/other-user/:userId" element={<ProtectedRoute component={OtherUserView} />} />
                 <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
@@ -29,6 +30,7 @@ function RootRoutes() {
                 <Route path="/user/reviews" element={<ProtectedRoute component={UserReviews} />} />
                 <Route path="/test" element={<ProtectedRoute component={ReviewCard} />} />
                 <Route path="/search/*" element={<SearchResults />} />
+                <Route path="/chat" element={<ProtectedRoute component={UserChat} />} />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
             </Routes>

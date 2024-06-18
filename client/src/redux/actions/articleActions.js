@@ -28,8 +28,8 @@ export const fetchArticles = () => async (dispatch, getState) => {
     }
 }
 
-// Fetch Article Details
-export const fetchArticleDetails = (articleId) => async (dispatch, getState) => {
+// Fetch Article By id
+export const fetchArticleById = (articleId) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.ARTICLE_DETAILS_REQUEST })
 
     try {
@@ -56,25 +56,21 @@ export const fetchArticleDetails = (articleId) => async (dispatch, getState) => 
 }
 
 // Create Article
-export const createArticle = (articleData) => async (dispatch, getState) => {
+export const createArticle = (formData) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.ARTICLE_CREATE_REQUEST })
 
     try {
         const { accessToken, userId } = getState().userLogin
 
-        const articleDataWithUserId = {
-            ...articleData,
-            userId
-        }
+        formData.append('userId', userId)
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${accessToken}`
             }
         }
 
-        const { data } = await axios.post('http://localhost:5000/api/articles', articleDataWithUserId, config)
+        const { data } = await axios.post('http://localhost:5000/api/articles', formData, config)
 
         dispatch({
             type: actionTypes.ARTICLE_CREATE_SUCCESS,

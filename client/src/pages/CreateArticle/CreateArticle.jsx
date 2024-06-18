@@ -1,182 +1,244 @@
 import './createArticle.scss'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { PlusOutlined } from '@ant-design/icons'
-import {
-    Button,
-    Form,
-    Input,
-    Radio,
-    Select,
-    Upload,
-    ConfigProvider, message
-} from 'antd'
 import Footer from '../../components/footer/Footer.jsx'
 import Header from '../../components/header/Header.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { createArticle } from '../../redux/actions/articleActions.js'
 import { useNavigate } from 'react-router-dom'
-
-const { TextArea } = Input
-const normFile = (e) => {
-    if (Array.isArray(e)) {
-        return e
-    }
-    return e?.fileList
-}
+import { fetchCityInfo } from '../../utils/helpers.js'
+import { categories } from '../../assets/categories.js'
 
 const CreateArticle = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate() // Use useNavigate hook
-    const [city, setCity] = useState('')
+    const navigate = useNavigate()
 
+    const [title, setTitle] = useState('')
+    const [category, setCategory] = useState('')
+    const [price, setPrice] = useState('')
+    const [type, setType] = useState('')
+    const [description, setDescription] = useState('')
+    const [postalCode, setPostalCode] = useState('')
+    const [city, setCity] = useState('')
+    const [uploads, setUploads] = useState([])
+    const [previews, setPreviews] = useState([])
+
+    console.log('uploads: ', uploads)
     const articleCreate = useSelector((state) => state.articleCreate)
-    const { loading, success, article, error } = articleCreate
+    const { success, article } = articleCreate
 
     useEffect(() => {
         if (success) {
             console.log('Article created:', article)
-            navigate('/article-create/success')
+            navigate('/create-article/success')
         }
-    }, [success, article])
+    }, [success, article, navigate])
 
-    const onFinish = (values) => {
-        dispatch(createArticle(values))
-    }
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        console.log('title: ', title)
+        console.log('category: ', category)
+        console.log('price: ', price)
+        console.log('type: ', type)
+        console.log('description: ', description)
+        console.log('postalCode: ', postalCode)
+        console.log('city: ', city)
+        console.log('uploads: ', uploads)
 
-    const onFinishFailed = ({ errorFields }) => {
-        if (errorFields && errorFields.length > 0) {
-            const firstError = errorFields[0]
-            const input = document.querySelector(`input[id='${firstError.name[0]}']`)
-            if (input) input.focus()
+        const formDataToSubmit = new FormData()
+        formDataToSubmit.append('title', title)
+        formDataToSubmit.append('category', category)
+        formDataToSubmit.append('price', price)
+        formDataToSubmit.append('type', type)
+        formDataToSubmit.append('description', description)
+        formDataToSubmit.append('postalCode', postalCode)
+        formDataToSubmit.append('city', city)
+        uploads.forEach((file, index) => {
+            console.log('file: ', file)
+            formDataToSubmit.append('uploads', file) // Use 'uploads' as the key
+        })
+
+        // Log each key-value pair in FormData
+        for (let [key, value] of formDataToSubmit.entries()) {
+            console.log(key, value)
         }
 
-        message.error('Please correct the highlighted fields before submitting.')
+        dispatch(createArticle(formDataToSubmit))
     }
 
-    const handlePLZChange = async (e) => {
-        const plz = e.target.value
-        // if (plz.length === 5) {
-        //     try {
-        //         const response = await axios.get(`${PLZ_API_URL}${plz}`)
-        //         const cityName = response.data.places[0]['place name']
-        //         setCity(cityName)
-        //     } catch (error) {
-        //         console.error('Error retrieving city:', error)
-        //     }
-        // }
+    const handlePLZSubmit = async () => {
+        const cityResult = await fetchCityInfo(postalCode.trim())
+        setCity(cityResult || '')
     }
+
+    const handleFileChange = (e) => {
+        const selectedFiles = Array.from(e.target.files)
+
+        const fileSet = new Set(uploads)
+        selectedFiles.forEach(file => fileSet.add(file))
+
+        const newUploads = Array.from(fileSet).slice(0, 5)
+
+        const newPreviews = newUploads.map(file => URL.createObjectURL(file))
+
+        setUploads(newUploads)
+        setPreviews(newPreviews)
+    }
+
+    const handleRemovePreview = (index) => {
+        const newUploads = uploads.filter((_, i) => i !== index)
+        const newPreviews = previews.filter((_, i) => i !== index)
+
+        setUploads(newUploads)
+        setPreviews(newPreviews)
+
+        URL.revokeObjectURL(previews[index])
+    }
+
+    useEffect(() => {
+        return () => {
+            previews.forEach(url => URL.revokeObjectURL(url))
+        }
+    }, [previews])
 
     return (
         <div className="create-article">
             <Header />
             <div className="form-container">
-                <ConfigProvider
-                    theme={{
-                        components: {
-                            Form: {
-                                labelFontSize: 20
-                            }
-                        }
-                    }}
-                >
-                    <Form
-                        className="create-article-form"
-                        labelCol={{
-                            span: 7
-                        }}
-                        wrapperCol={{
-                            span: 80
-                        }}
-                        layout="horizontal"
-                        style={{
-                            minWidth: 450,
-                            maxWidth: 500
-                        }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                    >
-                        <Form.Item
-                            label="Titel"
+                <form className="create-article-form" onSubmit={handleFormSubmit}>
+                    <div className="form-item">
+                        <label htmlFor="title" className="form-label">Titel</label>
+                        <input
+                            type="text"
+                            id="title"
                             name="title"
-                            rules={[{ required: true, message: 'Bitte Titel eingeben' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Kategorie"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-item">
+                        <label htmlFor="category" className="form-label">Kategorie</label>
+                        <select
+                            id="category"
                             name="category"
-                            rules={[{ required: true, message: 'Bitte Kategorie wählen' }]}
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            required
                         >
-                            <Select>
-                                <Select.Option value="Elektronik">Elektronik</Select.Option>
-                                <Select.Option value="Sport">Sport</Select.Option>
-                                <Select.Option value="Mode">Mode</Select.Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item
-                            label="Preis"
+                            <option value="">Bitte wählen</option>
+                            {categories
+                                .filter(cat => cat.key !== 'alle-kategorien')
+                                .map(cat => (
+                                    <option key={cat.key} value={cat.key}>{cat.label}</option>
+                                ))}
+                        </select>
+                    </div>
+                    <div className="form-item">
+                        <label htmlFor="price" className="form-label">Preis</label>
+                        <input
+                            type="number"
+                            id="price"
                             name="price"
-                            rules={[{ required: true, message: 'Bitte Preis eingeben' }]}
-                        >
-                            <Input type="number" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Typ"
-                            name="type"
-                            rules={[{ required: true, message: 'Bitte Typ wählen' }]}
-                        >
-                            <Radio.Group>
-                                <div className="radio-group">
-                                    <Radio value="Festpreis">Festpreis</Radio>
-                                    <Radio value="Verhandelbar">Verhandelbar</Radio>
-                                </div>
-                            </Radio.Group>
-                        </Form.Item>
-                        <Form.Item
-                            label="Beschreibung"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-item">
+                        <label className="form-label">Typ</label>
+                        <div className="radio-group">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="Festpreis"
+                                    checked={type === 'Festpreis'}
+                                    onChange={(e) => setType(e.target.value)}
+                                    required
+                                />
+                                Festpreis
+                            </label>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="Verhandelbar"
+                                    checked={type === 'Verhandelbar'}
+                                    onChange={(e) => setType(e.target.value)}
+                                    required
+                                />
+                                Verhandelbar
+                            </label>
+                        </div>
+                    </div>
+                    <div className="form-item">
+                        <label htmlFor="description" className="form-label">Beschreibung</label>
+                        <textarea
+                            id="description"
                             name="description"
-                            className="description-form-item"
-                            rules={[{ required: true, message: 'Bitte Beschreibung eingeben' }]}
-                        >
-                            <TextArea rows={4} />
-                        </Form.Item>
-                        <Form.Item
-                            label="PLZ"
-                            name="plz"
-                            rules={[{ required: true, message: 'Bitte PLZ eingeben' }]}
-                        >
-                            <Input onChange={handlePLZChange} />
-                        </Form.Item>
-                        <Form.Item
-                            label="Stadt"
+                            rows="4"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                        ></textarea>
+                    </div>
+                    <div className="form-item">
+                        <label className="form-label">PLZ</label>
+                        <div className="postal-code-container">
+                            <input
+                                type="text"
+                                id="postalCode"
+                                name="postalCode"
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
+                                required
+                            />
+                            <button type="button" onClick={handlePLZSubmit}>
+                                Stadt suchen
+                            </button>
+                        </div>
+                    </div>
+                    <div className="form-item">
+                        <label htmlFor="city" className="form-label">Stadt</label>
+                        <input
+                            type="text"
+                            id="city"
                             name="city"
-                        >
-                            <Input value={city} disabled />
-                        </Form.Item>
-                        <Form.Item
-                            label="Upload"
-                            name="upload"
-                            valuePropName="fileList"
-                            getValueFromEvent={normFile}
-                        >
-                            <Upload
-                                action="/upload.do"
-                                listType="picture-card"
-                            >
-                                <Button icon={<PlusOutlined />}>
-                                    Upload
-                                </Button>
-                            </Upload>
-                        </Form.Item>
-                        <Form.Item className="submit-button">
-                            <Button type="primary" htmlType="submit">
-                                Anzeige aufgeben
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </ConfigProvider>
+                            value={city}
+                            readOnly
+                            disabled
+                        />
+                    </div>
+                    <div className="form-item">
+                        <label className="form-label">Upload</label>
+                        <input
+                            type="file"
+                            id="uploads"
+                            name="uploads"
+                            multiple
+                            onChange={handleFileChange}
+                        />
+                        <div className="preview-container">
+                            {previews.map((preview, index) => (
+                                <div key={index} className="preview-item">
+                                    <img src={preview} alt={`Preview ${index + 1}`} />
+                                    <button
+                                        type="button"
+                                        className="remove-button"
+                                        onClick={() => handleRemovePreview(index)}
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="submit-item">
+                        <button type="submit" className="submit-button">
+                            Anzeige aufgeben
+                        </button>
+                    </div>
+                </form>
             </div>
             <Footer />
         </div>

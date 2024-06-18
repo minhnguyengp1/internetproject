@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  //background-color: var(--accent-color);
   background-color: white;
 }
 
 .top {
   width: 100%;
+  height: 60px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -29,7 +29,7 @@
 }
 
 .imageLogo {
-  width: 200px;
+  width: 150px;
 }
 
 .buttonRegister {
@@ -159,6 +159,24 @@
   #searchBtn,
   #accountBtn {
     width: 130px;
+    height: 35px;
+    margin-left: 10px;
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 5px 12px;
+    font-weight: 700;
+    color: white;
+
+    &:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+  }
+
+  #newArticleBtn {
+    width: 200px;
     height: 35px;
     margin-left: 10px;
     border: none;
