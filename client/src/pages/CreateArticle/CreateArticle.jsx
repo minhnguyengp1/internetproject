@@ -1,7 +1,7 @@
 import './createArticle.scss'
 import React, { useEffect, useState } from 'react'
-import Footer from '../../components/footer/Footer.jsx'
-import Header from '../../components/header/Header.jsx'
+import Footer from '../../components/Footer/Footer.jsx'
+import Header from '../../components/Header/Header.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { createArticle } from '../../redux/actions/articleActions.js'
 import { useNavigate } from 'react-router-dom'
@@ -35,14 +35,6 @@ const CreateArticle = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        console.log('title: ', title)
-        console.log('category: ', category)
-        console.log('price: ', price)
-        console.log('type: ', type)
-        console.log('description: ', description)
-        console.log('postalCode: ', postalCode)
-        console.log('city: ', city)
-        console.log('uploads: ', uploads)
 
         const formDataToSubmit = new FormData()
         formDataToSubmit.append('title', title)
@@ -54,10 +46,9 @@ const CreateArticle = () => {
         formDataToSubmit.append('city', city)
         uploads.forEach((file, index) => {
             console.log('file: ', file)
-            formDataToSubmit.append('uploads', file) // Use 'uploads' as the key
+            formDataToSubmit.append('uploads', file)
         })
 
-        // Log each key-value pair in FormData
         for (let [key, value] of formDataToSubmit.entries()) {
             console.log(key, value)
         }

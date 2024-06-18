@@ -1,8 +1,8 @@
-import SideMenu from '../../components/profilePage/SideMenu.jsx'
+import SideMenu from '../../components/SideMenu/SideMenu.jsx'
 import './userLayout.scss'
 import PropTypes from 'prop-types'
-import Footer from '../../components/footer/Footer.jsx'
-import Header from '../../components/header/Header.jsx'
+import Footer from '../../components/Footer/Footer.jsx'
+import Header from '../../components/Header/Header.jsx'
 
 const UserLayout = ({ children }) => (
     <div className="user-layout">

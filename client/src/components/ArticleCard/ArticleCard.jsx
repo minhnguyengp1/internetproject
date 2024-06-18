@@ -2,15 +2,6 @@ import './articleCard.scss'
 import { Link } from 'react-router-dom'
 
 const ArticleCard = ({ title, img, id, category, description, price, postalCode, city }) => {
-    console.log('ArticleCard -> title', title)
-    console.log('ArticleCard -> img', img)
-    console.log('ArticleCard -> id', id)
-    console.log('ArticleCard -> category', category)
-    console.log('ArticleCard -> price', price)
-    console.log('ArticleCard -> postalCode', postalCode)
-    console.log('ArticleCard -> city', city)
-    console.log('ArticleCard -> year', description)
-
     return (
         <div className="article-card-container">
             <Link to={`/articles/${id}`} className="card-link">

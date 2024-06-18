@@ -1,14 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import './register.scss'
-// import RegisterForm from '../../forms/RegisterForm.jsx'
 import { Form, Button, Alert, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
-import AppLogo from '../../assets/logoBlack.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../../redux/actions/authActions.js'
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
-import Header from '../../components/Header.jsx'
-import Footer from '../../components/footer/Footer.jsx'
+import Footer from '../../components/Footer/Footer.jsx'
 
 const Register = () => {
     const dispatch = useDispatch()

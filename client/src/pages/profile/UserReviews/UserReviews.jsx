@@ -15,12 +15,6 @@ const UserReviews = () => {
         dispatch(fetchUserReviews())
     }, [dispatch])
 
-    // useEffect(() => {
-    //     if (userArticles) {
-    //         setArticleList(userArticles)
-    //     }
-    // }, [userArticles])
-
     if (loading) {
         return <Typography.Text>Loading...</Typography.Text>
     }

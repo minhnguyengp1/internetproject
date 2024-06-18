@@ -13,6 +13,8 @@ const Home = () => {
         dispatch(fetchArticles())
     }, [dispatch])
 
+    console.log('Home -> articles: ', articles)
+
     return (
         <HomeLayout>
             <div className="article-container">
@@ -22,19 +24,25 @@ const Home = () => {
                     <p>Error: {error}</p>
                 ) : (
                     articles
-                        .filter((article) => !selectedCategory || article.category === selectedCategory) // Filter articles based on selected category
-                        .map((article) => (
-                            <ArticleCard
-                                title={article.title}
-                                img={article.imgUrl}
-                                id={article.id}
-                                category={article.category}
-                                description={article.description}
-                                price={article.price}
-                                postalCode={article.postalCode}
-                                city={article.city}
-                            />
-                        ))
+                        .filter((article) => !selectedCategory || article.category === selectedCategory)
+                        .map((article) => {
+                            console.log('Article file: ', article.imgUrls)
+                            console.log('Article[0] file: ', article.imgUrls[0])
+                            console.log('article.imgUrls.length > 0', article.imgUrls.length > 0)
+                            return (
+                                <ArticleCard
+                                    key={article.articleId}
+                                    title={article.title}
+                                    img={article.imgUrls.length > 0 ? article.imgUrls[0] : ''}
+                                    id={article.articleId}
+                                    category={article.category}
+                                    description={article.description}
+                                    price={article.price}
+                                    postalCode={article.postalCode}
+                                    city={article.city}
+                                />
+                            )
+                        })
                 )}
             </div>
         </HomeLayout>

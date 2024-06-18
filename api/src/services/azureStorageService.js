@@ -27,3 +27,8 @@ export const downloadFile = async (fileName) => {
 
     return downloadBlockBlobResponse.readableStreamBody
 }
+
+export const getBlobUrl = (fileName) => {
+    const containerUrl = containerClient.url
+    return `${containerUrl}/${fileName}`
+}

@@ -8,6 +8,7 @@ import { fetchUserDetails } from '../../redux/actions/userActions.js'
 import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
 import BundeslandAutocomplete from '../BundeslandAutocomplete/BundeslandAutocomplete.jsx'
 import { logout } from '../../redux/actions/authActions.js'
+import CityDropdown from '../CityDropdown/CityDropdown.jsx'
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const Header = () => {
         fullName: ''
     })
     const [selectedCategory, setSelectedCategory] = useState('')
-    const [place, setPlace] = useState('')
+    const [selectedCity, setSelectedCity] = useState('')
     const [query, setQuery] = useState('')
 
     const { isAuthenticated } = useSelector((state) => state.userLogin)
@@ -45,8 +46,8 @@ const Header = () => {
         e.preventDefault()
         const categoryPath = selectedCategory ? `/category/${selectedCategory}` : ''
         const searchPath = query ? `?q=${query}` : ''
-        const placePath = place ? `&place=${place}` : '' // Include place in search URL
-        navigate(`/search${categoryPath}${searchPath}${placePath}`)
+        const cityPath = selectedCity ? `&place=${selectedCity}` : ''
+        navigate(`/search${categoryPath}${searchPath}${cityPath}`)
     }
 
     const handleProfileClick = () => {
@@ -54,8 +55,6 @@ const Header = () => {
     }
 
     const handleNewArticle = () => {
-        // Handle the click event for creating a new article
-        // Navigate to the page where the user can create a new article
         navigate('/create-article')
     }
 
@@ -103,9 +102,9 @@ const Header = () => {
                 </form>
             </div>
 
-            <div className="down">
+            <div className="function-bar-container">
                 {!isLoginOrRegister ? (
-                    <form className="buttonsDown">
+                    <div className="function-bar">
                         <div className="input-with-dropdown">
                             <input
                                 type="text"
@@ -118,14 +117,10 @@ const Header = () => {
                                 setSelectedCategory={setSelectedCategory}
                             />
                         </div>
-
-                        {/*<input*/}
-                        {/*    type="text"*/}
-                        {/*    placeholder="PLZ oder Ort"*/}
-                        {/*    value={place}*/}
-                        {/*    onChange={(e) => setPlace(e.target.value)} // Handle place input change*/}
-                        {/*/>*/}
-                        <BundeslandAutocomplete onSelect={(value) => console.log(value)} />
+                        <CityDropdown
+                            selectedCity={selectedCity}
+                            setSelectedCity={setSelectedCity}
+                        />
                         <button id="searchBtn" onClick={handleSearch}>
                             <FaSearch /> Finden
                         </button>
@@ -135,7 +130,7 @@ const Header = () => {
                         <button id="accountBtn" onClick={handleProfileClick}>
                             <FaUser /> Mein Profil
                         </button>
-                    </form>
+                    </div>
                 ) : (
                     <></>
                 )}

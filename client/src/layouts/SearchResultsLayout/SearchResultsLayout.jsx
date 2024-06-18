@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import Footer from '../../components/footer/Footer.jsx'
-import Header from '../../components/header/Header.jsx'
+import Footer from '../../components/Footer/Footer.jsx'
+import Header from '../../components/Header/Header.jsx'
 import FilterSidebar from '../../components/FilterSidebar/FilterSidebar.jsx'
 import './searchResultsLayout.scss'
 
