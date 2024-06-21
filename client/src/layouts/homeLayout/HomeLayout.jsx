@@ -9,9 +9,7 @@ const HomeLayout = ({ children }) => {
             <Header />
             <div className="home-layout__content">
                 <CategorySidebar />
-                <div className="home-layout__main-content">
-                    {children}
-                </div>
+                <div className="home-layout__main-content">{children}</div>
             </div>
         </div>
     )

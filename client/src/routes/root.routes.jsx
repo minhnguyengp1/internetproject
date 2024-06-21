@@ -15,26 +15,56 @@ import OtherUserView from '../pages/OtherUserView/OtherUserView.jsx'
 import UserReviews from '../pages/profile/UserReviews/UserReviews.jsx'
 import UserChat from '../pages/UserChat/UserChat.jsx'
 
-function RootRoutes() {
+function RootRoutes({ router: RouterComponent = BrowserRouter }) {
     return (
-        <BrowserRouter>
+        <RouterComponent>
             <Routes>
                 <Route path="/" element={<ProtectedRoute component={Home} />} />
-                <Route path="/article" element={<ProtectedRoute component={Article} />} />
-                <Route path="/create-article" element={<ProtectedRoute component={CreateArticle} />} />
-                <Route path="/create-article/success" element={<ProtectedRoute component={SuccessCreate} />} />
-                <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
-                <Route path="/other-user/:userId" element={<ProtectedRoute component={OtherUserView} />} />
-                <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
-                <Route path="/user/articles" element={<ProtectedRoute component={ArticleList} />} />
-                <Route path="/user/reviews" element={<ProtectedRoute component={UserReviews} />} />
-                <Route path="/test" element={<ProtectedRoute component={ReviewCard} />} />
+                <Route
+                    path="/article"
+                    element={<ProtectedRoute component={Article} />}
+                />
+                <Route
+                    path="/create-article"
+                    element={<ProtectedRoute component={CreateArticle} />}
+                />
+                <Route
+                    path="/create-article/success"
+                    element={<ProtectedRoute component={SuccessCreate} />}
+                />
+                <Route
+                    path="/user"
+                    element={<ProtectedRoute component={Dashboard} />}
+                />
+                <Route
+                    path="/other-user/:userId"
+                    element={<ProtectedRoute component={OtherUserView} />}
+                />
+                <Route
+                    path="/user/personal-info"
+                    element={<ProtectedRoute component={ProfileInfo} />}
+                />
+                <Route
+                    path="/user/articles"
+                    element={<ProtectedRoute component={ArticleList} />}
+                />
+                <Route
+                    path="/user/reviews"
+                    element={<ProtectedRoute component={UserReviews} />}
+                />
+                <Route
+                    path="/test"
+                    element={<ProtectedRoute component={ReviewCard} />}
+                />
                 <Route path="/search/*" element={<SearchResults />} />
-                <Route path="/chat" element={<ProtectedRoute component={UserChat} />} />
+                <Route
+                    path="/chat"
+                    element={<ProtectedRoute component={UserChat} />}
+                />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
             </Routes>
-        </BrowserRouter>
+        </RouterComponent>
     )
 }
 

@@ -4,16 +4,20 @@ import {
     strangerArticles,
     strangerDetails,
     userArticles,
-    userDetails, userUpdate
+    userDetails,
+    userUpdate,
 } from './reducers/userReducer.js'
 import {
     articleCreateReducer,
     articleDeleteReducer,
     articleListReducer,
-    articleUpdateReducer
+    articleUpdateReducer,
 } from './reducers/articleReducer.js'
 import { searchReducer } from './reducers/searchReducer.js'
-import { reviewSubmitReducer, userReviewsReducer } from './reducers/reviewReducer.js'
+import {
+    reviewSubmitReducer,
+    userReviewsReducer,
+} from './reducers/reviewReducer.js'
 import { conversationListReducer } from './reducers/conversationReducer.js'
 import { messageListReducer } from './reducers/messageReducer.js'
 
@@ -34,8 +38,8 @@ const store = configureStore({
         userReviews: userReviewsReducer,
         search: searchReducer,
         conversationList: conversationListReducer,
-        messageList: messageListReducer
-    }
+        messageList: messageListReducer,
+    },
 })
 
 export default store
