@@ -3,7 +3,6 @@ export function getItem(label, key) {
 }
 
 export const categories = [
-    getItem('Alle Kategorien', 'alle-kategorien'),
     getItem('Auto, Rad & Boot', 'auto-rad-boot'),
     getItem('Elektronik', 'elektronik'),
     getItem('Haus & Garten', 'haus-garten'),

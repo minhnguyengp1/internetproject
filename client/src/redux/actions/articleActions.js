@@ -9,9 +9,7 @@ export const fetchArticles = () => async (dispatch, getState) => {
         const { accessToken } = getState().userLogin
 
         const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
+            Authorization: `Bearer ${accessToken}`
         }
 
         const { data } = await axios.get('http://localhost:5000/api/articles', config)
@@ -43,6 +41,7 @@ export const fetchArticleById = (articleId) => async (dispatch, getState) => {
 
         const { data } = await axios.get(`http://localhost:5000/api/articles/${articleId}`, config)
 
+        console.log('data in fetchArticleById: ', data)
         dispatch({
             type: actionTypes.ARTICLE_DETAILS_SUCCESS,
             payload: data
@@ -64,17 +63,24 @@ export const createArticle = (formData) => async (dispatch, getState) => {
 
         formData.append('userId', userId)
 
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value)
+        }
+
+        console.log('formData in createArticle: ', formData)
+
         const config = {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
         }
 
-        const { data } = await axios.post('http://localhost:5000/api/articles', formData, config)
+        console.log('formData: ', formData)
+
+        await axios.post('http://localhost:5000/api/articles', formData, config)
 
         dispatch({
-            type: actionTypes.ARTICLE_CREATE_SUCCESS,
-            payload: data
+            type: actionTypes.ARTICLE_CREATE_SUCCESS
         })
     } catch (error) {
         dispatch({
@@ -85,7 +91,7 @@ export const createArticle = (formData) => async (dispatch, getState) => {
 }
 
 // Update Article
-export const updateArticle = (articleId, updatedData) => async (dispatch, getState) => {
+export const updateArticle = (articleId, formData) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.ARTICLE_UPDATE_REQUEST })
 
     try {
@@ -93,16 +99,14 @@ export const updateArticle = (articleId, updatedData) => async (dispatch, getSta
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${accessToken}`
             }
         }
 
-        const { data } = await axios.put(`http://localhost:5000/api/articles/${articleId}`, updatedData, config)
+        await axios.put(`http://localhost:5000/api/articles/${articleId}`, formData, config)
 
         dispatch({
-            type: actionTypes.ARTICLE_UPDATE_SUCCESS,
-            payload: data
+            type: actionTypes.ARTICLE_UPDATE_SUCCESS
         })
     } catch (error) {
         dispatch({

@@ -6,23 +6,22 @@ import { fetchStrangerArticles, fetchStrangerDetails } from '../../redux/actions
 import { useParams } from 'react-router-dom'
 import { Button, Card, Form, Space, Typography, Input } from 'antd'
 import Header from '../../components/Header/Header.jsx'
-import Footer from '../../components/Footer/Footer.jsx'
 import './otherUserView.scss'
 import { submitReview } from '../../redux/actions/reviewActions.js'
+import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 const OtherUserView = () => {
     const { userId } = useParams()
     const [strangerInfo, setStrangerInfo] = useState({
         fullName: '',
-        activeArticles: 0,
-        activeSince: 'Unknown',
         street: '',
         city: '',
         postalCode: '',
-        img: defaultAvatar
+        img: null
     })
-    const { userId: loggedInUserId } = useSelector((state) => state.userLogin) // Get current user's userId
-    const [showReviewForm, setShowReviewForm] = useState(false) // State to manage review form visibility
+    const { userId: loggedInUserId } = useSelector((state) => state.userLogin)
+    const [showReviewForm, setShowReviewForm] = useState(false)
     const [form] = Form.useForm()
 
     const dispatch = useDispatch()
@@ -45,7 +44,6 @@ const OtherUserView = () => {
 
     useEffect(() => {
         if (strangerDetails) {
-            console.log('strangerDetails: ', strangerDetails)
             setStrangerInfo({
                 fullName: strangerDetails.fullName || '',
                 street: strangerDetails.street || '',
@@ -56,28 +54,26 @@ const OtherUserView = () => {
         }
     }, [strangerDetails])
 
-    console.log('strangerDetails in OtherUserView: ' + JSON.stringify(strangerDetails))
-    console.log('strangerArticles in OtherUserView: ' + JSON.stringify(strangerArticles))
-
     const handleToggleReviewForm = () => {
-        setShowReviewForm(!showReviewForm) // Toggle review form visibility
+        setShowReviewForm(!showReviewForm)
     }
 
     const handleReviewSubmit = async (values) => {
         await dispatch(submitReview(userId, values))
-        setShowReviewForm(false) // Hide the review form after submission
-        form.resetFields() // Reset form fields
+        setShowReviewForm(false)
+        form.resetFields()
     }
 
-    const isCurrentUser = loggedInUserId === userId // Check if the current user is viewing their own profile
+    const isCurrentUser = loggedInUserId === userId
 
-    if (loading) {
-        return <Typography.Text>Loading...</Typography.Text>
+    const renderAvatar = (imgUrl) => {
+        if (!imgUrl || imgUrl.includes('null')) {
+            return defaultAvatar
+        }
+        return imgUrl
     }
 
-    if (error) {
-        return <Typography.Text>Error: {error}</Typography.Text>
-    }
+    console.log('strangerInfo', strangerInfo)
 
     return (
         <div className="profile-container">
@@ -85,20 +81,20 @@ const OtherUserView = () => {
             <div className="profile-container__content">
                 <div className="profile-sidebar">
                     {strangerInfo && (
-                        <Card className="user-card">
-                            <Typography.Title level={4} className="dashboard-title">Dashboard</Typography.Title>
+                        <div className="user-card">
+                            <Typography.Title level={3} className="dashboard-title">User</Typography.Title>
                             <img
-                                src={strangerInfo.img}
+                                src={renderAvatar(strangerInfo.img)}
                                 alt="Profile"
-                                className="profile-pic" // Global styles
+                                className="user-avatar"
                             />
-                            <Space direction="vertical">
-                                <Typography.Text>
+                            <div className="user-info">
+                                <Typography.Text className="user-name">
                                     <strong>Name:</strong> {strangerInfo.fullName}
                                 </Typography.Text>
                                 <Typography.Text>
                                     <strong>Anzeigen online:</strong>{' '}
-                                    {strangerInfo.activeArticles}
+                                    {strangerArticles?.length}
                                 </Typography.Text>
                                 <Typography.Text>
                                     <strong>Aktiv seit:</strong>{' '}
@@ -109,8 +105,8 @@ const OtherUserView = () => {
                                         Write a Review
                                     </Button>
                                 )}
-                            </Space>
-                        </Card>
+                            </div>
+                        </div>
                     )}
                     {showReviewForm && !isCurrentUser && (
                         <Card className="review-form">
@@ -136,24 +132,33 @@ const OtherUserView = () => {
                     )}
                 </div>
                 <div className="profile-articles">
-                    <h2>Articles</h2>
-                    <ul className="articles-list">
-                        {strangerArticles.map(article => (
-                            <li key={article.articleId} className="article-item">
-                                <img src={article.image} alt={article.title} className="article-image" />
-                                <div className="article-details">
-                                    <h3>{article.title}</h3>
-                                    <p>{article.description}</p>
-                                    <p className="article-price">{article.price} €</p>
-                                    <p className="article-location">{article.location}</p>
-                                    <p className="article-date">{article.date}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <Typography.Title level={3} className="title">Your Articles</Typography.Title>
+                    {loading ? (
+                        <Typography.Text>Loading...</Typography.Text>
+                    ) : error ? (
+                        <Typography.Text className="error-text">Error: {error}</Typography.Text>
+                    ) : (
+                        <>
+                            {strangerArticles && strangerArticles.length > 0 ? (
+                                strangerArticles.map((article) => (
+                                    <div key={article.articleId} className="article-card-wrapper">
+                                        <ArticleCard
+                                            title={article.title}
+                                            img={article.imgUrls.length > 0 ? article.imgUrls[0] : ''}
+                                            id={article.articleId}
+                                            category={article.category}
+                                            description={article.description}
+                                            price={article.price}
+                                            city={article.city}
+                                        />
+                                    </div>)
+                                )) : (
+                                <Typography.Text>No articles found.</Typography.Text>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

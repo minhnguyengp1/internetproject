@@ -8,6 +8,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="category-dropdown"
         >
+            <option value="">Alle Kategorien</option>
             {categories.map((category) => (
                 <option key={category.key} value={category.key}>
                     {category.label}

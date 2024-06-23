@@ -1,7 +1,7 @@
 import {
     AppstoreOutlined,
     ShopOutlined,
-    ShoppingCartOutlined,
+    ShoppingCartOutlined, TeamOutlined, UsergroupAddOutlined,
     UserOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
@@ -48,6 +48,21 @@ function SideMenu() {
                     label: 'Bewertungen',
                     key: '/user/reviews',
                     icon: <UserOutlined />
+                },
+                {
+                    label: 'Watchlist',
+                    key: '/user/watchlist',
+                    icon: <UserOutlined />
+                },
+                {
+                    label: 'Followers',
+                    key: '/user/followers',
+                    icon: <TeamOutlined />
+                },
+                {
+                    label: 'Following',
+                    key: '/user/following',
+                    icon: <UsergroupAddOutlined />
                 },
                 {
                     label: 'Einstellungen',

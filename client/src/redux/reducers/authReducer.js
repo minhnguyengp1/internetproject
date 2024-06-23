@@ -4,7 +4,8 @@ const initialState = {
     accessToken: localStorage.getItem('accessToken') || null,
     userId: localStorage.getItem('userId') || null,
     isAuthenticated: localStorage.getItem('accessToken') ? true : false,
-    error: null
+    error: null,
+    loading: false
 }
 
 export const userLogin = (state = initialState, action) => {
@@ -12,7 +13,8 @@ export const userLogin = (state = initialState, action) => {
         case actionTypes.LOGIN_REQUEST:
             return {
                 ...state,
-                error: null
+                error: null,
+                loading: true
             }
         case actionTypes.LOGIN_SUCCESS:
             localStorage.setItem('accessToken', action.payload.accessToken)
@@ -22,12 +24,14 @@ export const userLogin = (state = initialState, action) => {
                 accessToken: action.payload.accessToken,
                 userId: action.payload.userId,
                 isAuthenticated: true,
-                error: null
+                error: null,
+                loading: false
             }
         case actionTypes.LOGIN_FAILURE:
             return {
                 ...state,
-                error: action.payload.error
+                error: action.payload,
+                loading: false
             }
         case actionTypes.LOGOUT:
             localStorage.removeItem('accessToken')

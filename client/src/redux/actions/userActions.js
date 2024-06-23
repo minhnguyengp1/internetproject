@@ -67,29 +67,35 @@ export const fetchUserArticles = () => async (dispatch, getState) => {
     }
 }
 
-export const updateUserDetails = (updatedFields) => async (dispatch, getState) => {
+export const updateUserDetails = (formData) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.UPDATE_USER_DETAILS_REQUEST })
 
     try {
         const { accessToken } = getState().userLogin
         const { userId } = getState().userLogin
 
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value)
+        }
+
+        console.log('formData in updateUserDetails: ', formData)
+
+
         const config = {
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'multipart/form-data' // Ensure this line
             }
         }
 
-        const { data } = await axios.put(
+        await axios.put(
             `http://localhost:5000/api/user/${userId}`,
-            updatedFields,
+            formData,
             config
         )
 
         dispatch({
-            type: actionTypes.UPDATE_USER_DETAILS_SUCCESS,
-            payload: data
+            type: actionTypes.UPDATE_USER_DETAILS_SUCCESS
         })
     } catch (error) {
         dispatch({
@@ -121,7 +127,7 @@ export const fetchStrangerDetails = (strangerId) => async (dispatch, getState) =
 
         dispatch({
             type: actionTypes.FETCH_STRANGER_DETAILS_SUCCESS,
-            payload: { strangerDetails: data }
+            payload: data
         })
     } catch (error) {
         dispatch({

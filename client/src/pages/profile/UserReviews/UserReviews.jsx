@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Typography, Space } from 'antd'
-import UserLayout from '../../../layouts/userLayout/UserLayout.jsx'
+import UserLayout from '../../../layouts/UserLayout/UserLayout.jsx'
 import { fetchUserReviews } from '../../../redux/actions/reviewActions.js'
 import defaultAvatar from '../../../assets/default-avatar.png'
+import './userReviews.scss'
 
 const { Meta } = Card
 
@@ -15,41 +16,38 @@ const UserReviews = () => {
         dispatch(fetchUserReviews())
     }, [dispatch])
 
-    if (loading) {
-        return <Typography.Text>Loading...</Typography.Text>
-    }
-
-    if (error) {
-        return <Typography.Text className="error-text">Error: {error}</Typography.Text>
-    }
-
     return (
         <UserLayout>
-            <Space size={20} direction="vertical" className="review-list">
-                <Typography.Title level={3} className="title">Bewertungen von anderen Users</Typography.Title>
-                <Space wrap>
-                    {userReviews && userReviews.length > 0 ? (
-                        userReviews.map((review) => (
-                            <Card key={review.reviewId} hoverable className="review-card">
-                                <Meta
-                                    avatar={<img src={review.authorImg || defaultAvatar} alt={review.authorName}
-                                                 className="review-avatar" />}
-                                    title={review.authorName}
-                                    description={
-                                        <>
-                                            <Typography.Text>Bewertung: {review.rating}/5</Typography.Text>
-                                            <br />
-                                            <Typography.Text>{review.text}</Typography.Text>
-                                        </>
-                                    }
-                                />
-                            </Card>
-                        ))
-                    ) : (
-                        <Typography.Text>No reviews found.</Typography.Text>
-                    )}
-                </Space>
-            </Space>
+            <div className="review-list-container">
+                <Typography.Title level={3} className="title">Bewertungen von anderen Benutzern</Typography.Title>
+                {loading ? (
+                    <Typography.Text>Loading...</Typography.Text>
+                ) : error ? (
+                    <Typography.Text className="error-text">Error: {error}</Typography.Text>
+                ) : (
+                    <>
+                        {userReviews && userReviews.length > 0 ? (
+                            userReviews.map((review) => (
+                                <Card key={review.reviewId} hoverable className="review-card">
+                                    <Meta
+                                        avatar={<img src={review.authorImg || defaultAvatar} alt={review.authorName}
+                                                     className="review-avatar" />}
+                                        title={review.authorName}
+                                        description={
+                                            <>
+                                                <Typography.Text>Bewertung: {review.rating}/5</Typography.Text>
+                                                <br />
+                                                <Typography.Text>{review.text}</Typography.Text>
+                                            </>
+                                        }
+                                    />
+                                </Card>)
+                            )) : (
+                            <Typography.Text>No reviews found.</Typography.Text>
+                        )}
+                    </>
+                )}
+            </div>
         </UserLayout>
     )
 }

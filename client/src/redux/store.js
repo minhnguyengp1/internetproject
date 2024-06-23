@@ -8,7 +8,7 @@ import {
 } from './reducers/userReducer.js'
 import {
     articleCreateReducer,
-    articleDeleteReducer,
+    articleDeleteReducer, articleDetailsReducer,
     articleListReducer,
     articleUpdateReducer
 } from './reducers/articleReducer.js'
@@ -16,6 +16,12 @@ import { searchReducer } from './reducers/searchReducer.js'
 import { reviewSubmitReducer, userReviewsReducer } from './reducers/reviewReducer.js'
 import { conversationListReducer } from './reducers/conversationReducer.js'
 import { messageListReducer } from './reducers/messageReducer.js'
+import {
+    addToWatchlistReducer,
+    fetchUserWatchlistReducer,
+    removeFromWatchlistReducer
+} from './reducers/watchlistReducer.js'
+import { followerAddReducer, followerRemoveReducer, followersListReducer } from './reducers/followerReducer.js'
 
 const store = configureStore({
     reducer: {
@@ -25,6 +31,7 @@ const store = configureStore({
         userArticles: userArticles,
         userUpdate: userUpdate,
         articleList: articleListReducer,
+        articleDetails: articleDetailsReducer,
         articleDelete: articleDeleteReducer,
         articleUpdate: articleUpdateReducer,
         articleCreate: articleCreateReducer,
@@ -34,7 +41,13 @@ const store = configureStore({
         userReviews: userReviewsReducer,
         search: searchReducer,
         conversationList: conversationListReducer,
-        messageList: messageListReducer
+        messageList: messageListReducer,
+        fetchUserWatchlist: fetchUserWatchlistReducer,
+        addToWatchlist: addToWatchlistReducer,
+        removeFromWatchlist: removeFromWatchlistReducer,
+        followersList: followersListReducer,
+        followerAdd: followerAddReducer,
+        followerRemove: followerRemoveReducer
     }
 })
 

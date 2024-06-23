@@ -1,0 +1,65 @@
+.follower-list-container {
+  padding: 20px;
+
+  .follower-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+
+    .follower-card {
+      display: flex;
+      width: 100%;
+      background-color: #fff;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      color: inherit;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+
+      .follower-avatar {
+        width: 150px; /* Fixed width for image section */
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 8px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .follower-info {
+        flex: 1; /* Take remaining space */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center content vertically */
+        padding: 20px;
+
+        .follower-name {
+          font-size: 1.2em;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+
+        .follower-address {
+          font-size: 1em;
+          color: #666;
+        }
+      }
+
+      button {
+        align-self: flex-start; /* Align button to start of the flex container */
+        margin-top: auto; /* Push button to the bottom */
+      }
+    }
+  }
+
+  .error-text {
+    color: red;
+    margin-top: 10px;
+  }
+}

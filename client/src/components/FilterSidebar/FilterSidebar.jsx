@@ -1,39 +1,55 @@
-import React, { useState } from 'react'
-import './filterSidebar.scss'
-import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
+import CityDropdown from '../CityDropdown/CityDropdown.jsx'
+import './filterSidebar.scss'
 
-const FilterSidebar = ({ onFilterChange }) => {
+const FilterSidebar = () => {
     const location = useLocation()
     const navigate = useNavigate()
-    const queryParams = new URLSearchParams(location.search)
-    const firstSelectedCategory = location.pathname.split('/category/')[1]
-    const query = queryParams.get('q') || ''
 
-    const [selectedCategory, setSelectedCategory] = useState(firstSelectedCategory)
-    const [selectedBundesland, setSelectedBundesland] = useState('')
+    const [query, setQuery] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
     const [minPrice, setMinPrice] = useState('')
     const [maxPrice, setMaxPrice] = useState('')
+    const [city, setCity] = useState('')
 
-    // const handleCategoryChange = (e) => {
-    //     setSelectedCategory(e.target.value)
-    //     onFilterChange({ category: e.target.value, minPrice, maxPrice })
-    // }
+    // Initialize state from URL parameters on mount or when location changes
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search)
+        const initialSelectedCategory = location.pathname.split('/category/')[1] || ''
+        const initialSelectedCity = queryParams.get('city') || ''
+        const initialQuery = queryParams.get('q') || ''
+        const initialMinPrice = queryParams.get('minPrice') || ''
+        const initialMaxPrice = queryParams.get('maxPrice') || ''
 
-    const handleMinPriceChange = (e) => {
-        setMinPrice(e.target.value)
-    }
+        setQuery(initialQuery)
+        setSelectedCategory(initialSelectedCategory)
+        setCity(initialSelectedCity)
+        setMinPrice(initialMinPrice)
+        setMaxPrice(initialMaxPrice)
+    }, [location])
 
-    const handleMaxPriceChange = (e) => {
-        setMaxPrice(e.target.value)
+    const handlePriceChange = (e) => {
+        const { name, value } = e.target
+        if (name === 'minPrice') {
+            setMinPrice(value)
+        } else if (name === 'maxPrice') {
+            setMaxPrice(value)
+        }
     }
 
     const handleApplyFilter = () => {
+        const params = new URLSearchParams()
+        if (query) params.append('q', query)
+        if (minPrice) params.append('minPrice', minPrice)
+        if (maxPrice) params.append('maxPrice', maxPrice)
+        if (city) params.append('city', city)
+
         const categoryPath = selectedCategory ? `/category/${selectedCategory}` : ''
-        const searchPath = query ? `?q=${query}` : ''
-        const priceParams = `minPrice=${minPrice}&maxPrice=${maxPrice}`
-        const bundeslandParam = selectedBundesland ? `bundesland=${selectedBundesland}` : ''
-        navigate(`/search${categoryPath}${searchPath}&${priceParams}&${bundeslandParam}`)
+        const queryString = params.toString()
+
+        navigate(`/search${categoryPath}${queryString ? `?${queryString}` : ''}`)
     }
 
     return (
@@ -49,17 +65,35 @@ const FilterSidebar = ({ onFilterChange }) => {
             <div className="filter-group price-filter">
                 <label>Price Range</label>
                 <div className="price-inputs">
-                    <input type="number" placeholder="Von" value={minPrice} onChange={handleMinPriceChange} />
-                    <input type="number" placeholder="Bis" value={maxPrice} onChange={handleMaxPriceChange} />
+                    <input
+                        type="number"
+                        name="minPrice"
+                        placeholder="Von"
+                        value={minPrice}
+                        onChange={handlePriceChange}
+                    />
+                    <input
+                        type="number"
+                        name="maxPrice"
+                        placeholder="Bis"
+                        value={maxPrice}
+                        onChange={handlePriceChange}
+                    />
                 </div>
-                <button className="apply-btn" onClick={handleApplyFilter}>Apply</button>
             </div>
-            <div className="filter-group bundesland-filter"> {/* New div wrapper */}
-                {/*<BundeslandFilter*/}
-                {/*    selectedBundesland={selectedBundesland}*/}
-                {/*    setSelectedBundesland={setSelectedBundesland}*/}
-                {/*/>*/}
+            <div className="filter-group city-filter">
+                <label>City</label>
+                <CityDropdown
+                    selectedCity={city}
+                    setSelectedCity={setCity}
+                />
             </div>
+            <button
+                className="apply-btn"
+                onClick={handleApplyFilter}
+            >
+                Apply
+            </button>
         </div>
     )
 }
