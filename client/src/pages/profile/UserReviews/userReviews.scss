@@ -1,0 +1,57 @@
+$primary-color: #1890ff;
+$error-color: #f5222d;
+$title-font-size: 1.5em;
+$card-padding: 20px;
+$avatar-size: 50px;
+$card-border-radius: 8px;
+$card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+$card-border: 1px solid #f0f0f0;
+$spacing: 16px;
+
+.review-list-container {
+  padding: 20px;
+
+  .review-card {
+    border: $card-border;
+    border-radius: $card-border-radius;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    padding: $card-padding;
+    background-color: #fff;
+
+    &:hover {
+      box-shadow: $card-hover-shadow;
+    }
+
+    .ant-card-meta {
+      display: flex;
+      align-items: center;
+
+      .review-avatar {
+        width: $avatar-size;
+        height: $avatar-size;
+        border-radius: 50%;
+        margin-right: $spacing;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .ant-card-meta-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .ant-card-meta-description {
+        display: flex;
+        flex-direction: column;
+
+        .ant-typography {
+          display: block;
+          margin-bottom: 8px;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+

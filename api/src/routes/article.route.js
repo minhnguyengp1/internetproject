@@ -10,12 +10,12 @@ import {
 
 const router = express.Router()
 
+router.get('/search/', searchArticles)
+
 router.post('/', createArticle)
 router.get('/', getAllArticles)
 router.get('/:articleId', getArticleById)
 router.put('/:articleId', updateArticle)
 router.delete('/:articleId', deleteArticle)
-
-router.get('/search', searchArticles)
 
 export default router

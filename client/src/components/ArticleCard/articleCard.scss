@@ -4,11 +4,11 @@
   border-radius: 8px;
   overflow: hidden;
   margin: 16px 0;
-  width: calc(100% - 250px); // keep the article cards in the middle
+  width: calc(100% - 250px);
   text-decoration: none;
   color: inherit;
-  height: 300px; /* Set a fixed height */
-  min-width: 0; /* Ensure flex children can shrink below their intrinsic width */
+  height: 300px;
+  min-width: 0;
 
   & {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
     width: 100%;
     text-decoration: none;
     color: inherit;
-    padding: 30px; /* Padding added */
+    padding: 30px;
 
     .card-img {
       flex: 1;
@@ -52,7 +52,7 @@
       flex-direction: column;
       justify-content: space-between;
 
-      .card-location {
+      .card-city {
         font-size: 12px;
         color: #888;
       }
@@ -72,6 +72,12 @@
       .card-price {
         font-size: 18px;
         color: #0a0;
+        margin: 8px 0;
+      }
+
+      .card-category {
+        font-size: 14px;
+        color: #555;
         margin: 8px 0;
       }
 

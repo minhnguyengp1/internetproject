@@ -1,12 +1,11 @@
 import './createArticle.scss'
 import React, { useEffect, useState } from 'react'
-import Footer from '../../components/Footer/Footer.jsx'
 import Header from '../../components/Header/Header.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { createArticle } from '../../redux/actions/articleActions.js'
 import { useNavigate } from 'react-router-dom'
-import { fetchCityInfo } from '../../utils/helpers.js'
 import { categories } from '../../assets/categories.js'
+import { cities } from '../../assets/cities.js'
 
 const CreateArticle = () => {
     const dispatch = useDispatch()
@@ -17,21 +16,19 @@ const CreateArticle = () => {
     const [price, setPrice] = useState('')
     const [type, setType] = useState('')
     const [description, setDescription] = useState('')
-    const [postalCode, setPostalCode] = useState('')
     const [city, setCity] = useState('')
     const [uploads, setUploads] = useState([])
     const [previews, setPreviews] = useState([])
 
     console.log('uploads: ', uploads)
     const articleCreate = useSelector((state) => state.articleCreate)
-    const { success, article } = articleCreate
+    const { success } = articleCreate
 
     useEffect(() => {
         if (success) {
-            console.log('Article created:', article)
-            navigate('/create-article/success')
+            navigate('/create-success')
         }
-    }, [success, article, navigate])
+    }, [success, navigate])
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
@@ -42,7 +39,6 @@ const CreateArticle = () => {
         formDataToSubmit.append('price', price)
         formDataToSubmit.append('type', type)
         formDataToSubmit.append('description', description)
-        formDataToSubmit.append('postalCode', postalCode)
         formDataToSubmit.append('city', city)
         uploads.forEach((file, index) => {
             console.log('file: ', file)
@@ -54,11 +50,6 @@ const CreateArticle = () => {
         }
 
         dispatch(createArticle(formDataToSubmit))
-    }
-
-    const handlePLZSubmit = async () => {
-        const cityResult = await fetchCityInfo(postalCode.trim())
-        setCity(cityResult || '')
     }
 
     const handleFileChange = (e) => {
@@ -118,7 +109,6 @@ const CreateArticle = () => {
                         >
                             <option value="">Bitte wählen</option>
                             {categories
-                                .filter(cat => cat.key !== 'alle-kategorien')
                                 .map(cat => (
                                     <option key={cat.key} value={cat.key}>{cat.label}</option>
                                 ))}
@@ -174,31 +164,20 @@ const CreateArticle = () => {
                         ></textarea>
                     </div>
                     <div className="form-item">
-                        <label className="form-label">PLZ</label>
-                        <div className="postal-code-container">
-                            <input
-                                type="text"
-                                id="postalCode"
-                                name="postalCode"
-                                value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
-                                required
-                            />
-                            <button type="button" onClick={handlePLZSubmit}>
-                                Stadt suchen
-                            </button>
-                        </div>
-                    </div>
-                    <div className="form-item">
                         <label htmlFor="city" className="form-label">Stadt</label>
-                        <input
-                            type="text"
+                        <select
                             id="city"
                             name="city"
                             value={city}
-                            readOnly
-                            disabled
-                        />
+                            onChange={(e) => setCity(e.target.value)}
+                            required
+                        >
+                            <option value="">Bitte wählen</option>
+                            {cities
+                                .map(city => (
+                                    <option key={city.key} value={city.key}>{city.name}</option>
+                                ))}
+                        </select>
                     </div>
                     <div className="form-item">
                         <label className="form-label">Upload</label>
@@ -231,7 +210,6 @@ const CreateArticle = () => {
                     </div>
                 </form>
             </div>
-            <Footer />
         </div>
     )
 }

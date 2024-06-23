@@ -1,12 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from '../pages/Login/Login.jsx'
-import Register from '../pages/register/Register.jsx'
+import Register from '../pages/Register/Register.jsx'
 import ProtectedRoute from './protected.route.jsx'
-import Home from '../pages/home/Home.jsx'
-import Article from '../pages/article/Article.jsx'
-import Dashboard from '../pages/profile/dashboard/Dashboard.jsx'
-import ProfileInfo from '../pages/profile/profileInfo/ProfileInfo.jsx'
-import ArticleList from '../pages/profile/articleList/ArticleList.jsx'
+import Home from '../pages/Home/Home.jsx'
+import Dashboard from '../pages/profile/Dashboard/Dashboard.jsx'
+import ProfileInfo from '../pages/profile/ProfileInfo/ProfileInfo.jsx'
+import ArticleList from '../pages/profile/ArticleList/ArticleList.jsx'
 import CreateArticle from '../pages/CreateArticle/CreateArticle.jsx'
 import SearchResults from '../pages/SearchResults/SearchResults.jsx'
 import SuccessCreate from '../pages/SuccessCreate/SuccessCreate.jsx'
@@ -14,23 +13,39 @@ import ReviewCard from '../components/ReviewCard/ReviewCard.jsx'
 import OtherUserView from '../pages/OtherUserView/OtherUserView.jsx'
 import UserReviews from '../pages/profile/UserReviews/UserReviews.jsx'
 import UserChat from '../pages/UserChat/UserChat.jsx'
+import ForgotPassword from '../pages/ForgotPassword/ForgotPassword.jsx'
+import ResetPassword from '../pages/ResetPassword/ResetPassword.jsx'
+import ArticleDetails from '../pages/ArticleDetails/ArticleDetails.jsx'
+import Watchlist from '../pages/WatchList/Watchlist.jsx'
+import FollowerList from '../pages/FollowerList/FollowerList.jsx'
+import Settings from '../pages/Settings/Settings.jsx'
+import UpdateArticle from '../pages/UpdateArticle/UpdateArticle.jsx'
+import SuccessUpdate from '../pages/SuccessUpdate/SuccessUpdate.jsx'
 
-function RootRoutes({ router: RouterComponent = BrowserRouter }) {
+function RootRoutes() {
     return (
         <RouterComponent>
             <Routes>
                 <Route path="/" element={<ProtectedRoute component={Home} />} />
                 <Route
-                    path="/article"
-                    element={<ProtectedRoute component={Article} />}
+                    path="/article/:articleId"
+                    element={<ProtectedRoute component={ArticleDetails} />}
                 />
                 <Route
                     path="/create-article"
                     element={<ProtectedRoute component={CreateArticle} />}
                 />
                 <Route
-                    path="/create-article/success"
+                    path="/update-article/:articleId"
+                    element={<ProtectedRoute component={UpdateArticle} />}
+                />
+                <Route
+                    path="/create-success"
                     element={<ProtectedRoute component={SuccessCreate} />}
+                />
+                <Route
+                    path="/update-success"
+                    element={<ProtectedRoute component={SuccessUpdate} />}
                 />
                 <Route
                     path="/user"
@@ -45,12 +60,24 @@ function RootRoutes({ router: RouterComponent = BrowserRouter }) {
                     element={<ProtectedRoute component={ProfileInfo} />}
                 />
                 <Route
+                    path="/user/settings"
+                    element={<ProtectedRoute component={Settings} />}
+                />
+                <Route
                     path="/user/articles"
                     element={<ProtectedRoute component={ArticleList} />}
                 />
                 <Route
                     path="/user/reviews"
                     element={<ProtectedRoute component={UserReviews} />}
+                />
+                <Route
+                    path="/user/watchlist"
+                    element={<ProtectedRoute component={Watchlist} />}
+                />
+                <Route
+                    path="/user/followers"
+                    element={<ProtectedRoute component={FollowerList} />}
                 />
                 <Route
                     path="/test"
@@ -63,6 +90,12 @@ function RootRoutes({ router: RouterComponent = BrowserRouter }) {
                 />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
+                <Route
+                    exact={true}
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                />
+                <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
         </RouterComponent>
     )

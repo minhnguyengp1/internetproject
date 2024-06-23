@@ -135,6 +135,8 @@ export const getReviewsBySubject = (req, res) => {
             return res.status(500).json({ message: 'Error fetching reviews', error: err })
         }
 
+        console.log('results', results)
+
         return res.status(200).json(results)
     })
 }

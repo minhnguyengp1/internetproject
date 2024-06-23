@@ -14,16 +14,17 @@ export const login = ({ email, password }) => {
             const { accessToken, userId } = data
 
             dispatch({
-                type: 'LOGIN_SUCCESS',
+                type: actionTypes.LOGIN_SUCCESS,
                 payload: { userId: userId, accessToken: accessToken }
             })
         } catch (error) {
-            const errorMessage =
-                error.response &&
-                error.response.data &&
-                error.response.data.message
-                    ? error.response.data.message
-                    : error.message
+            let errorMessage = 'Unknown error occurred'
+
+            if (error.response && error.response.data) {
+                errorMessage = error.response.data
+            } else if (error.message) {
+                errorMessage = error.message
+            }
 
             dispatch({
                 type: actionTypes.LOGIN_FAILURE,
@@ -46,12 +47,13 @@ export const register = ({ fullName, email, password }) => {
 
             dispatch({ type: actionTypes.REGISTER_SUCCESS })
         } catch (error) {
-            const errorMessage =
-                error.response &&
-                error.response.data &&
-                error.response.data.message
-                    ? error.response.data.message
-                    : error.message
+            let errorMessage = 'Unknown error occurred'
+
+            if (error.response && error.response.data) {
+                errorMessage = error.response.data
+            } else if (error.message) {
+                errorMessage = error.message
+            }
 
             dispatch({
                 type: actionTypes.REGISTER_FAILURE,

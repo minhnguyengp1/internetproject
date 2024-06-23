@@ -23,23 +23,30 @@
 import axios from 'axios'
 import * as actionTypes from '../constants/searchActionTypes.js'
 
-export const searchArticles = (query, filter) => async (dispatch) => {
+export const searchArticles = (category, searchQuery, filter) => async (dispatch) => {
     dispatch({ type: actionTypes.SEARCH_REQUEST })
 
     try {
-        // Construct the API request URL with query and filter parameters
         const params = new URLSearchParams()
-        params.append('search', query)
+        if (category) {
+            params.append('category', category)
+        }
+        if (searchQuery) {
+            params.append('search', searchQuery)
+        }
         if (filter.minPrice) {
             params.append('minPrice', filter.minPrice)
         }
         if (filter.maxPrice) {
             params.append('maxPrice', filter.maxPrice)
         }
+        if (filter.city) {
+            params.append('city', filter.city)
+        }
 
-        console.log(`http://localhost:5000/api/articles?${params}`)
+        console.log(`http://localhost:5000/api/articles/search?${params.toString()}`)
 
-        const { data } = await axios.get(`http://localhost:5000/api/articles?${params}`)
+        const { data } = await axios.get(`http://localhost:5000/api/articles/search?${params.toString()}`)
 
         console.log('data in search thunk: ', data)
         dispatch({

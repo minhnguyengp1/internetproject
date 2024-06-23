@@ -1,0 +1,10 @@
+.profile-info-container {
+  padding: 20px;
+
+  .profile-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+}

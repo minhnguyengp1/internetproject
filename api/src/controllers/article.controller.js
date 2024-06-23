@@ -40,22 +40,54 @@ export const getAllArticles = (req, res) => {
 }
 
 export const searchArticles = (req, res) => {
-    let searchQuery = req.query.search
-    const category = req.params.category
+    const { category, search: searchQuery, minPrice, maxPrice, city } = req.query
 
-    if (!searchQuery) {
-        return res.status(400).json({ error: 'Search query is required' })
+    console.log('category', category)
+    console.log('searchQuery', searchQuery)
+    console.log('city', city)
+
+    let searchConditions = []
+    let values = []
+
+    // Handle search query
+    if (searchQuery) {
+        const searchTerms = searchQuery.split(' ')
+        const conditions = searchTerms.map(() => `(title LIKE ? OR description LIKE ?)`)
+        searchConditions.push(`(${conditions.join(' OR ')})`)
+        values.push(...searchTerms.flatMap(term => [`%${term}%`, `%${term}%`]))
     }
 
-    const searchTerms = searchQuery.split(' ')
-    const placeholders = searchTerms.map(() => `(title LIKE ? OR description LIKE ? OR category LIKE ?)`).join(' OR ')
-    const values = searchTerms.flatMap(term => [`%${term}%`, `%${term}%`, `%${category}%`])
+    // Handle category
+    if (category) {
+        searchConditions.push('category = ?')
+        values.push(category)
+    }
 
+    // Handle price range
+    if (minPrice) {
+        searchConditions.push('price >= ?')
+        values.push(minPrice)
+    }
+    if (maxPrice) {
+        searchConditions.push('price <= ?')
+        values.push(maxPrice)
+    }
+
+    // Handle city
+    if (city) {
+        searchConditions.push('city = ?')
+        values.push(city)
+    }
+
+    // Construct the final query
+    const whereClause = searchConditions.length ? `WHERE ${searchConditions.join(' AND ')}` : ''
     const query = `
         SELECT *
-        FROM articles
-        WHERE ${placeholders}
+        FROM articles ${whereClause}
     `
+
+    console.log('query:', query)
+    console.log('values:', values)
 
     db.query(query, values, async (err, results) => {
         if (err) {
@@ -82,6 +114,7 @@ export const searchArticles = (req, res) => {
     })
 }
 
+
 // POST: http://localhost:5000/api/articles
 export const createArticle = (req, res) => {
     upload(req, res, async (err) => {
@@ -90,16 +123,16 @@ export const createArticle = (req, res) => {
             return res.status(500).json({ message: 'File upload failed', error: err.message })
         }
 
-        const { category, description, price, title, userId, type, postalCode, city } = req.body
+        const { category, description, price, title, userId, type, city } = req.body
         const files = req.files
 
         try {
             const imgUrls = await Promise.all(files.map(file => uploadFile(file)))
 
-            const query = 'INSERT INTO articles (category, description, imgUrls, price, title, userId, type, postalCode, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            const query = 'INSERT INTO articles (category, description, imgUrls, price, title, userId, type, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
             db.query(
                 query,
-                [category, description, imgUrls.join(','), price, title, userId, type, postalCode, city],
+                [category, description, imgUrls.join(','), price, title, userId, type, city],
                 (err, result) => {
                     if (err) {
                         console.error('Error creating article:', err)
@@ -118,7 +151,7 @@ export const createArticle = (req, res) => {
     })
 }
 
-// GET: http://localhost:5000/api/articles/${articleId}
+// GET: http://localhost:5000/api/articles/:articleId
 export const getArticleById = (req, res) => {
     const articleId = req.params.articleId
 
@@ -155,31 +188,68 @@ export const getArticleById = (req, res) => {
     })
 }
 
-// PUT: http://localhost:5000/api/articles/${articleId}
+// PUT: http://localhost:5000/api/articles/:articleId
 export const updateArticle = (req, res) => {
-    const articleId = req.params.articleId
-    const { category, description, imgUrls, price, title, type } = req.body
-
-    const q =
-        'UPDATE articles SET category = ?, description = ?, imgUrls = ?, price = ?, title = ?, type = ? WHERE articleId = ?'
-
-    db.query(
-        q,
-        [category, description, imgUrls, price, title, type, articleId],
-        (err, result) => {
-            if (err) {
-                return res.status(500).send(err)
-            }
-
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ message: 'Article not found' })
-            }
-
-            return res
-                .status(200)
-                .json({ message: 'Article updated successfully' })
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error('Error uploading files:', err)
+            return res.status(500).json({ message: 'File upload failed', error: err.message })
         }
-    )
+
+        const articleId = req.params.articleId
+
+        const { category, description, imgUrls: existingImgUrls, price, title, type, city } = req.body
+
+        const files = req.files
+
+        if (!category || !description || !price || !title || !type || !city) {
+            return res.status(400).json({ message: 'Missing required fields' })
+        }
+
+        try {
+            let newImgUrls = []
+            if (files && files.length > 0) {
+                newImgUrls = await Promise.all(files.map(file => uploadFile(file)))
+            }
+
+            const updatedImgUrls = [
+                ...existingImgUrls ? existingImgUrls.split(',') : [],
+                ...newImgUrls
+            ].filter(Boolean).join(',')
+
+            const q = `
+                UPDATE articles
+                SET category    = ?,
+                    description = ?,
+                    imgUrls     = ?,
+                    price       = ?,
+                    title       = ?,
+                    type        = ?,
+                    city        = ?
+                WHERE articleId = ?
+            `
+
+            db.query(
+                q,
+                [category, description, updatedImgUrls, price, title, type, city, articleId],
+                (err, result) => {
+                    if (err) {
+                        console.error('Error updating article:', err)
+                        return res.status(500).json({ message: 'Database query failed', error: err })
+                    }
+
+                    if (result.affectedRows === 0) {
+                        return res.status(404).json({ message: 'Article not found' })
+                    }
+
+                    return res.status(200).json({ message: 'Article updated successfully' })
+                }
+            )
+        } catch (error) {
+            console.error('Error processing update:', error)
+            return res.status(500).json({ message: 'Error processing update', error })
+        }
+    })
 }
 
 // DELETE: http://localhost:5000/api/articles/${articleId}

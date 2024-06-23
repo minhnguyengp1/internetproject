@@ -1,45 +1,65 @@
 import * as actionTypes from '../constants/userActionTypes.js'
+import defaultAvatar from '../../assets/default-avatar.png'
 
-export const userDetails = (state = {}, action) => {
+const initialState = {
+    userDetails: {
+        fullName: '',
+        street: '',
+        city: '',
+        postalCode: '',
+        img: defaultAvatar
+    },
+    error: null,
+    loading: false
+}
+
+export const userDetails = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USER_DETAILS_REQUEST:
             return {
+                ...state,
                 loading: true,
                 error: null
             }
         case actionTypes.FETCH_USER_DETAILS_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 userDetails: action.payload,
                 error: null
             }
         case actionTypes.FETCH_USER_DETAILS_FAILURE:
             return {
+                ...state,
                 loading: false,
-                error: action.payload.error
+                error: action.payload
             }
         default:
             return state
     }
 }
 
-export const userArticles = (state = {}, action) => {
+export const userArticles = (state = { userArticles: [] }, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USER_ARTICLES_REQUEST:
             return {
+                ...state,
                 loading: true,
                 error: null
             }
         case actionTypes.FETCH_USER_ARTICLES_SUCCESS:
             return {
+                ...state,
                 userArticles: action.payload,
                 loading: false,
                 error: null
             }
         case actionTypes.FETCH_USER_ARTICLES_FAILURE:
             return {
+                ...state,
                 loading: false,
-                error: action.payload
+                error: action.payload,
+                userArticles: []
             }
         default:
             return state
@@ -74,21 +94,34 @@ export const userUpdate = (state = {}, action) => {
     }
 }
 
-export const strangerDetails = (state = {}, action) => {
+export const strangerDetails = (state = {
+    loading: false,
+    strangerDetails: {
+        fullName: '',
+        street: '',
+        city: '',
+        postalCode: '',
+        img: defaultAvatar
+    },
+    error: null
+}, action) => {
     switch (action.type) {
         case actionTypes.FETCH_STRANGER_DETAILS_REQUEST:
             return {
+                ...state,
                 loading: true,
                 error: null
             }
         case actionTypes.FETCH_STRANGER_DETAILS_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 strangerDetails: action.payload,
                 error: null
             }
         case actionTypes.FETCH_STRANGER_DETAILS_FAILURE:
             return {
+                ...state,
                 loading: false,
                 error: action.payload.error
             }

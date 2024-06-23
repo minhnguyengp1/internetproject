@@ -6,7 +6,6 @@ import { FaPlus, FaSearch, FaUser } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUserDetails } from '../../redux/actions/userActions.js'
 import CategoryDropdown from '../CategoryDropdown/CategoryDropdown.jsx'
-import BundeslandAutocomplete from '../BundeslandAutocomplete/BundeslandAutocomplete.jsx'
 import { logout } from '../../redux/actions/authActions.js'
 import CityDropdown from '../CityDropdown/CityDropdown.jsx'
 
@@ -14,9 +13,6 @@ const Header = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const [userInfo, setUserInfo] = useState({
-        fullName: ''
-    })
     const [selectedCategory, setSelectedCategory] = useState('')
     const [selectedCity, setSelectedCity] = useState('')
     const [query, setQuery] = useState('')
@@ -30,12 +26,15 @@ const Header = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (userDetails) {
-            setUserInfo({
-                fullName: userDetails.fullName || ''
-            })
-        }
-    }, [userDetails])
+        const queryParams = new URLSearchParams(location.search)
+        const initialSelectedCategory = location.pathname.split('/category/')[1] || ''
+        const initialSelectedCity = queryParams.get('city') || ''
+        const initialQuery = queryParams.get('q') || ''
+
+        setQuery(initialQuery)
+        setSelectedCategory(initialSelectedCategory)
+        setSelectedCity(initialSelectedCity)
+    }, [location])
 
     const handleLogoutClick = () => {
         dispatch(logout())
@@ -44,10 +43,16 @@ const Header = () => {
 
     const handleSearch = (e) => {
         e.preventDefault()
+
+        const params = new URLSearchParams()
+
+        if (query) params.append('q', query)
+        if (selectedCity) params.append('city', selectedCity)
+
         const categoryPath = selectedCategory ? `/category/${selectedCategory}` : ''
-        const searchPath = query ? `?q=${query}` : ''
-        const cityPath = selectedCity ? `&place=${selectedCity}` : ''
-        navigate(`/search${categoryPath}${searchPath}${cityPath}`)
+        const queryString = params.toString()
+
+        navigate(`/search${categoryPath}${queryString ? `?${queryString}` : ''}`)
     }
 
     const handleProfileClick = () => {
@@ -88,7 +93,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p id="userName">{userInfo.fullName}</p>
+                                    <p id="userName">Hallo, {userDetails?.fullName || 'Boss'}</p>
                                     <button
                                         onClick={handleLogoutClick}
                                         className="buttonLogout"

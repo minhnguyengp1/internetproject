@@ -10,6 +10,7 @@ import {
 import {
     articleCreateReducer,
     articleDeleteReducer,
+    articleDetailsReducer,
     articleListReducer,
     articleUpdateReducer,
 } from './reducers/articleReducer.js'
@@ -20,6 +21,16 @@ import {
 } from './reducers/reviewReducer.js'
 import { conversationListReducer } from './reducers/conversationReducer.js'
 import { messageListReducer } from './reducers/messageReducer.js'
+import {
+    addToWatchlistReducer,
+    fetchUserWatchlistReducer,
+    removeFromWatchlistReducer,
+} from './reducers/watchlistReducer.js'
+import {
+    followerAddReducer,
+    followerRemoveReducer,
+    followersListReducer,
+} from './reducers/followerReducer.js'
 
 const store = configureStore({
     reducer: {
@@ -29,6 +40,7 @@ const store = configureStore({
         userArticles: userArticles,
         userUpdate: userUpdate,
         articleList: articleListReducer,
+        articleDetails: articleDetailsReducer,
         articleDelete: articleDeleteReducer,
         articleUpdate: articleUpdateReducer,
         articleCreate: articleCreateReducer,
@@ -39,6 +51,12 @@ const store = configureStore({
         search: searchReducer,
         conversationList: conversationListReducer,
         messageList: messageListReducer,
+        fetchUserWatchlist: fetchUserWatchlistReducer,
+        addToWatchlist: addToWatchlistReducer,
+        removeFromWatchlist: removeFromWatchlistReducer,
+        followersList: followersListReducer,
+        followerAdd: followerAddReducer,
+        followerRemove: followerRemoveReducer,
     },
 })
 

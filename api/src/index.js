@@ -8,6 +8,7 @@ import articleRoute from './routes/article.route.js'
 import reviewRoute from './routes/review.route.js'
 import conversationRoute from './routes/conversation.route.js'
 import messageRoute from './routes/message.route.js'
+import watchlistRoute from './routes/watchlist.route.js'
 
 dotenv.config()
 
@@ -23,5 +24,6 @@ app.use('/api/articles', articleRoute)
 app.use('/api/reviews', reviewRoute)
 app.use('/api/conversations', conversationRoute)
 app.use('/api/messages', messageRoute)
+app.use('/api/watchlist', watchlistRoute)
 
 export default app

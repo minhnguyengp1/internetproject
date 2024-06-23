@@ -1,18 +1,15 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Form, Button, Alert } from 'antd'
+import { Form, Button, Alert, Input } from 'antd'
 import './login.scss'
-import LoginForm from '../../forms/LoginForm.jsx'
 import { login } from '../../redux/actions/authActions.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-import Header from '../../components/Header/Header.jsx'
-import Footer from '../../components/Footer/Footer.jsx'
+import React, { useEffect, useState } from 'react'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 
 const Login = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
-    const [errorMessage, setErrorMessage] = useState('')
 
     const { error, isAuthenticated } = useSelector((state) => state.userLogin)
 
@@ -27,20 +24,14 @@ const Login = () => {
         if (isAuthenticated) {
             navigate(redirect)
         }
-        if (error) {
-            setErrorMessage(error)
-        } else {
-            setErrorMessage('')
-        }
-    }, [isAuthenticated, error, navigate, redirect])
+    }, [isAuthenticated, navigate, redirect])
 
     return (
         <>
-            {/*<Header />*/}
             <div className="login">
-                {errorMessage ? (
+                {error ? (
                     <div style={{ marginBottom: '24px' }}>
-                        <Alert message={errorMessage} type="error" showIcon />
+                        <Alert message={error} type="error" showIcon />
                     </div>
                 ) : null}
                 <div className="containerLogin">
@@ -53,7 +44,44 @@ const Login = () => {
                         }}
                         onFinish={handleSubmit}
                     >
-                        <LoginForm />
+                        <Form.Item
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Bitte geben Sie Ihre Email-Adresse ein.'
+                                },
+                                {
+                                    type: 'email',
+                                    message: 'Bitte geben Sie eine gültige Email-Adresse ein.'
+                                }
+                            ]}
+                        >
+                            <Input
+                                prefix={<UserOutlined className="site-form-item-icon" />}
+                                placeholder="Email"
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Bitte geben Sie Ihr Passwort ein.'
+                                }
+                            ]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                placeholder="Password"
+                            />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <a className="login-form-forgot" href="/forgot-password">
+                                Passwort vergessen? Klicken Sie hier
+                            </a>
+                        </Form.Item>
                         <Form.Item>
                             <Button
                                 type="primary"
@@ -67,7 +95,6 @@ const Login = () => {
                     </Form>
                 </div>
             </div>
-            {/*<Footer />*/}
         </>
     )
 }
