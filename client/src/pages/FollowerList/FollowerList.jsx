@@ -16,7 +16,9 @@ const FollowerList = () => {
         dispatch(fetchFollowersList())
     }, [dispatch])
 
-    const handleRemove = (followerId) => {
+    const handleRemove = (followerId, e) => {
+        e.preventDefault()
+        e.stopPropagation()
         dispatch(removeFollower(followerId))
     }
 
@@ -57,7 +59,7 @@ const FollowerList = () => {
                                         <Button
                                             type="danger"
                                             icon={<DeleteOutlined />}
-                                            onClick={() => handleRemove(follower.userId)}
+                                            onClick={(e) => handleRemove(follower.userId, e)}
                                         />
                                     </Link>
                                 </div>

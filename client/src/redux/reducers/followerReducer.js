@@ -31,19 +31,6 @@ export const followersListReducer = (state = initialFollowersListState, action) 
     }
 }
 
-export const followerAddReducer = (state = initialFollowerAddState, action) => {
-    switch (action.type) {
-        case actionTypes.FOLLOWER_ADD_REQUEST:
-            return { ...state, loading: true }
-        case actionTypes.FOLLOWER_ADD_SUCCESS:
-            return { ...state, loading: false, success: true, error: null }
-        case actionTypes.FOLLOWER_ADD_FAIL:
-            return { ...state, loading: false, success: false, error: action.payload }
-        default:
-            return state
-    }
-}
-
 export const followerRemoveReducer = (state = initialFollowerRemoveState, action) => {
     switch (action.type) {
         case actionTypes.FOLLOWER_REMOVE_REQUEST:
@@ -52,6 +39,32 @@ export const followerRemoveReducer = (state = initialFollowerRemoveState, action
             return { ...state, loading: false, success: true, error: null }
         case actionTypes.FOLLOWER_REMOVE_FAIL:
             return { ...state, loading: false, success: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const followUserReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionTypes.FOLLOW_USER_REQUEST:
+            return { loading: true }
+        case actionTypes.FOLLOW_USER_SUCCESS:
+            return { loading: false, success: true }
+        case actionTypes.FOLLOW_USER_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const unfollowUserReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionTypes.UNFOLLOW_USER_REQUEST:
+            return { loading: true }
+        case actionTypes.UNFOLLOW_USER_SUCCESS:
+            return { loading: false, success: true }
+        case actionTypes.UNFOLLOW_USER_FAIL:
+            return { loading: false, error: action.payload }
         default:
             return state
     }

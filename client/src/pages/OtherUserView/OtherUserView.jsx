@@ -4,12 +4,11 @@ import defaultAvatar from '../../assets/default-avatar.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchStrangerArticles, fetchStrangerDetails } from '../../redux/actions/userActions.js'
 import { useParams } from 'react-router-dom'
-import { Button, Card, Form, Space, Typography, Input } from 'antd'
+import { Button, Card, Form, Typography, Input } from 'antd'
 import Header from '../../components/Header/Header.jsx'
-import './otherUserView.scss'
 import { submitReview } from '../../redux/actions/reviewActions.js'
 import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { fetchFollowersList, followUser, unfollowUser } from '../../redux/actions/followerActions.js'
 
 const OtherUserView = () => {
     const { userId } = useParams()
@@ -33,14 +32,20 @@ const OtherUserView = () => {
         loading: articlesLoading,
         error: articlesError
     } = useSelector((state) => state.strangerArticles)
-    const { loading: reviewLoading, success: reviewSuccess, error: reviewError } = useSelector(
+    const { loading: reviewLoading, error: reviewError } = useSelector(
         (state) => state.reviewSubmit
+    )
+    const { loading: followLoading, success: followSuccess } = useSelector(
+        (state) => state.followUser
+    )
+    const { loading: unfollowLoading, success: unfollowSuccess } = useSelector(
+        (state) => state.unfollowUser
     )
 
     useEffect(() => {
         dispatch(fetchStrangerDetails(userId))
         dispatch(fetchStrangerArticles(userId))
-    }, [dispatch])
+    }, [dispatch, userId])
 
     useEffect(() => {
         if (strangerDetails) {
@@ -53,6 +58,10 @@ const OtherUserView = () => {
             })
         }
     }, [strangerDetails])
+
+    useEffect(() => {
+        dispatch(fetchFollowersList())
+    }, [])
 
     const handleToggleReviewForm = () => {
         setShowReviewForm(!showReviewForm)
@@ -73,7 +82,13 @@ const OtherUserView = () => {
         return imgUrl
     }
 
-    console.log('strangerInfo', strangerInfo)
+    const handleFollow = () => {
+        dispatch(followUser(userId))
+    }
+
+    const handleUnfollow = () => {
+        dispatch(unfollowUser(userId))
+    }
 
     return (
         <div className="profile-container">
@@ -100,6 +115,19 @@ const OtherUserView = () => {
                                     <strong>Aktiv seit:</strong>{' '}
                                     {strangerInfo.activeSince}
                                 </Typography.Text>
+                                {!isCurrentUser && (
+                                    <>
+                                        {unfollowSuccess ? (
+                                            <Button onClick={handleUnfollow} className="follow-button">
+                                                Unfollow
+                                            </Button>
+                                        ) : (
+                                            <Button onClick={handleFollow} className="follow-button">
+                                                Follow
+                                            </Button>
+                                        )}
+                                    </>
+                                )}
                                 {!isCurrentUser && (
                                     <Button onClick={handleToggleReviewForm}>
                                         Write a Review

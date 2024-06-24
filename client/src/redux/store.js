@@ -21,7 +21,12 @@ import {
     fetchUserWatchlistReducer,
     removeFromWatchlistReducer
 } from './reducers/watchlistReducer.js'
-import { followerAddReducer, followerRemoveReducer, followersListReducer } from './reducers/followerReducer.js'
+import {
+    followerRemoveReducer,
+    followersListReducer,
+    followUserReducer,
+    unfollowUserReducer
+} from './reducers/followerReducer.js'
 
 const store = configureStore({
     reducer: {
@@ -46,8 +51,9 @@ const store = configureStore({
         addToWatchlist: addToWatchlistReducer,
         removeFromWatchlist: removeFromWatchlistReducer,
         followersList: followersListReducer,
-        followerAdd: followerAddReducer,
-        followerRemove: followerRemoveReducer
+        followerRemove: followerRemoveReducer,
+        followUser: followUserReducer,
+        unfollowUser: unfollowUserReducer
     }
 })
 

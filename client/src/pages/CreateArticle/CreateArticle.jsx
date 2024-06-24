@@ -2,7 +2,7 @@ import './createArticle.scss'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { createArticle } from '../../redux/actions/articleActions.js'
+import { createArticle, resetArticleCreate } from '../../redux/actions/articleActions.js'
 import { useNavigate } from 'react-router-dom'
 import { categories } from '../../assets/categories.js'
 import { cities } from '../../assets/cities.js'
@@ -20,13 +20,13 @@ const CreateArticle = () => {
     const [uploads, setUploads] = useState([])
     const [previews, setPreviews] = useState([])
 
-    console.log('uploads: ', uploads)
     const articleCreate = useSelector((state) => state.articleCreate)
     const { success } = articleCreate
 
     useEffect(() => {
         if (success) {
             navigate('/create-success')
+            dispatch(resetArticleCreate())
         }
     }, [success, navigate])
 
@@ -41,13 +41,8 @@ const CreateArticle = () => {
         formDataToSubmit.append('description', description)
         formDataToSubmit.append('city', city)
         uploads.forEach((file, index) => {
-            console.log('file: ', file)
             formDataToSubmit.append('uploads', file)
         })
-
-        for (let [key, value] of formDataToSubmit.entries()) {
-            console.log(key, value)
-        }
 
         dispatch(createArticle(formDataToSubmit))
     }
