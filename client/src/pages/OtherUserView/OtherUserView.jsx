@@ -8,10 +8,15 @@ import { Button, Card, Form, Typography, Input } from 'antd'
 import Header from '../../components/Header/Header.jsx'
 import { submitReview } from '../../redux/actions/reviewActions.js'
 import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
-import { fetchFollowersList, followUser, unfollowUser } from '../../redux/actions/followerActions.js'
+import {
+    fetchFollowersList,
+    fetchFollowingList,
+    followUser,
+    unfollowUser
+} from '../../redux/actions/followerActions.js'
 
 const OtherUserView = () => {
-    const { userId } = useParams()
+    const { strangerId } = useParams()
     const [strangerInfo, setStrangerInfo] = useState({
         fullName: '',
         street: '',
@@ -41,11 +46,13 @@ const OtherUserView = () => {
     const { loading: unfollowLoading, success: unfollowSuccess } = useSelector(
         (state) => state.unfollowUser
     )
+    const { following } = useSelector((state) => state.followingList)
 
     useEffect(() => {
-        dispatch(fetchStrangerDetails(userId))
-        dispatch(fetchStrangerArticles(userId))
-    }, [dispatch, userId])
+        dispatch(fetchStrangerDetails(strangerId))
+        dispatch(fetchStrangerArticles(strangerId))
+        dispatch(fetchFollowingList())
+    }, [dispatch, strangerId])
 
     useEffect(() => {
         if (strangerDetails) {
@@ -60,20 +67,22 @@ const OtherUserView = () => {
     }, [strangerDetails])
 
     useEffect(() => {
-        dispatch(fetchFollowersList())
-    }, [])
+        if (followSuccess || unfollowSuccess) {
+            dispatch(fetchFollowingList())
+        }
+    }, [dispatch, followSuccess, unfollowSuccess])
 
     const handleToggleReviewForm = () => {
         setShowReviewForm(!showReviewForm)
     }
 
     const handleReviewSubmit = async (values) => {
-        await dispatch(submitReview(userId, values))
+        await dispatch(submitReview(strangerId, values))
         setShowReviewForm(false)
         form.resetFields()
     }
 
-    const isCurrentUser = loggedInUserId === userId
+    const isCurrentUser = loggedInUserId === strangerId
 
     const renderAvatar = (imgUrl) => {
         if (!imgUrl || imgUrl.includes('null')) {
@@ -83,12 +92,14 @@ const OtherUserView = () => {
     }
 
     const handleFollow = () => {
-        dispatch(followUser(userId))
+        dispatch(followUser(strangerId))
     }
 
     const handleUnfollow = () => {
-        dispatch(unfollowUser(userId))
+        dispatch(unfollowUser(strangerId))
     }
+
+    const isFollowing = following.some(followedUser => followedUser.userId === Number(strangerId))
 
     return (
         <div className="profile-container">
@@ -117,12 +128,22 @@ const OtherUserView = () => {
                                 </Typography.Text>
                                 {!isCurrentUser && (
                                     <>
-                                        {unfollowSuccess ? (
-                                            <Button onClick={handleUnfollow} className="follow-button">
+                                        {isFollowing ? (
+                                            <Button
+                                                onClick={handleUnfollow}
+                                                className="follow-button"
+                                                loading={unfollowLoading}
+                                                disabled={unfollowLoading}
+                                            >
                                                 Unfollow
                                             </Button>
                                         ) : (
-                                            <Button onClick={handleFollow} className="follow-button">
+                                            <Button
+                                                onClick={handleFollow}
+                                                className="follow-button"
+                                                loading={followLoading}
+                                                disabled={followLoading}
+                                            >
                                                 Follow
                                             </Button>
                                         )}

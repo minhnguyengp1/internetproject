@@ -2,25 +2,63 @@
   padding: 20px;
 
   .form-wrapper {
+    width: 40%;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    border: 1px solid #e8e8e8;
+    background-color: #f5f5f5;
     padding: 20px;
+    margin-bottom: 50px;
+    border-radius: 8px;
 
     .ant-form-item {
       margin-bottom: 16px;
     }
 
     .ant-input-password {
-      width: 30%;
+      width: 100%;
     }
 
     .ant-btn-primary {
-      width: 30%;
+      width: 100%;
     }
 
     .ant-alert {
       margin-bottom: 16px;
+    }
+  }
+
+  .delete-profile-section {
+    width: 37%;
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e8e8e8;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .delete-warning {
+      margin-bottom: 16px;
+      color: red;
+      font-weight: bold;
+    }
+
+    .delete-button {
+      width: 100%;
+      background-color: #f64e4e;
+      color: white;
+      border: none;
+    }
+
+    .delete-button:hover {
+      background-color: #ff6666;
     }
   }
 }

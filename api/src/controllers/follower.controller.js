@@ -29,8 +29,8 @@ export const getUserFollowers = (req, res) => {
     const query = `
         SELECT u.userId, u.fullName, u.img, u.postalCode, u.street, u.city
         FROM users u
-                 JOIN followers f ON u.userId = f.followedUserId
-        WHERE f.userId = ?
+                 JOIN followers f ON u.userId = f.userId
+        WHERE f.followedUserId = ?
     `
 
     db.query(query, [userId], (err, results) => {
@@ -49,6 +49,39 @@ export const getUserFollowers = (req, res) => {
         }))
 
         res.status(200).json(followersWithDetails)
+    })
+}
+
+export const getUserFollowing = (req, res) => {
+    const { userId } = req.params
+
+    if (!userId) {
+        return res.status(400).json({ error: 'UserId is required' })
+    }
+
+    const query = `
+        SELECT u.userId, u.fullName, u.img, u.postalCode, u.street, u.city
+        FROM users u
+                 JOIN followers f ON u.userId = f.followedUserId
+        WHERE f.userId = ?
+    `
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching following list:', err)
+            return res.status(500).json({ error: 'Internal server error' })
+        }
+
+        const followingWithDetails = results.map(user => ({
+            userId: user.userId,
+            fullName: user.fullName,
+            img: getBlobUrl(user.img),
+            postalCode: user.postalCode,
+            street: user.street,
+            city: user.city
+        }))
+
+        res.status(200).json(followingWithDetails)
     })
 }
 

@@ -26,6 +26,31 @@ export const fetchFollowersList = () => async (dispatch, getState) => {
     }
 }
 
+export const fetchFollowingList = () => async (dispatch, getState) => {
+    dispatch({ type: actionTypes.FOLLOWING_LIST_REQUEST })
+
+    try {
+        const { accessToken, userId } = getState().userLogin
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/user/${userId}/following`, config)
+
+        console.log('data in fetchFollowingList: ', data)
+
+        dispatch({ type: actionTypes.FOLLOWING_LIST_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({
+            type: actionTypes.FOLLOWING_LIST_FAIL,
+            payload: error.response && error.response.data ? error.response.data.message : error.message
+        })
+    }
+}
+
 export const removeFollower = (strangerId) => async (dispatch, getState) => {
     dispatch({ type: actionTypes.FOLLOWER_REMOVE_REQUEST })
 

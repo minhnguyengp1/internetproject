@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 
 const FollowerList = () => {
     const dispatch = useDispatch()
-    const { followers, loading, error } = useSelector((state) => state.followersList)
+    const { followers, loading, error } = useSelector((state) => state.followerList)
 
     useEffect(() => {
         dispatch(fetchFollowersList())
@@ -32,7 +32,7 @@ const FollowerList = () => {
     return (
         <UserLayout>
             <div className="follower-list-container">
-                <Typography.Title level={3} className="title">Your Followers</Typography.Title>
+                <Typography.Title level={3} className="title">Deine Follower</Typography.Title>
                 {loading ? (
                     <Typography.Text>Loading...</Typography.Text>
                 ) : error ? (
@@ -65,7 +65,7 @@ const FollowerList = () => {
                                 </div>
                             ))
                         ) : (
-                            <Typography.Text>No followers found.</Typography.Text>
+                            <Typography.Text>Keine Follower gefunden.</Typography.Text>
                         )}
                     </>
                 )}

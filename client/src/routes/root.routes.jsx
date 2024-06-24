@@ -21,6 +21,7 @@ import FollowerList from '../pages/FollowerList/FollowerList.jsx'
 import Settings from '../pages/Settings/Settings.jsx'
 import UpdateArticle from '../pages/UpdateArticle/UpdateArticle.jsx'
 import SuccessUpdate from '../pages/SuccessUpdate/SuccessUpdate.jsx'
+import FollowingList from '../pages/FollowingList/FollowingList.jsx'
 
 function RootRoutes() {
     return (
@@ -33,13 +34,14 @@ function RootRoutes() {
                 <Route path="/create-success" element={<ProtectedRoute component={SuccessCreate} />} />
                 <Route path="/update-success" element={<ProtectedRoute component={SuccessUpdate} />} />
                 <Route path="/user" element={<ProtectedRoute component={Dashboard} />} />
-                <Route path="/other-user/:userId" element={<ProtectedRoute component={OtherUserView} />} />
+                <Route path="/other-user/:strangerId" element={<ProtectedRoute component={OtherUserView} />} />
                 <Route path="/user/personal-info" element={<ProtectedRoute component={ProfileInfo} />} />
                 <Route path="/user/settings" element={<ProtectedRoute component={Settings} />} />
                 <Route path="/user/articles" element={<ProtectedRoute component={ArticleList} />} />
                 <Route path="/user/reviews" element={<ProtectedRoute component={UserReviews} />} />
                 <Route path="/user/watchlist" element={<ProtectedRoute component={Watchlist} />} />
-                <Route path="/user/followers" element={<ProtectedRoute component={FollowerList} />} />
+                <Route path="/user/follower-list" element={<ProtectedRoute component={FollowerList} />} />
+                <Route path="/user/following-list" element={<ProtectedRoute component={FollowingList} />} />
                 <Route path="/test" element={<ProtectedRoute component={ReviewCard} />} />
                 <Route path="/search/*" element={<SearchResults />} />
                 <Route path="/chat" element={<ProtectedRoute component={UserChat} />} />
