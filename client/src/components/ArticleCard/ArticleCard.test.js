@@ -35,6 +35,6 @@ describe('ArticleCard component', () => {
 
         // Check if the link has the correct href attribute
         const linkElement = screen.getByRole('link')
-        expect(linkElement).toHaveAttribute('href', '/articles/1')
+        expect(linkElement).toHaveAttribute('href', '/article/1')
     })
 })

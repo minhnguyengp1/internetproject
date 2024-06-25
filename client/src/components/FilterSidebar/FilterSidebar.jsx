@@ -17,7 +17,8 @@ const FilterSidebar = () => {
     // Initialize state from URL parameters on mount or when location changes
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
-        const initialSelectedCategory = location.pathname.split('/category/')[1] || ''
+        const initialSelectedCategory =
+            location.pathname.split('/category/')[1] || ''
         const initialSelectedCity = queryParams.get('city') || ''
         const initialQuery = queryParams.get('q') || ''
         const initialMinPrice = queryParams.get('minPrice') || ''
@@ -46,10 +47,14 @@ const FilterSidebar = () => {
         if (maxPrice) params.append('maxPrice', maxPrice)
         if (city) params.append('city', city)
 
-        const categoryPath = selectedCategory ? `/category/${selectedCategory}` : ''
+        const categoryPath = selectedCategory
+            ? `/category/${selectedCategory}`
+            : ''
         const queryString = params.toString()
 
-        navigate(`/search${categoryPath}${queryString ? `?${queryString}` : ''}`)
+        navigate(
+            `/search${categoryPath}${queryString ? `?${queryString}` : ''}`
+        )
     }
 
     return (
@@ -83,15 +88,9 @@ const FilterSidebar = () => {
             </div>
             <div className="filter-group city-filter">
                 <label>City</label>
-                <CityDropdown
-                    selectedCity={city}
-                    setSelectedCity={setCity}
-                />
+                <CityDropdown selectedCity={city} setSelectedCity={setCity} />
             </div>
-            <button
-                className="apply-btn"
-                onClick={handleApplyFilter}
-            >
+            <button className="apply-btn" onClick={handleApplyFilter}>
                 Apply
             </button>
         </div>

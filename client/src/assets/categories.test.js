@@ -15,7 +15,6 @@ describe('getItem function', () => {
 describe('categories array', () => {
     test('contains the correct items', () => {
         const expectedCategories = [
-            { key: 'alle-kategorien', label: 'Alle Kategorien' },
             { key: 'auto-rad-boot', label: 'Auto, Rad & Boot' },
             { key: 'elektronik', label: 'Elektronik' },
             { key: 'haus-garten', label: 'Haus & Garten' },
@@ -33,13 +32,11 @@ describe('categories array', () => {
             { key: 'immobilien', label: 'Immobilien' },
             { key: 'musik-filme-buecher', label: 'Musik, Filme & Bücher' },
         ]
-
         expect(categories).toEqual(expectedCategories)
     })
 
     test('all items are created using getItem function', () => {
         const labels = [
-            'Alle Kategorien',
             'Auto, Rad & Boot',
             'Elektronik',
             'Haus & Garten',
@@ -55,7 +52,6 @@ describe('categories array', () => {
             'Musik, Filme & Bücher',
         ]
         const keys = [
-            'alle-kategorien',
             'auto-rad-boot',
             'elektronik',
             'haus-garten',

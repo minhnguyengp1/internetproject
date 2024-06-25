@@ -25,7 +25,7 @@ import FollowingList from '../pages/FollowingList/FollowingList.jsx'
 
 function RootRoutes() {
     return (
-        <RouterComponent>
+        <BrowserRouter>
             <Routes>
                 <Route path="/" element={<ProtectedRoute component={Home} />} />
                 <Route
@@ -53,6 +53,10 @@ function RootRoutes() {
                     element={<ProtectedRoute component={Dashboard} />}
                 />
                 <Route
+                    path="/other-user/:userId"
+                    element={<ProtectedRoute component={OtherUserView} />}
+                />
+                <Route
                     path="/other-user/:strangerId"
                     element={<ProtectedRoute component={OtherUserView} />}
                 />
@@ -75,6 +79,10 @@ function RootRoutes() {
                 <Route
                     path="/user/watchlist"
                     element={<ProtectedRoute component={Watchlist} />}
+                />
+                <Route
+                    path="/user/followers"
+                    element={<ProtectedRoute component={FollowerList} />}
                 />
                 <Route
                     path="/user/follower-list"
@@ -102,8 +110,7 @@ function RootRoutes() {
                 />
                 <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
-        </RouterComponent>
+        </BrowserRouter>
     )
 }
-
 export default RootRoutes
