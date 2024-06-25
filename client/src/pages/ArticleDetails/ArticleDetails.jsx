@@ -5,7 +5,11 @@ import { useParams } from 'react-router-dom'
 import { fetchArticleById } from '../../redux/actions/articleActions.js'
 import './articleDetails.scss'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import { addToWatchlist, fetchUserWatchlist, removeFromWatchlist } from '../../redux/actions/watchlistActions.js'
+import {
+    addToWatchlist,
+    fetchUserWatchlist,
+    removeFromWatchlist,
+} from '../../redux/actions/watchlistActions.js'
 
 const ArticleDetails = () => {
     const dispatch = useDispatch()
@@ -13,7 +17,9 @@ const ArticleDetails = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isInWatchlist, setIsInWatchlist] = useState(false)
     const { articleId } = useParams()
-    const { article, loading, error } = useSelector((state) => state.articleDetails)
+    const { article, loading, error } = useSelector(
+        (state) => state.articleDetails
+    )
     const { watchlist } = useSelector((state) => state.fetchUserWatchlist)
 
     useEffect(() => {
@@ -24,8 +30,13 @@ const ArticleDetails = () => {
         // Check if articleId exists in the user's watchlist
         console.log('watchlist: ', watchlist)
         console.log('articleId: ', articleId)
-        console.log('watchlist.some(item => item.articleId === articleId): ', watchlist.some(item => item.articleId === parseInt(articleId)))
-        setIsInWatchlist(watchlist.some(item => item.articleId === parseInt(articleId)))
+        console.log(
+            'watchlist.some(item => item.articleId === articleId): ',
+            watchlist.some((item) => item.articleId === parseInt(articleId))
+        )
+        setIsInWatchlist(
+            watchlist.some((item) => item.articleId === parseInt(articleId))
+        )
     }, [watchlist, articleId])
 
     const handleSendMessage = () => {
@@ -72,12 +83,25 @@ const ArticleDetails = () => {
                                     />
                                     {article.imgUrls.length > 1 && (
                                         <React.Fragment>
-                                            <button className="prev-button" onClick={handlePrevImage}
-                                                    disabled={currentImageIndex === 0}>
+                                            <button
+                                                data-testid="prevBtn"
+                                                className="prev-button"
+                                                onClick={handlePrevImage}
+                                                disabled={
+                                                    currentImageIndex === 0
+                                                }
+                                            >
                                                 <FaChevronLeft />
                                             </button>
-                                            <button className="next-button" onClick={handleNextImage}
-                                                    disabled={currentImageIndex === article.imgUrls.length - 1}>
+                                            <button
+                                                data-testid="nextBtn"
+                                                className="next-button"
+                                                onClick={handleNextImage}
+                                                disabled={
+                                                    currentImageIndex ===
+                                                    article.imgUrls.length - 1
+                                                }
+                                            >
                                                 <FaChevronRight />
                                             </button>
                                         </React.Fragment>
@@ -87,11 +111,19 @@ const ArticleDetails = () => {
                         </div>
                         <div className="article-details-right">
                             <div className="article-details-actions">
-                                <button className="action-button" onClick={handleSendMessage}>
+                                <button
+                                    className="action-button"
+                                    onClick={handleSendMessage}
+                                >
                                     Nachricht schreiben
                                 </button>
-                                <button className="action-button" onClick={handleToggleWatchlist}>
-                                    {isInWatchlist ? 'Von Merkliste entfernen' : 'Zur Merkliste hinzufügen'}
+                                <button
+                                    className="action-button"
+                                    onClick={handleToggleWatchlist}
+                                >
+                                    {isInWatchlist
+                                        ? 'Von Merkliste entfernen'
+                                        : 'Zur Merkliste hinzufügen'}
                                 </button>
                             </div>
                             <div className="article-owner-details">
@@ -100,9 +132,13 @@ const ArticleDetails = () => {
                         </div>
                         <div className="article-details-bottom">
                             <h2>{article.title}</h2>
-                            <p className="article-price">{article.price} € {article.type}</p>
+                            <p className="article-price">
+                                {article.price} € {article.type}
+                            </p>
                             <p className="article-city">{article.city}</p>
-                            <p className="article-description">{article.description}</p>
+                            <p className="article-description">
+                                {article.description}
+                            </p>
                         </div>
                     </div>
                 )}
