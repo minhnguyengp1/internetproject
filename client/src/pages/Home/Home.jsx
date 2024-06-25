@@ -13,8 +13,6 @@ const Home = () => {
         dispatch(fetchArticles())
     }, [dispatch])
 
-    console.log('Home -> articles: ', articles)
-
     return (
         <HomeLayout>
             <div className="article-container">
@@ -26,9 +24,6 @@ const Home = () => {
                     articles
                         .filter((article) => !selectedCategory || article.category === selectedCategory)
                         .map((article) => {
-                            console.log('Article file: ', article.imgUrls)
-                            console.log('Article[0] file: ', article.imgUrls[0])
-                            console.log('article.imgUrls.length > 0', article.imgUrls.length > 0)
                             return (
                                 <ArticleCard
                                     key={article.articleId}

@@ -4,15 +4,19 @@ import defaultAvatar from '../../assets/default-avatar.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchStrangerArticles, fetchStrangerDetails } from '../../redux/actions/userActions.js'
 import { useParams } from 'react-router-dom'
-import { Button, Card, Form, Space, Typography, Input } from 'antd'
+import { Button, Card, Form, Typography, Input } from 'antd'
 import Header from '../../components/Header/Header.jsx'
-import './otherUserView.scss'
 import { submitReview } from '../../redux/actions/reviewActions.js'
 import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import {
+    fetchFollowersList,
+    fetchFollowingList,
+    followUser,
+    unfollowUser
+} from '../../redux/actions/followerActions.js'
 
 const OtherUserView = () => {
-    const { userId } = useParams()
+    const { strangerId } = useParams()
     const [strangerInfo, setStrangerInfo] = useState({
         fullName: '',
         street: '',
@@ -33,14 +37,22 @@ const OtherUserView = () => {
         loading: articlesLoading,
         error: articlesError
     } = useSelector((state) => state.strangerArticles)
-    const { loading: reviewLoading, success: reviewSuccess, error: reviewError } = useSelector(
+    const { loading: reviewLoading, error: reviewError } = useSelector(
         (state) => state.reviewSubmit
     )
+    const { loading: followLoading, success: followSuccess } = useSelector(
+        (state) => state.followUser
+    )
+    const { loading: unfollowLoading, success: unfollowSuccess } = useSelector(
+        (state) => state.unfollowUser
+    )
+    const { following } = useSelector((state) => state.followingList)
 
     useEffect(() => {
-        dispatch(fetchStrangerDetails(userId))
-        dispatch(fetchStrangerArticles(userId))
-    }, [dispatch])
+        dispatch(fetchStrangerDetails(strangerId))
+        dispatch(fetchStrangerArticles(strangerId))
+        dispatch(fetchFollowingList())
+    }, [dispatch, strangerId])
 
     useEffect(() => {
         if (strangerDetails) {
@@ -54,17 +66,23 @@ const OtherUserView = () => {
         }
     }, [strangerDetails])
 
+    useEffect(() => {
+        if (followSuccess || unfollowSuccess) {
+            dispatch(fetchFollowingList())
+        }
+    }, [dispatch, followSuccess, unfollowSuccess])
+
     const handleToggleReviewForm = () => {
         setShowReviewForm(!showReviewForm)
     }
 
     const handleReviewSubmit = async (values) => {
-        await dispatch(submitReview(userId, values))
+        await dispatch(submitReview(strangerId, values))
         setShowReviewForm(false)
         form.resetFields()
     }
 
-    const isCurrentUser = loggedInUserId === userId
+    const isCurrentUser = loggedInUserId === strangerId
 
     const renderAvatar = (imgUrl) => {
         if (!imgUrl || imgUrl.includes('null')) {
@@ -73,7 +91,15 @@ const OtherUserView = () => {
         return imgUrl
     }
 
-    console.log('strangerInfo', strangerInfo)
+    const handleFollow = () => {
+        dispatch(followUser(strangerId))
+    }
+
+    const handleUnfollow = () => {
+        dispatch(unfollowUser(strangerId))
+    }
+
+    const isFollowing = following.some(followedUser => followedUser.userId === Number(strangerId))
 
     return (
         <div className="profile-container">
@@ -100,6 +126,29 @@ const OtherUserView = () => {
                                     <strong>Aktiv seit:</strong>{' '}
                                     {strangerInfo.activeSince}
                                 </Typography.Text>
+                                {!isCurrentUser && (
+                                    <>
+                                        {isFollowing ? (
+                                            <Button
+                                                onClick={handleUnfollow}
+                                                className="follow-button"
+                                                loading={unfollowLoading}
+                                                disabled={unfollowLoading}
+                                            >
+                                                Unfollow
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={handleFollow}
+                                                className="follow-button"
+                                                loading={followLoading}
+                                                disabled={followLoading}
+                                            >
+                                                Follow
+                                            </Button>
+                                        )}
+                                    </>
+                                )}
                                 {!isCurrentUser && (
                                     <Button onClick={handleToggleReviewForm}>
                                         Write a Review

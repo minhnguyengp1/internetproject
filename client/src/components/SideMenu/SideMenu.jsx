@@ -1,7 +1,7 @@
 import {
-    AppstoreOutlined,
+    AppstoreOutlined, HeartOutlined, SettingOutlined,
     ShopOutlined,
-    ShoppingCartOutlined, TeamOutlined, UsergroupAddOutlined,
+    ShoppingCartOutlined, SolutionOutlined, TeamOutlined, UsergroupAddOutlined,
     UserOutlined
 } from '@ant-design/icons'
 import { Menu } from 'antd'
@@ -37,7 +37,7 @@ function SideMenu() {
                 {
                     label: 'Profilinformationen',
                     key: '/user/personal-info',
-                    icon: <ShopOutlined />
+                    icon: <UserOutlined />
                 },
                 {
                     label: 'Anzeigen',
@@ -47,27 +47,27 @@ function SideMenu() {
                 {
                     label: 'Bewertungen',
                     key: '/user/reviews',
-                    icon: <UserOutlined />
+                    icon: <SolutionOutlined />
                 },
                 {
                     label: 'Watchlist',
                     key: '/user/watchlist',
-                    icon: <UserOutlined />
+                    icon: <HeartOutlined />
                 },
                 {
-                    label: 'Followers',
-                    key: '/user/followers',
+                    label: 'Follower',
+                    key: '/user/follower-list',
                     icon: <TeamOutlined />
                 },
                 {
-                    label: 'Following',
-                    key: '/user/following',
+                    label: 'Benutzer, denen du folgst',
+                    key: '/user/following-list',
                     icon: <UsergroupAddOutlined />
                 },
                 {
                     label: 'Einstellungen',
                     key: '/user/settings',
-                    icon: <ShoppingCartOutlined />
+                    icon: <SettingOutlined />
                 }
             ]}
         ></Menu>

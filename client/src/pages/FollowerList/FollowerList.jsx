@@ -10,13 +10,15 @@ import { Link } from 'react-router-dom'
 
 const FollowerList = () => {
     const dispatch = useDispatch()
-    const { followers, loading, error } = useSelector((state) => state.followersList)
+    const { followers, loading, error } = useSelector((state) => state.followerList)
 
     useEffect(() => {
         dispatch(fetchFollowersList())
     }, [dispatch])
 
-    const handleRemove = (followerId) => {
+    const handleRemove = (followerId, e) => {
+        e.preventDefault()
+        e.stopPropagation()
         dispatch(removeFollower(followerId))
     }
 
@@ -30,7 +32,7 @@ const FollowerList = () => {
     return (
         <UserLayout>
             <div className="follower-list-container">
-                <Typography.Title level={3} className="title">Your Followers</Typography.Title>
+                <Typography.Title level={3} className="title">Deine Follower</Typography.Title>
                 {loading ? (
                     <Typography.Text>Loading...</Typography.Text>
                 ) : error ? (
@@ -57,13 +59,13 @@ const FollowerList = () => {
                                         <Button
                                             type="danger"
                                             icon={<DeleteOutlined />}
-                                            onClick={() => handleRemove(follower.userId)}
+                                            onClick={(e) => handleRemove(follower.userId, e)}
                                         />
                                     </Link>
                                 </div>
                             ))
                         ) : (
-                            <Typography.Text>No followers found.</Typography.Text>
+                            <Typography.Text>Keine Follower gefunden.</Typography.Text>
                         )}
                     </>
                 )}

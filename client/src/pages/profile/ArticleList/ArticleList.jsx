@@ -13,13 +13,11 @@ import { useNavigate } from 'react-router-dom'
 const ArticleList = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedArticleId, setSelectedArticleId] = useState(null)
 
     const { userArticles, loading, error } = useSelector((state) => state.userArticles)
-
-    console.log('userArticles: ', userArticles)
 
     useEffect(() => {
         dispatch(fetchUserArticles())

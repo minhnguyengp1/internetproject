@@ -27,9 +27,11 @@ import {
     removeFromWatchlistReducer,
 } from './reducers/watchlistReducer.js'
 import {
-    followerAddReducer,
     followerRemoveReducer,
-    followersListReducer,
+    followerListReducer,
+    followingListReducer,
+    followUserReducer,
+    unfollowUserReducer,
 } from './reducers/followerReducer.js'
 
 const store = configureStore({
@@ -54,9 +56,11 @@ const store = configureStore({
         fetchUserWatchlist: fetchUserWatchlistReducer,
         addToWatchlist: addToWatchlistReducer,
         removeFromWatchlist: removeFromWatchlistReducer,
-        followersList: followersListReducer,
-        followerAdd: followerAddReducer,
+        followerList: followerListReducer,
+        followingList: followingListReducer,
         followerRemove: followerRemoveReducer,
+        followUser: followUserReducer,
+        unfollowUser: unfollowUserReducer,
     },
 })
 

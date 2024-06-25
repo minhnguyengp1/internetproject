@@ -42,14 +42,9 @@ export const getAllArticles = (req, res) => {
 export const searchArticles = (req, res) => {
     const { category, search: searchQuery, minPrice, maxPrice, city } = req.query
 
-    console.log('category', category)
-    console.log('searchQuery', searchQuery)
-    console.log('city', city)
-
     let searchConditions = []
     let values = []
 
-    // Handle search query
     if (searchQuery) {
         const searchTerms = searchQuery.split(' ')
         const conditions = searchTerms.map(() => `(title LIKE ? OR description LIKE ?)`)
@@ -57,13 +52,11 @@ export const searchArticles = (req, res) => {
         values.push(...searchTerms.flatMap(term => [`%${term}%`, `%${term}%`]))
     }
 
-    // Handle category
     if (category) {
         searchConditions.push('category = ?')
         values.push(category)
     }
 
-    // Handle price range
     if (minPrice) {
         searchConditions.push('price >= ?')
         values.push(minPrice)
@@ -73,21 +66,16 @@ export const searchArticles = (req, res) => {
         values.push(maxPrice)
     }
 
-    // Handle city
     if (city) {
         searchConditions.push('city = ?')
         values.push(city)
     }
 
-    // Construct the final query
     const whereClause = searchConditions.length ? `WHERE ${searchConditions.join(' AND ')}` : ''
     const query = `
         SELECT *
         FROM articles ${whereClause}
     `
-
-    console.log('query:', query)
-    console.log('values:', values)
 
     db.query(query, values, async (err, results) => {
         if (err) {
@@ -198,7 +186,20 @@ export const updateArticle = (req, res) => {
 
         const articleId = req.params.articleId
 
-        const { category, description, imgUrls: existingImgUrls, price, title, type, city } = req.body
+        const { category, description, price, title, type, city } = req.body
+        let existingImgUrls = []
+
+        try {
+            if (req.body.existingImgUrls) {
+                existingImgUrls = JSON.parse(req.body.existingImgUrls).map(url => {
+                    const parts = url.split('/')
+                    return parts[parts.length - 1] // Extract the filename
+                })
+            }
+        } catch (parseError) {
+            console.error('Error parsing existingImgUrls:', parseError)
+            return res.status(400).json({ message: 'Invalid existingImgUrls format' })
+        }
 
         const files = req.files
 
@@ -213,8 +214,8 @@ export const updateArticle = (req, res) => {
             }
 
             const updatedImgUrls = [
-                ...existingImgUrls ? existingImgUrls.split(',') : [],
-                ...newImgUrls
+                ...existingImgUrls,
+                ...newImgUrls.map(url => url.split('/').pop()) // Extract filename
             ].filter(Boolean).join(',')
 
             const q = `

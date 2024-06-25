@@ -21,6 +21,7 @@ import FollowerList from '../pages/FollowerList/FollowerList.jsx'
 import Settings from '../pages/Settings/Settings.jsx'
 import UpdateArticle from '../pages/UpdateArticle/UpdateArticle.jsx'
 import SuccessUpdate from '../pages/SuccessUpdate/SuccessUpdate.jsx'
+import FollowingList from '../pages/FollowingList/FollowingList.jsx'
 
 function RootRoutes() {
     return (
@@ -52,7 +53,7 @@ function RootRoutes() {
                     element={<ProtectedRoute component={Dashboard} />}
                 />
                 <Route
-                    path="/other-user/:userId"
+                    path="/other-user/:strangerId"
                     element={<ProtectedRoute component={OtherUserView} />}
                 />
                 <Route
@@ -76,8 +77,12 @@ function RootRoutes() {
                     element={<ProtectedRoute component={Watchlist} />}
                 />
                 <Route
-                    path="/user/followers"
+                    path="/user/follower-list"
                     element={<ProtectedRoute component={FollowerList} />}
+                />
+                <Route
+                    path="/user/following-list"
+                    element={<ProtectedRoute component={FollowingList} />}
                 />
                 <Route
                     path="/test"

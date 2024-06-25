@@ -49,6 +49,8 @@ export const articleCreateReducer = (state = {}, action) => {
             return { loading: false, success: true }
         case actionTypes.ARTICLE_CREATE_FAIL:
             return { loading: false, error: action.payload }
+        case actionTypes.ARTICLE_CREATE_RESET:
+            return {}
         default:
             return state
     }
@@ -62,6 +64,8 @@ export const articleUpdateReducer = (state = {}, action) => {
             return { loading: false, success: true }
         case actionTypes.ARTICLE_UPDATE_FAIL:
             return { loading: false, error: action.payload }
+        case actionTypes.ARTICLE_UPDATE_RESET:
+            return {}
         default:
             return state
     }
