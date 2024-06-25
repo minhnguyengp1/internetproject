@@ -2,7 +2,10 @@ import './createArticle.scss'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { createArticle, resetArticleCreate } from '../../redux/actions/articleActions.js'
+import {
+    createArticle,
+    resetArticleCreate,
+} from '../../redux/actions/articleActions.js'
 import { useNavigate } from 'react-router-dom'
 import { categories } from '../../assets/categories.js'
 import { cities } from '../../assets/cities.js'
@@ -51,11 +54,11 @@ const CreateArticle = () => {
         const selectedFiles = Array.from(e.target.files)
 
         const fileSet = new Set(uploads)
-        selectedFiles.forEach(file => fileSet.add(file))
+        selectedFiles.forEach((file) => fileSet.add(file))
 
         const newUploads = Array.from(fileSet).slice(0, 5)
 
-        const newPreviews = newUploads.map(file => URL.createObjectURL(file))
+        const newPreviews = newUploads.map((file) => URL.createObjectURL(file))
 
         setUploads(newUploads)
         setPreviews(newPreviews)
@@ -73,7 +76,7 @@ const CreateArticle = () => {
 
     useEffect(() => {
         return () => {
-            previews.forEach(url => URL.revokeObjectURL(url))
+            previews.forEach((url) => URL.revokeObjectURL(url))
         }
     }, [previews])
 
@@ -81,9 +84,14 @@ const CreateArticle = () => {
         <div className="create-article">
             <Header />
             <div className="form-container">
-                <form className="create-article-form" onSubmit={handleFormSubmit}>
+                <form
+                    className="create-article-form"
+                    onSubmit={handleFormSubmit}
+                >
                     <div className="form-item">
-                        <label htmlFor="title" className="form-label">Titel</label>
+                        <label htmlFor="title" className="form-label">
+                            Titel
+                        </label>
                         <input
                             type="text"
                             id="title"
@@ -94,7 +102,9 @@ const CreateArticle = () => {
                         />
                     </div>
                     <div className="form-item">
-                        <label htmlFor="category" className="form-label">Kategorie</label>
+                        <label htmlFor="category" className="form-label">
+                            Kategorie
+                        </label>
                         <select
                             id="category"
                             name="category"
@@ -103,14 +113,17 @@ const CreateArticle = () => {
                             required
                         >
                             <option value="">Bitte wählen</option>
-                            {categories
-                                .map(cat => (
-                                    <option key={cat.key} value={cat.key}>{cat.label}</option>
-                                ))}
+                            {categories.map((cat) => (
+                                <option key={cat.key} value={cat.key}>
+                                    {cat.label}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-item">
-                        <label htmlFor="price" className="form-label">Preis</label>
+                        <label htmlFor="price" className="form-label">
+                            Preis
+                        </label>
                         <input
                             type="number"
                             id="price"
@@ -148,7 +161,9 @@ const CreateArticle = () => {
                         </div>
                     </div>
                     <div className="form-item">
-                        <label htmlFor="description" className="form-label">Beschreibung</label>
+                        <label htmlFor="description" className="form-label">
+                            Beschreibung
+                        </label>
                         <textarea
                             id="description"
                             name="description"
@@ -159,7 +174,9 @@ const CreateArticle = () => {
                         ></textarea>
                     </div>
                     <div className="form-item">
-                        <label htmlFor="city" className="form-label">Stadt</label>
+                        <label htmlFor="city" className="form-label">
+                            Stadt
+                        </label>
                         <select
                             id="city"
                             name="city"
@@ -168,14 +185,20 @@ const CreateArticle = () => {
                             required
                         >
                             <option value="">Bitte wählen</option>
-                            {cities
-                                .map(city => (
-                                    <option key={city.key} value={city.key}>{city.name}</option>
-                                ))}
+                            {cities.map((city) => (
+                                <option key={city.key} value={city.key}>
+                                    {city.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-item">
-                        <label className="form-label">Upload</label>
+                        <label
+                            data-testid="uploadsLabel"
+                            className="form-label"
+                        >
+                            Upload
+                        </label>
                         <input
                             type="file"
                             id="uploads"
@@ -186,11 +209,17 @@ const CreateArticle = () => {
                         <div className="preview-container">
                             {previews.map((preview, index) => (
                                 <div key={index} className="preview-item">
-                                    <img src={preview} alt={`Preview ${index + 1}`} />
+                                    <img
+                                        src={preview}
+                                        alt={`Preview ${index + 1}`}
+                                    />
                                     <button
                                         type="button"
+                                        data-testid="removeBtn"
                                         className="remove-button"
-                                        onClick={() => handleRemovePreview(index)}
+                                        onClick={() =>
+                                            handleRemovePreview(index)
+                                        }
                                     >
                                         &times;
                                     </button>
