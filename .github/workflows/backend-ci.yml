@@ -12,6 +12,7 @@ on:
       - main
     paths:
       - "clients/**"
+  workflow_dispatch:
 
 jobs:
   build:
