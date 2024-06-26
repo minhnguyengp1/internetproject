@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { removeFromWatchlist, fetchUserWatchlist } from '../../redux/actions/watchlistActions.js'
+import React, {useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {removeFromWatchlist, fetchUserWatchlist} from '../../redux/actions/watchlistActions.js'
 import ArticleCard from '../../components/ArticleCard/ArticleCard.jsx'
 import './watchlist.scss'
-import { Typography } from 'antd'
+import {Button, Space, Typography} from 'antd'
 import UserLayout from '../../layouts/UserLayout/UserLayout.jsx'
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
 
 const Watchlist = () => {
     const dispatch = useDispatch()
-    const { watchlist, loading, error } = useSelector((state) => state.fetchUserWatchlist)
+    const {watchlist, loading, error} = useSelector((state) => state.fetchUserWatchlist)
 
     useEffect(() => {
         dispatch(fetchUserWatchlist())
@@ -16,6 +17,7 @@ const Watchlist = () => {
 
     const handleRemoveFromWatchlist = (articleId) => {
         dispatch(removeFromWatchlist(articleId))
+        dispatch(fetchUserWatchlist())
     }
 
     console.log('watchlist: ', watchlist)
@@ -42,6 +44,15 @@ const Watchlist = () => {
                                         price={article.price}
                                         city={article.city}
                                     />
+                                    <Space direction="horizontal" style={{marginTop: 10}}>
+                                        <Button
+                                            className="remove-button"
+                                            icon={<DeleteOutlined/>}
+                                            onClick={() => handleRemoveFromWatchlist(article.articleId)}
+                                        >
+                                            Entfernen
+                                        </Button>
+                                    </Space>
                                 </div>)
                             )) : (
                             <Typography.Text>No articles found in your watchlist.</Typography.Text>

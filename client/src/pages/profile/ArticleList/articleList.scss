@@ -23,7 +23,7 @@
 
     .card-img {
       position: relative;
-      width: 150px; /* Fixed width for image section */
+      width: 150px;
       flex-shrink: 0;
 
       img {
@@ -87,5 +87,9 @@
         justify-content: space-between;
       }
     }
+  }
+
+  button {
+    width: 120px;
   }
 }
