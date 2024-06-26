@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "client/**"
+      - "api/**"
 
   pull_request:
     branches:
       - main
     paths:
-      - "clients/**"
+      - "api/**"
   workflow_dispatch:
 
 jobs:
