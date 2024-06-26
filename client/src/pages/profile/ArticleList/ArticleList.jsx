@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserArticles } from '../../../redux/actions/userActions.js'
-import { Typography, Space, Button } from 'antd'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {fetchUserArticles} from '../../../redux/actions/userActions.js'
+import {Typography, Space, Button} from 'antd'
 import UserLayout from '../../../layouts/UserLayout/UserLayout.jsx'
-import { deleteArticle } from '../../../redux/actions/articleActions.js'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import {deleteArticle} from '../../../redux/actions/articleActions.js'
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons'
 import ArticleCard from '../../../components/ArticleCard/ArticleCard.jsx'
 import './articleList.scss'
 import ConfirmationModal from '../../../components/ConfirmationModal/ConfirmationModal.jsx'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const ArticleList = () => {
     const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const ArticleList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedArticleId, setSelectedArticleId] = useState(null)
 
-    const { userArticles, loading, error } = useSelector((state) => state.userArticles)
+    const {userArticles, loading, error} = useSelector((state) => state.userArticles)
 
     useEffect(() => {
         dispatch(fetchUserArticles())
@@ -44,7 +44,7 @@ const ArticleList = () => {
 
     return (
         <UserLayout>
-            <div className="articlelist-container">
+            <div className="article-list-container">
                 <Typography.Title level={3} className="title">Your Articles</Typography.Title>
                 {loading ? (
                     <Typography.Text>Loading...</Typography.Text>
@@ -64,17 +64,17 @@ const ArticleList = () => {
                                         price={article.price}
                                         city={article.city}
                                     />
-                                    <Space direction="horizontal" style={{ marginTop: 10 }}>
+                                    <Space direction="horizontal" style={{marginTop: 10}}>
                                         <Button
-                                            type="primary"
-                                            icon={<EditOutlined />}
+                                            className="edit-button"
+                                            icon={<EditOutlined/>}
                                             onClick={() => handleEdit(article.articleId)}
                                         >
                                             Bearbeiten
                                         </Button>
                                         <Button
-                                            type="danger"
-                                            icon={<DeleteOutlined />}
+                                            className="delete-button"
+                                            icon={<DeleteOutlined/>}
                                             onClick={() => handleDelete(article.articleId)}
                                         >
                                             Löschen
