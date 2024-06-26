@@ -66,7 +66,11 @@ export const userArticles = (state = { userArticles: [] }, action) => {
     }
 }
 
-export const userUpdate = (state = {}, action) => {
+export const userUpdate = (state = {
+    loading: false,
+    success: false,
+    error: null
+}, action) => {
     switch (action.type) {
         case actionTypes.UPDATE_USER_DETAILS_REQUEST:
             return {
@@ -83,6 +87,39 @@ export const userUpdate = (state = {}, action) => {
                 success: true
             }
         case actionTypes.UPDATE_USER_DETAILS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+export const userDelete = (state = {
+    loading: false,
+    success: false,
+    error: null
+}, action) => {
+    switch (action.type) {
+        case actionTypes.DELETE_USER_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                success: false
+            }
+        case actionTypes.DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                error: null
+            }
+        case actionTypes.DELETE_USER_FAILURE:
             return {
                 ...state,
                 loading: false,

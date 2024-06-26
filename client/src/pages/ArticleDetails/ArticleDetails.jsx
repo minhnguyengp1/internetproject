@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../components/Header/Header.jsx'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { fetchArticleById } from '../../redux/actions/articleActions.js'
 import './articleDetails.scss'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import {
     addToWatchlist,
     fetchUserWatchlist,
-    removeFromWatchlist,
+    removeFromWatchlist
 } from '../../redux/actions/watchlistActions.js'
+import { fetchStrangerDetails } from '../../redux/actions/userActions.js'
+import { cities } from '../../assets/cities.js'
 
 const ArticleDetails = () => {
     const dispatch = useDispatch()
@@ -21,23 +23,23 @@ const ArticleDetails = () => {
         (state) => state.articleDetails
     )
     const { watchlist } = useSelector((state) => state.fetchUserWatchlist)
+    const { strangerDetails } = useSelector((state) => state.strangerDetails)
 
     useEffect(() => {
         dispatch(fetchArticleById(articleId))
     }, [dispatch, articleId])
 
     useEffect(() => {
-        // Check if articleId exists in the user's watchlist
-        console.log('watchlist: ', watchlist)
-        console.log('articleId: ', articleId)
-        console.log(
-            'watchlist.some(item => item.articleId === articleId): ',
-            watchlist.some((item) => item.articleId === parseInt(articleId))
-        )
         setIsInWatchlist(
             watchlist.some((item) => item.articleId === parseInt(articleId))
         )
     }, [watchlist, articleId])
+
+    useEffect(() => {
+        if (article && article.userId) {
+            dispatch(fetchStrangerDetails(article.userId))
+        }
+    }, [article])
 
     const handleSendMessage = () => {
         console.log('Sending message to article owner')
@@ -63,6 +65,12 @@ const ArticleDetails = () => {
             setCurrentImageIndex(currentImageIndex + 1)
         }
     }
+
+    const getCityNameFromKey = (key) => {
+        const city = cities.find(city => city.key === key)
+        return city ? city.name : key
+    }
+
     return (
         <div className="article-details-layout">
             <Header />
@@ -127,15 +135,31 @@ const ArticleDetails = () => {
                                 </button>
                             </div>
                             <div className="article-owner-details">
-                                {/* Container for article owner's details */}
+                                {strangerDetails ? (
+                                    <Link to={`/other-user/${strangerDetails.userId}`} className="owner-link">
+                                        <div className="owner-details-content">
+                                            <img
+                                                src={strangerDetails.img}
+                                                alt={strangerDetails.fullName}
+                                                className="owner-image"
+                                            />
+                                            <div className="owner-info">
+                                                <p className="owner-name">{strangerDetails.fullName}</p>
+                                                <p className="owner-city">{getCityNameFromKey(strangerDetails.city)}</p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <p>Loading user details...</p>
+                                )}
                             </div>
                         </div>
                         <div className="article-details-bottom">
+                            <p className="article-city">{getCityNameFromKey(article.city)}</p>
                             <h2>{article.title}</h2>
                             <p className="article-price">
                                 {article.price} € {article.type}
                             </p>
-                            <p className="article-city">{article.city}</p>
                             <p className="article-description">
                                 {article.description}
                             </p>

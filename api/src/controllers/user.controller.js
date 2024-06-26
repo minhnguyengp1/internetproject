@@ -35,21 +35,16 @@ export const getUser = (req, res) => {
     })
 }
 
-// PUT: /api/users/:userId
+// PUT: /api/user/:userId
 export const updateUser = (req, res) => {
-    const { userId } = req.params
-    const { fullName, street, city, postalCode } = req.body
-
-    console.log('userId', userId)
-    console.log('req.body', req.body)
-    console.log('fullName', fullName)
-
-    if (!userId) {
-        console.log('User ID is required')
-        return res.status(400).json({ message: 'User ID is required' })
-    }
-
     upload(req, res, async (err) => {
+        const { userId } = req.params
+        const { fullName, street, city, postalCode } = req.body
+
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required' })
+        }
+
         if (err instanceof multer.MulterError) {
             return res.status(500).json({ message: 'File upload failed', error: err.message })
         } else if (err) {
@@ -113,6 +108,29 @@ export const updateUser = (req, res) => {
 
             return res.status(200).json({ message: 'User updated successfully' })
         })
+    })
+}
+
+export const deleteUser = (req, res) => {
+    const { userId } = req.params
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' })
+    }
+
+    const q = 'DELETE FROM users WHERE userId = ?'
+
+    db.query(q, [userId], (err, result) => {
+        if (err) {
+            console.error('Database error:', err)
+            return res.status(500).json({ message: 'Database error', error: err })
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        return res.status(200).json({ message: 'User deleted successfully' })
     })
 }
 

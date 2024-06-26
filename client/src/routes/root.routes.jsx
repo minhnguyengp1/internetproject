@@ -53,10 +53,6 @@ function RootRoutes() {
                     element={<ProtectedRoute component={Dashboard} />}
                 />
                 <Route
-                    path="/other-user/:userId"
-                    element={<ProtectedRoute component={OtherUserView} />}
-                />
-                <Route
                     path="/other-user/:strangerId"
                     element={<ProtectedRoute component={OtherUserView} />}
                 />
@@ -113,4 +109,5 @@ function RootRoutes() {
         </BrowserRouter>
     )
 }
+
 export default RootRoutes

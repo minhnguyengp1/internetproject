@@ -3,10 +3,13 @@ import { Form, Input, Button, Alert, Typography } from 'antd'
 import axios from 'axios'
 import './settings.scss'
 import UserLayout from '../../layouts/UserLayout/UserLayout.jsx'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal.jsx'
+import { deleteUser } from '../../redux/actions/userActions.js'
 
 const Settings = () => {
+    const dispatch = useDispatch()
+
     const [message, setMessage] = useState('')
     const [error, setError] = useState('')
     const [isConfirmVisible, setIsConfirmVisible] = useState(false)
@@ -16,7 +19,7 @@ const Settings = () => {
         const { currentPassword, newPassword, confirmPassword } = values
 
         if (newPassword !== confirmPassword) {
-            setError('Passwords do not match')
+            setError('Passwörter stimmen nicht überein')
             return
         }
 
@@ -27,23 +30,24 @@ const Settings = () => {
                 newPassword
             })
 
-            setMessage(response.data)
+            setMessage('Passwort erfolgreich aktualisiert')
             setError('')
         } catch (error) {
             setMessage('')
-            setError('Error updating password')
+            setError('Fehler beim Aktualisieren des Passworts')
         }
     }
 
     const handleConfirmDelete = async () => {
         try {
-            // Perform delete profile logic here
-            // Example: await axios.delete(`http://localhost:5000/api/users/${userId}`)
-            setMessage('Profile successfully deleted.')
-            setIsConfirmVisible(false) // Close modal after deletion
-            // Optionally, redirect or perform any cleanup after deletion
+            setMessage('Profil wird gelöscht...')
+            setIsConfirmVisible(false)
+            await dispatch(deleteUser())
+            setTimeout(async () => {
+                setMessage('Profil erfolgreich gelöscht.')
+            }, 3000)
         } catch (error) {
-            setError('Error deleting profile')
+            setError('Fehler beim Löschen des Profils')
         }
     }
 

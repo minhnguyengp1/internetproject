@@ -28,6 +28,8 @@ const OtherUserView = () => {
     const [showReviewForm, setShowReviewForm] = useState(false)
     const [form] = Form.useForm()
 
+    console.log('straingerId: ', strangerId)
+
     const dispatch = useDispatch()
     const { loading, error, strangerDetails } = useSelector(
         (state) => state.strangerDetails

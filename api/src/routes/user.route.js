@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUser, getUserArticles, updateUser } from '../controllers/user.controller.js'
+import { deleteUser, getUser, getUserArticles, updateUser } from '../controllers/user.controller.js'
 import {
     followUser,
     getUserFollowers,
@@ -11,8 +11,7 @@ import {
 const router = express.Router()
 
 router.get('/:userId', getUser)
-// router.post('/', addUser);
-// router.delete('/:userId', deleteUser);
+router.delete('/:userId', deleteUser)
 router.put('/:userId', updateUser)
 router.get('/:userId/articles', getUserArticles)
 router.get('/:userId/followers', getUserFollowers)
