@@ -59,3 +59,9 @@ jobs:
         with:
           name: frontend-image
           path: frontend-image.tar
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-coverage-report
+          path: ./client/coverage
