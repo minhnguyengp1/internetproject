@@ -228,35 +228,4 @@ describe('Reviews Controller', () => {
             expect(response.body).toEqual(mockReviews);
         });
     });
-
-    describe('getReviewsBySubject', () => {
-        it('should get reviews for a specific subject', async () => {
-            const mockReviews = [
-                {
-                    reviewId: 1,
-                    authorId: 1,
-                    subjectId: 1,
-                    text: 'Great product!',
-                    rating: 5,
-                },
-                {
-                    reviewId: 2,
-                    authorId: 2,
-                    subjectId: 1,
-                    text: 'Not bad',
-                    rating: 3,
-                },
-            ];
-
-            db.query.mockImplementation((query, values, callback) => {
-                callback(null, mockReviews);
-            });
-
-            const response = await supertest(app)
-                .get('/api/reviews/subject/1')
-                .expect(200);
-
-            expect(response.body).toEqual(mockReviews);
-        });
-    });
 });

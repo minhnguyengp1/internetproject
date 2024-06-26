@@ -2,9 +2,18 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "client/**"
+
   pull_request:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "client/**"
+
+  workflow_dispatch:
 
 jobs:
   build:
@@ -41,7 +50,7 @@ jobs:
 
       - name: Build Docker image for Frontend
         run: docker build -t frontend-image ./client
-      
+
       - name: Save Docker image as a file
         run: docker save -o frontend-image.tar frontend-image
 
@@ -50,3 +59,9 @@ jobs:
         with:
           name: frontend-image
           path: frontend-image.tar
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-coverage-report
+          path: ./client/coverage

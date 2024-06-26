@@ -4,13 +4,20 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "api/**"
+
   pull_request:
     branches:
       - main
+    paths:
+      - "api/**"
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,6 +27,14 @@ jobs:
         with:
           node-version: "20.12.2"
 
+      - name: Set environment variables
+        run: |
+          echo "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" >> $GITHUB_ENV
+          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
+          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> $GITHUB_ENV
+          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
+      
       - name: Install dependencies
         run: npm install
         working-directory: ./api
@@ -39,3 +54,9 @@ jobs:
         with:
           name: backend-image
           path: backend-image.tar
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-coverage-report
+          path: ./api/coverage

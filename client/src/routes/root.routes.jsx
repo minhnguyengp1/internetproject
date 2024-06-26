@@ -12,7 +12,6 @@ import SuccessCreate from '../pages/SuccessCreate/SuccessCreate.jsx'
 import ReviewCard from '../components/ReviewCard/ReviewCard.jsx'
 import OtherUserView from '../pages/OtherUserView/OtherUserView.jsx'
 import UserReviews from '../pages/profile/UserReviews/UserReviews.jsx'
-import UserChat from '../pages/UserChat/UserChat.jsx'
 import ForgotPassword from '../pages/ForgotPassword/ForgotPassword.jsx'
 import ResetPassword from '../pages/ResetPassword/ResetPassword.jsx'
 import ArticleDetails from '../pages/ArticleDetails/ArticleDetails.jsx'
@@ -93,10 +92,6 @@ function RootRoutes() {
                     element={<ProtectedRoute component={ReviewCard} />}
                 />
                 <Route path="/search/*" element={<SearchResults />} />
-                <Route
-                    path="/chat"
-                    element={<ProtectedRoute component={UserChat} />}
-                />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />
                 <Route
