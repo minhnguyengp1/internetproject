@@ -4,13 +4,25 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "client/**"
+
   pull_request:
     branches:
       - main
+    paths:
+      - "clients/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AZURE_STORAGE_CONNECTION_STRING: https;AccountName=playgroundblobstorage101;AccountKey=ydkeKSPUosREhZ4kIv9+wG6ylkLHCxkKB2OZeAhVTrOqKCT+8NelpXTwqbD8dIxk71I1Do6Of0FN+ASt4XEkgQ==;EndpointSuffix=core.windows.net
+      MYSQL_HOST: "mysqlserverforitproject.mysql.database.azure.com"
+      MYSQL_USER: "buni"
+      MYSQL_PASSWORD: "buni"
+      MYSQL_DATABASE: "demodb"
+      JWT_KEY: "secretkeyforjwt"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,14 +31,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "20.12.2"
-
-      - name: Set environment variables
-        run: |
-          echo "AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" >> $GITHUB_ENV
-          echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> $GITHUB_ENV
-          echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> $GITHUB_ENV
-          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm install

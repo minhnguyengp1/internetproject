@@ -2,9 +2,16 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "api/**"
+
   pull_request:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - "api/**"
 
 jobs:
   build:
@@ -41,7 +48,7 @@ jobs:
 
       - name: Build Docker image for Frontend
         run: docker build -t frontend-image ./client
-      
+
       - name: Save Docker image as a file
         run: docker save -o frontend-image.tar frontend-image
 
