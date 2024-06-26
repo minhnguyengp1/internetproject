@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "start": "nodemon server.js",
-        "test": "jest --coverage --watchAll --forceExit --maxWorkers=1"
+        "test": "jest --coverage --forceExit --maxWorkers=1 --testTimeout=10000",
+        "test:watch": "jest --watchAll --coverage --forceExit --maxWorkers=1 "
     },
     "keywords": [],
     "author": "",

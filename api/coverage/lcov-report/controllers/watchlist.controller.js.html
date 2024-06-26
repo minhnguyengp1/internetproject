@@ -127,26 +127,11 @@
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,6 +144,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,13 +185,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import db from '../dbs/init.mysql.js'
+import {fetchImageUrls} from '../utils/helpers.js'
 &nbsp;
 export const addToWatchlist = (req, res) =&gt; {
-    const { userId, articleId } = req.body
+    const {userId, articleId} = req.body
 &nbsp;
     const q = `INSERT INTO watchlist (userId, articleId)
                VALUES (?, ?) ON DUPLICATE KEY
@@ -200,12 +201,12 @@ export const addToWatchlist = (req, res) =&gt; {
         <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
 <span class="cstat-no" title="statement not covered" >            return res.status(500).send(err)</span>
         }
-        res.status(200).json({ message: 'Article added to watchlist' })
+        res.status(200).json({message: 'Article added to watchlist'})
     })
 }
 &nbsp;
 export const removeFromWatchlist = (req, res) =&gt; {
-    const { userId, articleId } = req.body
+    const {userId, articleId} = req.body
 &nbsp;
     const q = `DELETE
                FROM watchlist
@@ -216,7 +217,7 @@ export const removeFromWatchlist = (req, res) =&gt; {
         <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
 <span class="cstat-no" title="statement not covered" >            return res.status(500).send(err)</span>
         }
-        res.status(200).json({ message: 'Article removed from watchlist' })
+        res.status(200).json({message: 'Article removed from watchlist'})
     })
 }
 &nbsp;
@@ -230,33 +231,32 @@ export const getUserWatchlist = <span class="fstat-no" title="function not cover
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    db.query(query, [userId], <span class="fstat-no" title="function not covered" >as</span>ync (err, results) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
-<span class="cstat-no" title="statement not covered" >            return res.status(500).json({ error: 'Internal server error' })</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(500).json({error: 'Internal server error'})</span>
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
             const articlesWithUrls = <span class="cstat-no" title="statement not covered" >await Promise.all(results.map(<span class="fstat-no" title="function not covered" >as</span>ync (article) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >                try {</span>
                     const imgUrls = <span class="cstat-no" title="statement not covered" >await fetchImageUrls(article.imgUrls)</span>
-<span class="cstat-no" title="statement not covered" >                    return { ...article, imgUrls }</span>
+<span class="cstat-no" title="statement not covered" >                    return {...article, imgUrls}</span>
                 } catch (error) {
-<span class="cstat-no" title="statement not covered" >                    return { ...article, imgUrls: [] }</span>
+<span class="cstat-no" title="statement not covered" >                    return {...article, imgUrls: []}</span>
                 }
             }))
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            return res.status(200).json(articlesWithUrls)</span>
         } catch (error) {
-<span class="cstat-no" title="statement not covered" >            return res.status(500).json({ error: 'Error processing articles' })</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(500).json({error: 'Error processing articles'})</span>
         }
     })
-}
-&nbsp;</pre></td></tr></table></pre>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-25T23:19:21.467Z
+                at 2024-06-26T14:03:21.481Z
             </div>
         <script src="../prettify.js"></script>
         <script>
