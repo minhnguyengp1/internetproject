@@ -36,8 +36,9 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "CI=false react-scripts build",
-        "test": "react-scripts test --coverage --watchAll",
-        "eject": "react-scripts eject"
+        "test": "react-scripts test --coverage --detectOpenHandles",
+        "eject": "react-scripts eject",
+        "test:watch": "react-scripts test --coverage --watchAll --detectOpenHandles"
     },
     "eslintConfig": {
         "extends": [
