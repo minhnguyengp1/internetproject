@@ -12,7 +12,6 @@ export const removeFollower = (req, res) => {
     const query = 'DELETE FROM followers WHERE userId = ? AND followedUserId = ?'
     db.query(query, [userId, strangerId], (err, results) => {
         if (err) {
-            console.error('Error removing follower:', err)
             return res.status(500).json({ error: 'Internal server error' })
         }
         res.status(200).json({ message: 'Follower removed successfully' })
@@ -35,7 +34,6 @@ export const getUserFollowers = (req, res) => {
 
     db.query(query, [userId], (err, results) => {
         if (err) {
-            console.error('Error fetching followers:', err)
             return res.status(500).json({ error: 'Internal server error' })
         }
 
@@ -68,7 +66,6 @@ export const getUserFollowing = (req, res) => {
 
     db.query(query, [userId], (err, results) => {
         if (err) {
-            console.error('Error fetching following list:', err)
             return res.status(500).json({ error: 'Internal server error' })
         }
 
@@ -85,40 +82,32 @@ export const getUserFollowing = (req, res) => {
     })
 }
 
-// Follow a user
 export const followUser = (req, res) => {
     const { userId, strangerId } = req.params
 
-    // Check if userId and strangerId are present
     if (!userId || !strangerId) {
         return res.status(400).json({ error: 'Both userId and strangerId are required' })
     }
 
-    // Example query to insert into a followers table
     const query = 'INSERT INTO followers (userId, followedUserId) VALUES (?, ?)'
     db.query(query, [userId, strangerId], (err, results) => {
         if (err) {
-            console.error('Error following user:', err)
             return res.status(500).json({ error: 'Internal server error' })
         }
         res.status(201).json({ message: 'User followed successfully' })
     })
 }
 
-// Unfollow a user
 export const unfollowUser = (req, res) => {
     const { userId, strangerId } = req.params
 
-    // Check if userId and strangerId are present
     if (!userId || !strangerId) {
         return res.status(400).json({ error: 'Both userId and strangerId are required' })
     }
 
-    // Example query to delete from a followers table
     const query = 'DELETE FROM followers WHERE userId = ? AND followedUserId = ?'
     db.query(query, [userId, strangerId], (err, results) => {
         if (err) {
-            console.error('Error unfollowing user:', err)
             return res.status(500).json({ error: 'Internal server error' })
         }
         res.status(200).json({ message: 'User unfollowed successfully' })

@@ -1,9 +1,8 @@
-import {db} from '../dbs/init.mysql.js'
-import {getBlobUrl} from '../services/azureStorageService.js'
+import { db } from '../dbs/init.mysql.js'
+import { getBlobUrl } from '../services/azureStorageService.js'
 
-// POST /api/reviews
 export const createReview = (req, res) => {
-    const {authorId, subjectId, text, rating} = req.body
+    const { authorId, subjectId, text, rating } = req.body
 
     const q = `
         INSERT INTO reviews (authorId, subjectId, text, rating)
@@ -22,7 +21,6 @@ export const createReview = (req, res) => {
     })
 }
 
-// Get all reviews
 export const getReviews = (req, res) => {
     const q = 'SELECT * FROM reviews'
 
@@ -35,9 +33,8 @@ export const getReviews = (req, res) => {
     })
 }
 
-// Get a review by ID
 export const getReviewById = (req, res) => {
-    const {reviewId} = req.params
+    const { reviewId } = req.params
 
     const q = 'SELECT * FROM reviews WHERE reviewId = ?'
 
@@ -47,17 +44,16 @@ export const getReviewById = (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.status(404).json({message: 'Review not found'})
+            return res.status(404).json({ message: 'Review not found' })
         }
 
         return res.status(200).json(results[0])
     })
 }
 
-// Update a review by ID
 export const updateReview = (req, res) => {
-    const {reviewId} = req.params
-    const {text, rating} = req.body
+    const { reviewId } = req.params
+    const { text, rating } = req.body
 
     const q = `
         UPDATE reviews
@@ -72,16 +68,15 @@ export const updateReview = (req, res) => {
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({message: 'Review not found'})
+            return res.status(404).json({ message: 'Review not found' })
         }
 
-        return res.status(200).json({message: 'Review updated successfully'})
+        return res.status(200).json({ message: 'Review updated successfully' })
     })
 }
 
-// Delete a review by ID
 export const deleteReview = (req, res) => {
-    const {reviewId} = req.params
+    const { reviewId } = req.params
 
     const q = 'DELETE FROM reviews WHERE reviewId = ?'
 
@@ -91,16 +86,15 @@ export const deleteReview = (req, res) => {
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({message: 'Review not found'})
+            return res.status(404).json({ message: 'Review not found' })
         }
 
-        return res.status(200).json({message: 'Review deleted successfully'})
+        return res.status(200).json({ message: 'Review deleted successfully' })
     })
 }
 
-// Get reviews by a specific author
 export const getReviewsByAuthor = (req, res) => {
-    const {authorId} = req.params
+    const { authorId } = req.params
 
     const q = 'SELECT * FROM reviews WHERE authorId = ?'
 
@@ -113,14 +107,11 @@ export const getReviewsByAuthor = (req, res) => {
     })
 }
 
-// GET /api/reviews/subject/:subjectId
 export const getReviewsBySubject = (req, res) => {
-    const {subjectId} = req.params
-    console.log('req.params', req.params)
+    const { subjectId } = req.params
 
-    // Validate subjectId (example assumes it's a number, adjust as needed)
     if (!subjectId || isNaN(subjectId)) {
-        return res.status(400).json({message: 'Invalid subjectId'})
+        return res.status(400).json({ message: 'Invalid subjectId' })
     }
 
     const q = `
@@ -132,16 +123,13 @@ export const getReviewsBySubject = (req, res) => {
 
     db.query(q, [subjectId], (err, results) => {
         if (err) {
-            console.log('Error fetching reviews', err)
-            return res.status(500).json({message: 'Error fetching reviews', error: err})
+            return res.status(500).json({ message: 'Error fetching reviews', error: err })
         }
 
         const reviewsWithImgUrl = results.map(review => ({
             ...review,
             authorImg: getBlobUrl(review.authorImg)
         }))
-
-        console.log('results', reviewsWithImgUrl)
 
         return res.status(200).json(reviewsWithImgUrl)
     })

@@ -22,7 +22,6 @@ export const uploadFile = async (file) => {
 export const downloadFile = async (fileName) => {
     const blockBlobClient = containerClient.getBlockBlobClient(fileName)
 
-    console.log('Downloading file: ', fileName)
     const downloadBlockBlobResponse = await blockBlobClient.download()
 
     return downloadBlockBlobResponse.readableStreamBody
