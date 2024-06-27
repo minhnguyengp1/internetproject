@@ -1,0 +1,23 @@
+Create User
+Passwort vergessen
+Login
+Create Article
+Read Article
+Update Article
+Delete Article
+Read (Self-)User
+Update User
+Suche Funktion
+Filtern Funktion
+Read User
+Create Review
+Read Review
+Create Follow
+Read Following
+Delete Following
+Read Follower
+Delete Follower
+Create Merkliste
+Read Merkliste
+Delele Merkliste
+Delete User
