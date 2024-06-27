@@ -28,7 +28,7 @@ const Register = () => {
             setTimeout(() => {
                 navigate({
                     pathname: '/login',
-                    search: `?redirect=${redirect}`,
+                    search: `?redirect=${redirect}`
                 })
             }, 3000)
         }
@@ -50,11 +50,10 @@ const Register = () => {
                 <div className="containerRegister">
                     <h1>Register</h1>
                     <Form
-                        // layout="vertical"
                         name="normal_register"
                         className="register-form"
                         initialValues={{
-                            remember: true,
+                            remember: true
                         }}
                         onFinish={handleSubmit}
                     >
@@ -64,8 +63,8 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Bitte geben Sie Ihren Namen ein.',
-                                },
+                                    message: 'Bitte geben Sie Ihren Namen ein.'
+                                }
                             ]}
                         >
                             <Input
@@ -82,13 +81,13 @@ const Register = () => {
                                 {
                                     required: true,
                                     message:
-                                        'Bitte geben Sie eine Email-Adresse ein.',
+                                        'Bitte geben Sie eine Email-Adresse ein.'
                                 },
                                 {
                                     type: 'email',
                                     message:
-                                        'Bitte geben Sie eine gültige Email-Adresse ein.',
-                                },
+                                        'Bitte geben Sie eine gültige Email-Adresse ein.'
+                                }
                             ]}
                         >
                             <Input
@@ -106,8 +105,8 @@ const Register = () => {
                                 {
                                     required: true,
                                     message:
-                                        'Bitte geben Sie ein Passwort ein.',
-                                },
+                                        'Bitte geben Sie ein Passwort ein.'
+                                }
                             ]}
                         >
                             <Input.Password
@@ -124,7 +123,7 @@ const Register = () => {
                                 {
                                     required: true,
                                     message:
-                                        'Bitte geben Sie zur Bestätigung das Passwort erneut ein.',
+                                        'Bitte geben Sie zur Bestätigung das Passwort erneut ein.'
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
@@ -139,8 +138,8 @@ const Register = () => {
                                                 'The two passwords that you entered do not match!'
                                             )
                                         )
-                                    },
-                                }),
+                                    }
+                                })
                             ]}
                             hasFeedback
                         >

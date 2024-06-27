@@ -1,7 +1,6 @@
 import * as actionTypes from '../constants/conversationActionTypes.js'
 import axios from 'axios'
 
-// Action Creators
 export const fetchConversations = (userId) => async (dispatch) => {
     dispatch({ type: actionTypes.FETCH_CONVERSATIONS_REQUEST })
 

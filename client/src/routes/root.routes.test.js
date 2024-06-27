@@ -3,16 +3,14 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import RootRoutes from './root.routes'
 
-// Mock BrowserRouter to avoid nested Routers
 jest.mock('react-router-dom', () => {
     const originalModule = jest.requireActual('react-router-dom')
     return {
         ...originalModule,
-        BrowserRouter: ({ children }) => <div>{children}</div>,
+        BrowserRouter: ({ children }) => <div>{children}</div>
     }
 })
 
-// Mock ProtectedRoute and other components
 jest.mock('./protected.route', () => ({ component: Component, ...rest }) => {
     return <Component {...rest} />
 })
@@ -21,7 +19,6 @@ jest.mock('../pages/Login/Login', () => () => <div>Login Component</div>)
 jest.mock('../pages/Register/Register', () => () => (
     <div>Register Component</div>
 ))
-// Mock other components similarly
 
 describe('RootRoutes', () => {
     it('renders Home component for / route', () => {
@@ -50,6 +47,4 @@ describe('RootRoutes', () => {
         )
         expect(screen.getByText('Register Component')).toBeInTheDocument()
     })
-
-    // Add more tests for other routes
 })

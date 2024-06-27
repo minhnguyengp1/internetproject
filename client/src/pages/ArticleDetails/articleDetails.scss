@@ -95,19 +95,19 @@
 
         .article-details-actions {
           display: flex;
-          justify-content: space-between; /* Align buttons horizontally */
+          justify-content: space-between;
           margin-bottom: 20px;
 
           .action-button {
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px; /* Adjust padding for better alignment */
+            padding: 10px 20px;
             border-radius: 4px;
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
-            width: 48%; /* Make buttons equal width for consistent layout */
+            width: 48%;
             text-align: center;
 
             &:hover {
@@ -117,7 +117,7 @@
         }
 
         .article-owner-details {
-          flex: 1; /* Ensure it takes up half of the right section */
+          flex: 1;
           display: flex;
           align-items: center;
           border-top: 1px solid #e0e0e0;

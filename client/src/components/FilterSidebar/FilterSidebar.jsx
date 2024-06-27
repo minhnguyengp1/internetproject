@@ -14,7 +14,6 @@ const FilterSidebar = () => {
     const [maxPrice, setMaxPrice] = useState('')
     const [city, setCity] = useState('')
 
-    // Initialize state from URL parameters on mount or when location changes
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search)
         const initialSelectedCategory =

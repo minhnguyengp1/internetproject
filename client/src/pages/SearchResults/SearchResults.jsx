@@ -25,9 +25,6 @@ const SearchResults = () => {
     const [filter, setFilter] = useState(initialFilter)
 
     useEffect(() => {
-        console.log('category: ', category)
-        console.log('searchQuery: ', searchQuery)
-        console.log('filter: ', filter)
         dispatch(searchArticles(category, searchQuery, filter))
     }, [dispatch, category, searchQuery, filter])
 

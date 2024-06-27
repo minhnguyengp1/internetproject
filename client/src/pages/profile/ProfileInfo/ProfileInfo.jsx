@@ -59,7 +59,6 @@ const ProfileInfo = () => {
                 message.success('Profile updated successfully')
             })
             .catch((err) => {
-                console.error('Failed to update profile:', err)
                 message.error('Failed to update profile')
             })
     }

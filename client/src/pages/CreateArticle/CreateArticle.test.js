@@ -5,10 +5,6 @@ import configureMockStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk'
 import CreateArticle from './CreateArticle'
 import { MemoryRouter } from 'react-router-dom'
-import {
-    createArticle,
-    resetArticleCreate,
-} from '../../redux/actions/articleActions'
 
 jest.mock('../../components/Header/Header.jsx', () => () => <div>Header</div>)
 
@@ -16,7 +12,7 @@ const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
 const initialState = {
-    articleCreate: { success: false },
+    articleCreate: { success: false }
 }
 
 const store = mockStore(initialState)
@@ -57,22 +53,22 @@ describe('CreateArticle', () => {
         )
 
         fireEvent.change(screen.getByLabelText('Titel'), {
-            target: { value: 'Test Title' },
+            target: { value: 'Test Title' }
         })
         fireEvent.change(screen.getByLabelText('Kategorie'), {
-            target: { value: 'category1' },
+            target: { value: 'category1' }
         })
         fireEvent.change(screen.getByLabelText('Preis'), {
-            target: { value: '100' },
+            target: { value: '100' }
         })
         fireEvent.change(screen.getByLabelText('Festpreis'), {
-            target: { value: 'Festpreis' },
+            target: { value: 'Festpreis' }
         })
         fireEvent.change(screen.getByLabelText('Beschreibung'), {
-            target: { value: 'Test Description' },
+            target: { value: 'Test Description' }
         })
         fireEvent.change(screen.getByLabelText('Stadt'), {
-            target: { value: 'city1' },
+            target: { value: 'city1' }
         })
 
         fireEvent.submit(screen.getByText('Anzeige aufgeben'))
@@ -92,7 +88,7 @@ describe('CreateArticle', () => {
         )
 
         const file = new File(['dummy content'], 'example.png', {
-            type: 'image/png',
+            type: 'image/png'
         })
         const input = screen.getByTestId('uploadsLabel')
     })

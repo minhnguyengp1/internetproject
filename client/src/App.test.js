@@ -11,8 +11,7 @@ const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
 const initialState = {
-    userLogin: { isAuthenticated: false },
-    // Add other initial states as needed for your application
+    userLogin: { isAuthenticated: false }
 }
 
 const store = mockStore(initialState)

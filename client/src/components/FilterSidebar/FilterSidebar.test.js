@@ -73,18 +73,4 @@ describe('FilterSidebar', () => {
         fireEvent.change(cityDropdown, { target: { value: 'Stuttgart' } })
         expect(cityDropdown.value).toBe('Stuttgart')
     })
-
-    // test('navigates to the correct URL on apply filter', () => {
-    //     const navigateMock = jest.fn()
-    //     jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(
-    //         navigateMock
-    //     )
-
-    //     setup()
-
-    //     const applyButton = screen.getByText('Apply')
-    //     fireEvent.click(applyButton)
-
-    //     expect(navigateMock).toHaveBeenCalledWith('/search')
-    // })
 })

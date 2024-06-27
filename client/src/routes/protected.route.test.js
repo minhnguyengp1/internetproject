@@ -4,9 +4,8 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './protected.route'
 import { useSelector } from 'react-redux'
 
-// Mock useSelector hook
 jest.mock('react-redux', () => ({
-    useSelector: jest.fn(),
+    useSelector: jest.fn()
 }))
 
 const MockComponent = () => <div>Mock Component</div>
@@ -15,7 +14,7 @@ describe('ProtectedRoute', () => {
     it('renders the component when authenticated', () => {
         useSelector.mockImplementation((callback) =>
             callback({
-                userLogin: { isAuthenticated: true },
+                userLogin: { isAuthenticated: true }
             })
         )
 
@@ -36,7 +35,7 @@ describe('ProtectedRoute', () => {
     it('redirects to login when not authenticated', () => {
         useSelector.mockImplementation((callback) =>
             callback({
-                userLogin: { isAuthenticated: false },
+                userLogin: { isAuthenticated: false }
             })
         )
 

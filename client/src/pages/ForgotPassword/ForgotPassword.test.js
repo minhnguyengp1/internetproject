@@ -4,14 +4,13 @@ import axios from 'axios'
 import ForgotPassword from './ForgotPassword'
 import '@testing-library/jest-dom'
 
-// Mocking window.matchMedia
 window.matchMedia =
     window.matchMedia ||
-    function () {
+    function() {
         return {
             matches: false,
             addListener: jest.fn(),
-            removeListener: jest.fn(),
+            removeListener: jest.fn()
         }
     }
 
@@ -37,7 +36,7 @@ describe('ForgotPassword', () => {
 
         const emailInput = screen.getByPlaceholderText('E-Mail')
         const submitButton = screen.getByRole('button', {
-            name: /passwort zurücksetzen/i,
+            name: /passwort zurücksetzen/i
         })
 
         fireEvent.change(emailInput, { target: { value: 'invalid-email' } })
@@ -54,7 +53,7 @@ describe('ForgotPassword', () => {
 
     test('displays success message on successful form submission', async () => {
         const successResponse = {
-            data: 'Password reset link sent successfully',
+            data: 'Password reset link sent successfully'
         }
         axios.post.mockResolvedValueOnce(successResponse)
 
@@ -62,7 +61,7 @@ describe('ForgotPassword', () => {
 
         const emailInput = screen.getByPlaceholderText('E-Mail')
         const submitButton = screen.getByRole('button', {
-            name: /passwort zurücksetzen/i,
+            name: /passwort zurücksetzen/i
         })
 
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
@@ -77,7 +76,7 @@ describe('ForgotPassword', () => {
 
     test('displays error message on failed form submission', async () => {
         const errorResponse = {
-            response: { data: 'Error sending password reset link' },
+            response: { data: 'Error sending password reset link' }
         }
         axios.post.mockRejectedValueOnce(errorResponse)
 
@@ -85,7 +84,7 @@ describe('ForgotPassword', () => {
 
         const emailInput = screen.getByPlaceholderText('E-Mail')
         const submitButton = screen.getByRole('button', {
-            name: /passwort zurücksetzen/i,
+            name: /passwort zurücksetzen/i
         })
 
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } })

@@ -28,7 +28,7 @@ h2 {
 }
 
 .filter-group .category-filter {
-  flex: 1; /* Take up remaining space */
+  flex: 1;
 }
 
 .filter-group .category-filter .category-dropdown {
@@ -67,7 +67,7 @@ h2 {
   border-radius: 3px;
   font-size: 1rem;
   cursor: pointer;
-  margin-left: auto; /* Push the button to the right */
+  margin-left: auto;
 }
 
 .apply-btn:hover {

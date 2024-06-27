@@ -87,7 +87,6 @@ const UpdateArticle = () => {
         const currentFileCount = uploadFiles.filter(file => file instanceof File).length
 
         if (currentFileCount + validFiles.length > 5) {
-            console.log('Cannot exceed 5 files.')
             return
         }
 

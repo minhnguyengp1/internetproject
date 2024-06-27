@@ -20,14 +20,10 @@ export const fetchMessages = (conversationId) => async (dispatch) => {
 }
 
 export const sendMessage = (message) => async (dispatch) => {
-    try {
-        const { data } = await axios.post('http://localhost:5000/api/messages', message)
+    const { data } = await axios.post('http://localhost:5000/api/messages', message)
 
-        dispatch({
-            type: actionTypes.SEND_MESSAGE_SUCCESS,
-            payload: data
-        })
-    } catch (error) {
-        // Handle send message error if needed
-    }
+    dispatch({
+        type: actionTypes.SEND_MESSAGE_SUCCESS,
+        payload: data
+    })
 }

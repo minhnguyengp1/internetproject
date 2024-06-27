@@ -1,17 +1,15 @@
-import React, {useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {Typography} from 'antd'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Typography } from 'antd'
 import UserLayout from '../../../layouts/UserLayout/UserLayout.jsx'
-import {fetchUserReviews} from '../../../redux/actions/reviewActions.js'
+import { fetchUserReviews } from '../../../redux/actions/reviewActions.js'
 import defaultAvatar from '../../../assets/default-avatar.png'
 import './userReviews.scss'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const UserReviews = () => {
     const dispatch = useDispatch()
-    const {userReviews, loading, error} = useSelector((state) => state.userReviews)
-
-    console.log('UserReviews: userReviews', userReviews)
+    const { userReviews, loading, error } = useSelector((state) => state.userReviews)
 
     useEffect(() => {
         dispatch(fetchUserReviews())

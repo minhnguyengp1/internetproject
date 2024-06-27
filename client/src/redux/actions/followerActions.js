@@ -9,8 +9,8 @@ export const fetchFollowersList = () => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         const { data } = await axios.get(
@@ -22,7 +22,7 @@ export const fetchFollowersList = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: actionTypes.FOLLOWERS_LIST_FAIL,
-            payload: error.message || 'Failed to fetch followers',
+            payload: error.message || 'Failed to fetch followers'
         })
     }
 }
@@ -35,8 +35,8 @@ export const fetchFollowingList = () => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         const { data } = await axios.get(
@@ -44,13 +44,11 @@ export const fetchFollowingList = () => async (dispatch, getState) => {
             config
         )
 
-        console.log('data in fetchFollowingList: ', data)
-
         dispatch({ type: actionTypes.FOLLOWING_LIST_SUCCESS, payload: data })
     } catch (error) {
         dispatch({
             type: actionTypes.FOLLOWING_LIST_FAIL,
-            payload: error.message || 'Failed to fetch following',
+            payload: error.message || 'Failed to fetch following'
         })
     }
 }
@@ -63,11 +61,11 @@ export const removeFollower = (strangerId) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
-        const data = { userId } // Include userId in the request body
+        const data = { userId }
 
         await axios.delete(
             `http://localhost:5000/api/user/remove/${strangerId}`,
@@ -80,7 +78,7 @@ export const removeFollower = (strangerId) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: actionTypes.FOLLOWER_REMOVE_FAIL,
-            payload: error.message || 'Failed to remove follower',
+            payload: error.message || 'Failed to remove follower'
         })
     }
 }
@@ -93,8 +91,8 @@ export const followUser = (strangerId) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         await axios.put(
@@ -108,7 +106,7 @@ export const followUser = (strangerId) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: actionTypes.FOLLOW_USER_FAIL,
-            payload: error.message || 'Failed to follow user',
+            payload: error.message || 'Failed to follow user'
         })
     }
 }
@@ -121,8 +119,8 @@ export const unfollowUser = (strangerId) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+                Authorization: `Bearer ${accessToken}`
+            }
         }
 
         await axios.delete(
@@ -136,7 +134,7 @@ export const unfollowUser = (strangerId) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: actionTypes.UNFOLLOW_USER_FAIL,
-            payload: error.message || 'Failed to unfollow user',
+            payload: error.message || 'Failed to unfollow user'
         })
     }
 }

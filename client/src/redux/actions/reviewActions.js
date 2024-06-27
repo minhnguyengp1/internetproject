@@ -18,10 +18,9 @@ export const submitReview = (subjectId, reviewData) => {
             const { data } = await axios.post(
                 `http://localhost:5000/api/reviews`,
                 {
-                    authorId: userId, // Use userId as authorId
+                    authorId: userId,
                     subjectId,
                     text: reviewData.review
-                    // rating: reviewData.rating
                 },
                 config
             )
@@ -57,14 +56,10 @@ export const fetchUserReviews = () => async (dispatch, getState) => {
             }
         }
 
-        console.log('subjectId in review thunk: ', subjectId)
-
         const { data } = await axios.get(
             `http://localhost:5000/api/reviews/subject/${subjectId}`,
             config
         )
-
-        console.log('data in review thunk: ', data)
 
         dispatch({
             type: actionTypes.FETCH_USER_REVIEWS_SUCCESS,
