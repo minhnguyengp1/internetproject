@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk'
 import { render, screen, fireEvent } from '@testing-library/react'
 import Header from '../components/Header/Header'
-import { SearchProvider } from '../context/SearchContext'
 
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
@@ -28,11 +27,9 @@ describe('Header Component', () => {
     it('renders correctly', () => {
         render(
             <Provider store={store}>
-                <SearchProvider>
-                    <Router>
-                        <Header />
-                    </Router>
-                </SearchProvider>
+                <Router>
+                    <Header />
+                </Router>
             </Provider>
         )
 
@@ -42,11 +39,9 @@ describe('Header Component', () => {
     it('shows login and register buttons when not authenticated', () => {
         render(
             <Provider store={store}>
-                <SearchProvider>
-                    <Router>
-                        <Header />
-                    </Router>
-                </SearchProvider>
+                <Router>
+                    <Header />
+                </Router>
             </Provider>
         )
 
@@ -67,11 +62,9 @@ describe('Header Component', () => {
 
         render(
             <Provider store={store}>
-                <SearchProvider>
-                    <Router>
-                        <Header />
-                    </Router>
-                </SearchProvider>
+                <Router>
+                    <Header />
+                </Router>
             </Provider>
         )
 

@@ -87,10 +87,7 @@ function RootRoutes() {
                     path="/user/following-list"
                     element={<ProtectedRoute component={FollowingList} />}
                 />
-                <Route
-                    path="/test"
-                    element={<ProtectedRoute component={ReviewCard} />}
-                />
+
                 <Route path="/search/*" element={<SearchResults />} />
                 <Route exact={true} path="/login" element={<Login />} />
                 <Route exact={true} path="/register" element={<Register />} />

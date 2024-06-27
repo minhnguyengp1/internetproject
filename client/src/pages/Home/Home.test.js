@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import Home from './Home'
-import { SearchProvider } from '../../context/SearchContext'
 import { Provider } from 'react-redux'
 import store from '../../redux/store'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -9,9 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 const renderWithProviders = (ui) => {
     return render(
         <Provider store={store}>
-            <SearchProvider>
-                <Router>{ui}</Router>
-            </SearchProvider>
+            <Router>{ui}</Router>
         </Provider>
     )
 }

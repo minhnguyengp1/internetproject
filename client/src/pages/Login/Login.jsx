@@ -40,7 +40,7 @@ const Login = () => {
                         name="normal_login"
                         className="login-form"
                         initialValues={{
-                            remember: true
+                            remember: true,
                         }}
                         onFinish={handleSubmit}
                     >
@@ -49,16 +49,20 @@ const Login = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Bitte geben Sie Ihre Email-Adresse ein.'
+                                    message:
+                                        'Bitte geben Sie Ihre Email-Adresse ein.',
                                 },
                                 {
                                     type: 'email',
-                                    message: 'Bitte geben Sie eine gültige Email-Adresse ein.'
-                                }
+                                    message:
+                                        'Bitte geben Sie eine gültige Email-Adresse ein.',
+                                },
                             ]}
                         >
                             <Input
-                                prefix={<UserOutlined className="site-form-item-icon" />}
+                                prefix={
+                                    <UserOutlined className="site-form-item-icon" />
+                                }
                                 placeholder="Email"
                             />
                         </Form.Item>
@@ -67,18 +71,28 @@ const Login = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Bitte geben Sie Ihr Passwort ein.'
-                                }
+                                    message:
+                                        'Bitte geben Sie Ihr Passwort ein.',
+                                },
                             ]}
                         >
                             <Input.Password
-                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                prefix={
+                                    <LockOutlined className="site-form-item-icon" />
+                                }
                                 placeholder="Password"
                             />
                         </Form.Item>
-
                         <Form.Item>
-                            <a className="login-form-forgot" href="/forgot-password">
+                            <a className="login-form-forgot" href="/register">
+                                Registrieren
+                            </a>
+                        </Form.Item>
+                        <Form.Item>
+                            <a
+                                className="login-form-forgot"
+                                href="/forgot-password"
+                            >
                                 Passwort vergessen? Klicken Sie hier
                             </a>
                         </Form.Item>

@@ -10,7 +10,10 @@ const ForgotPassword = () => {
     const handleSubmit = async (values) => {
         try {
             const { email } = values
-            const response = await axios.post('http://localhost:5000/api/auth/request-password-reset', { email })
+            const response = await axios.post(
+                'http://localhost:5000/api/auth/request-password-reset',
+                { email }
+            )
             setSuccessMessage(response.data)
             setErrorMessage('')
         } catch (error) {
@@ -29,19 +32,21 @@ const ForgotPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Bitte geben Sie Ihre E-Mail-Adresse ein'
+                                message:
+                                    'Bitte geben Sie Ihre E-Mail-Adresse ein',
                             },
                             {
                                 type: 'email',
-                                message: 'Bitte geben Sie eine gültige E-Mail-Adresse ein'
-                            }
+                                message:
+                                    'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+                            },
                         ]}
                     >
                         <Input placeholder="E-Mail" />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            Passwort zurücksetzen
+                            Passwort zurücksetzen!
                         </Button>
                     </Form.Item>
                 </Form>

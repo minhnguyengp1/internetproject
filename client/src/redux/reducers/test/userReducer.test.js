@@ -124,7 +124,11 @@ describe('userReducers', () => {
     })
 
     describe('userUpdate reducer', () => {
-        const initialState = {}
+        const initialState = {
+            error: null,
+            loading: false,
+            success: false,
+        }
 
         it('should return the initial state', () => {
             expect(userUpdate(undefined, {})).toEqual(initialState)

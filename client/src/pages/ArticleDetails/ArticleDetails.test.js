@@ -5,12 +5,6 @@ import configureMockStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk'
 import ArticleDetails from './ArticleDetails'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import {
-    fetchArticleById,
-    fetchUserWatchlist,
-    addToWatchlist,
-    removeFromWatchlist,
-} from '../../redux/actions/watchlistActions.js'
 
 jest.mock('../../components/Header/Header.jsx', () => () => <div>Header</div>)
 
@@ -26,7 +20,7 @@ const mockArticle = {
     city: 'Test City',
     imgUrls: [
         'https://via.placeholder.com/150',
-        'https://via.placeholder.com/150',
+        'https://via.placeholder.com/150/0000FF/808080',
     ],
 }
 
@@ -37,6 +31,7 @@ const initialState = {
         loading: false,
         error: null,
     },
+    strangerDetails: { strangerDetails: null, loading: false, error: null },
 }
 
 const store = mockStore(initialState)
@@ -130,18 +125,39 @@ describe('ArticleDetails', () => {
             </Provider>
         )
 
-        const nextButton = screen.getByTestId('nextBtn', { name: /next/i })
+        const nextButton = screen.getByTestId('nextBtn')
         fireEvent.click(nextButton)
         expect(screen.getAllByRole('img')[0]).toHaveAttribute(
             'src',
-            'https://via.placeholder.com/150'
+            'https://via.placeholder.com/150/0000FF/808080'
         )
 
-        const prevButton = screen.getByTestId('prevBtn', { name: /prev/i })
+        const prevButton = screen.getByTestId('prevBtn')
         fireEvent.click(prevButton)
         expect(screen.getAllByRole('img')[0]).toHaveAttribute(
             'src',
             'https://via.placeholder.com/150'
         )
+    })
+
+    test('toggles watchlist correctly', () => {
+        render(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={['/article/1']}>
+                    <Routes>
+                        <Route
+                            path="/article/:articleId"
+                            element={<ArticleDetails />}
+                        />
+                    </Routes>
+                </MemoryRouter>
+            </Provider>
+        )
+
+        const toggleWatchlistButton = screen.getByText(
+            'Von Merkliste entfernen'
+        )
+        fireEvent.click(toggleWatchlistButton)
+        expect(store.dispatch).toHaveBeenCalledWith(expect.any(Function))
     })
 })
