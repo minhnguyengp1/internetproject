@@ -1,16 +1,15 @@
-import express from 'express'
+import express from 'express';
 import {
     addToWatchlist,
     removeFromWatchlist,
-    getUserWatchlist
-} from '../controllers/watchlist.controller.js'
-import authenticate from '../middleware/authMiddleware.js'
+    getUserWatchlist,
+} from '../controllers/watchlist.controller.js';
+import authenticate from '../middleware/authMiddleware.js';
 
-const router = express.Router()
+const router = express.Router();
 
-// router.post('/add', authenticate, addToWatchlist)
-router.post('/add', addToWatchlist)
-router.post('/remove', removeFromWatchlist)
-router.get('/:userId', getUserWatchlist)
+router.post('/add', addToWatchlist);
+router.post('/remove', removeFromWatchlist);
+router.get('/:userId', getUserWatchlist);
 
-export default router
+export default router;

@@ -22,15 +22,4 @@ db.connect((err) => {
     console.log('Connected to MySQL database');
 });
 
-export const closeDatabaseConnection = () => {
-    return new Promise((resolve, reject) => {
-        db.end((err) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve();
-        });
-    });
-};
-
 export default db;
